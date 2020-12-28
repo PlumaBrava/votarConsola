@@ -1,0 +1,56 @@
+{
+    
+    "planifi-k": {
+        "prueba"                : "xxx"
+    },
+    
+    "moduloRutas": {
+        "ruta":                 "Rota",  
+        "rutas":                "Rotas",
+        "patente":              "Patente",
+        "vehiculo":             "Veículo",    
+        "vehiculos":            "Veículos",    
+        "tipoVehiculo":         "Tipo de Veículo",  
+        "tiposVehiculos":       "Tipos de veículos",  
+        "principal":            "Principal",
+        "integrante":           "Membro",  
+        "integrantes":          "Membros",        
+        "tipoIntegrante":       "Tipo de Membro",  
+        "tiposIntegrantes":     "Tipo de Membros",
+        "planificado":          "Planejado", 
+        "real":                 "Real",
+        "carga":                "Carga",    
+        "inicio":               "Começar",    
+        "salida":               "Saída",    
+        "arribo":               "Chegada",    
+        "finalizacion":         "Final",
+        "chofer":               "Motorista",
+        "acompanante":          "Companheiro",
+        "origen":               "Origem",
+        "destino":              "Destino",
+        "distanciaPlanificada": "Distância Planejada",
+        "costoPlanificado":     "Custo planejado",
+        "parada":               "Pare",    
+        "paradas":              "Pares",    
+        "tiposParadas":         "Tipos de Pare",    
+        "tipoParada":           "Tipo de Pares",
+        "entregaMercaderia":    "Delivery Mercaderia",
+        "estadosParadas":       "Estados Pares",     
+        "estadoParada":         "Estados Pare",     
+        "estadosRutas":         "Estados Rotas",    
+        "estadoRuta":           "Estado Rota",
+        "instrucciones":        "Instruções",
+        "entregar":             "Entregar",
+        "retirar":              "Retirar",
+        "codigoPedido":         "Código de Encomenda",
+        "iniciaAqui":           "Começa Aqui",        
+        "finalizaAqui":         "Termina Aquí",
+        "formaCarga":           "Maneira da Entrada",
+        "calculaHorarios":      "Calcula Horarios",
+        "ingresaHorarios":      "Ingresa Horarios",
+        "recorrido":            "viagem",
+        "monitorRutas":         "Monitor de Rotas",
+        "resumenRuta":          "Resumen Rota"                        
+    }
+    
+}

@@ -1,0 +1,329 @@
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#ccc"
+  type="ball-spin">
+  <p style="font-size: 16px; color: #ccc" translate>componente-ngx-spinner.grabando</p>
+</ngx-spinner>
+
+<!-- *************** LISTADO ************************************ -->
+<div *ngIf="accionForm=='listado' && grilla!==undefined">
+
+    <div translate>{{errorMensaje}}</div>
+
+    <h5 class="mb-0" translate>moduloRutas.integrantes</h5>
+
+    <div  class="row" style="margin-top:10px;">
+        <div class="col-12">
+            <table class="table table-hover" 
+                  [ngClass]="!grilla.verFiltrosAdicionales ? 'Grilla1FilaFiltros' : 'Grilla2FilaFiltros'">
+
+                <thead>
+
+                    <!--------------- Filtros -------------------->
+                    <tr> 
+                        <th *ngIf="tipoPerfilUsuario=='Desarrollador' && grilla.verColumnaKey">
+                            <input [(ngModel)]="grilla.filtros['key']" *ngIf="grilla.mostrarFiltro('key')"
+                                   type="text" class="form-control filtroGrilla" 
+                                   placeholder="{{'moduloDesarrolladores.key' | translate}}">
+                        </th>
+                        <th *ngIf="tipoPerfilUsuario=='Desarrollador' && !grilla.verColumnaKey"
+                            colspan="1" style="width:24px; padding-left:0px; padding-right:0px;"></th>
+
+                        <th>
+                            <lib-shared-search-autocomplete 
+                                id="filtro_usuarioKANE.key"
+                                [value]="grilla.filtros['usuarioKANE.key']"
+                                [nameField]="'datosPersonales.apellidoNombre'" 
+                                [nombreColeccion]="'Usuarios'" 
+                                [inputStyle]="grilla.filtrosStyle['usuarioKANE.key']" 
+                                [placeholder]="'moduloRutas.integrante'"
+                                [whereArray]="[]" 
+                                [orderByArray]="[]" 
+                                [bdFieldName]="'datosPersonales.apellidoNombre'" 
+                                [organizacionKNAI]="organizacionKNAI"     
+                                [tipoPerfilUsuario]="tipoPerfilUsuario"     
+                                [accionForm]="accionForm"     
+                                [usuarioKANE]="usuarioKANE"     
+                                (cargoSearchAutocomplete)="EmitCargoSearchAutocompleteFiltro('usuarioKANE.key','key',$event)"></lib-shared-search-autocomplete> 
+                        </th> 
+                    
+                        <th>
+                            <select [(ngModel)]="grilla.filtros['tipoIntegranteKN.key']" *ngIf="grilla.mostrarFiltro('tipoIntegranteKN.key')"
+                                    id="filtro_tipoIntegranteKN.key" 
+                                    class="form-control filtroGrilla selectpicker"
+                                    [ngStyle]="grilla.filtrosStyle['tipoIntegranteKN.key']"
+                                    [ngClass]="grilla.filtros['tipoIntegranteKN.key'] ? 'filtroConValor' : 'filtroSinValor'"
+                                    (change)="filtrarGrilla('tipoIntegranteKN.key')">                                       
+                                    <option [ngValue]="null">{{'moduloRutas.tipoIntegrante' | translate}}</option>                           
+                               <ng-container *ngFor="let opcion of msg.cacheColecciones['AuxTiposIntegrantes']">    
+                                    <option [ngValue]="opcion.key"> {{opcion.nombre | translate}}</option>
+                               </ng-container>            
+                            </select>            
+                        </th>                                                             
+                        <th class="align-middle" style="padding-top:0px; padding-bottom:0px;">
+                            <button title="{{'navegabilidad.reset' | translate}}"
+                                    class="btn btn-link btn-lg"
+                                    (click)="resetFiltros()"><i class="fa fa-eraser ml-3 text-secondary"></i></button>
+                        </th>
+
+                    </tr>
+
+                    <!-- Títulos de Columnas -->
+                    <tr> 
+                        <th *ngIf="tipoPerfilUsuario=='Desarrollador' && grilla.verColumnaKey"
+                            [class.active]="grilla.orderField === 'key'"
+                            (click)="onChangeGrilla('order','key')" style="padding-bottom:0px;">
+
+                                <button class="btn btn-link btn-lg"  
+                                    style="padding-left:0px; padding-top:0px; margin-right:30px;"
+                                    title="{{'grilla.ocultarKey' | translate}}" 
+                                    *ngIf="permisos.altasAutorizadas" 
+                                    (click)="grilla.verColumnaKey=!grilla.verColumnaKey"><i class="mdi mdi-unfold-less-vertical mdi-24px text-dark"
+                                   aria-hidden="true"></i></button>
+
+                                {{'moduloDesarrolladores.key' | translate}}<span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                        </th>
+                        <th *ngIf="tipoPerfilUsuario=='Desarrollador' && !grilla.verColumnaKey"
+                         (click)="grilla.verColumnaKey=!grilla.verColumnaKey" title="{{'grilla.mostrarKey' | translate}}"
+                                colspan="1"
+                                style="width:10px; padding-left:0px; padding-right:0px; text-align:center;">
+                            ...
+                        </th>
+
+                        <th [class.active]="grilla.orderField === 'usuarioKANE.apellidoNombre'" class="text-left"
+                            (click)="onChangeGrilla('order','usuarioKANE.apellidoNombre')" translate>moduloRutas.integrante<span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                        </th>                                 
+                        <th [class.active]="grilla.orderField === 'tipoIntegranteKN.nombre'" class="text-center"
+                            (click)="onChangeGrilla('order','tipoIntegranteKN.nombre')"
+                            translate>moduloRutas.tipoIntegrante<span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                        </th> 
+                        
+                        <th class="align-middle" style="padding-top:0px; padding-bottom:0px;">
+                            <!-- Agregar -->
+                            <button class="btn btn-link btn-lg"  
+                            title="{{'navegabilidad.agregar' | translate}}" 
+                            *ngIf="permisos.altasAutorizadas" (click)="abrirFormulario(null)"><i class="fa fa-plus ml-3 text-success"></i></button>
+                        </th>    
+
+                    </tr>
+
+                </thead>
+                <tbody>
+
+                    <!-- ----------------------------------------------------------------- -->
+                    <!-- ------- Orden, Filtros y Paginado ------------------------------- -->
+                    <!-- ----------------------------------------------------------------- -->
+
+                    <ng-container *ngFor="let documento of listadoPrincipal 
+                                | orderBy :grilla.orderField :grilla.orderReverse :'case-insensitive'                                        
+                                | searchFiltro:grilla.paginadoTipo:'key':grilla.filtros['key']
+                                | searchFiltro:grilla.paginadoTipo:'usuarioKANE.key':grilla.filtros['usuarioKANE.key']                                        
+                                | searchFiltro:grilla.paginadoTipo:'tipoIntegranteKN.key':grilla.filtros['tipoIntegranteKN.key']
+                                | searchFiltro:grilla.paginadoTipo:'settings.borradoFisico':false:'boolean'   
+                                | paginate: { itemsPerPage: grilla.paginadoCantidad, 
+                                              currentPage : pagePaginado,
+                                              totalItems  : grilla.resultCantidad }; 
+                                  let index = index"> 
+
+                         <tr [ngStyle]="grilla.colorFilaSegunEstado(documento.settings)">
+
+                            <td *ngIf="tipoPerfilUsuario=='Desarrollador' && grilla.verColumnaKey"
+                                class="align-middle"
+                                (click)="abrirFormulario(documento)"> 
+                                <span class="align-left">{{documento.key}}</span>
+                            </td>
+                            <td *ngIf="tipoPerfilUsuario=='Desarrollador' && !grilla.verColumnaKey"
+                                (click)="grilla.verColumnaKey=!grilla.verColumnaKey"
+                                colspan="1"
+                                style="width:12px; padding-left:0px; padding-right:0px;"></td>
+
+                            <td class="align-middle text-left" (click)="abrirFormulario(documento)">
+                                {{fn.mostrarKANE(documento.usuarioKANE,'apellidoNombre')}}
+                            </td>                                            
+                            <td class="align-middle text-center" (click)="abrirFormulario(documento)">
+                                {{fn.mostrarKN(documento.tipoIntegranteKN,'nombre')}}
+                            </td>                                            
+                            
+                            <td class="align-middle">
+                                <div class="btn-group" role="group">
+                                    <button class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px;"
+                                            title="{{'navegabilidad.consultar' | translate}}"
+                                            (click)="abrirFormulario(documento)"><i class="fa fa-search mr-3 text-primary"></i></button>
+
+                                    <!-- borrado lógico -->
+                                    <button *ngIf="permisos.bajasAutorizadas &&
+                                            documento.settings.documentosAsociados==0 && documento.settings.isBorrado==false" 
+                                            title="{{'navegabilidad.eliminar' | translate}}"
+                                            class="btn btn-link btn-lg"  style="padding-left:0px; padding-right:0px;"
+                                            (click)="deleteDocumento('borradoLogico', documento)"><i class="fa fa-trash mr-3 text-danger"></i></button>
+
+                                    <button *ngIf="permisos.bajasAutorizadas &&
+                                            documento.settings.documentosAsociados>0 && documento.settings.isBorrado==false" 
+                                            title="{{fn.titleMensaje('claseValidaciones.documentosAsociados',documento.settings.documentosAsociados)}}"
+                                            class="btn btn-link btn-lg"  style="padding-left:0px; padding-right:0px;"
+                                            (click)="fn.alertMensaje('claseValidaciones.documentosAsociados',documento.settings.documentosAsociados)"><i class="fa fa-trash mr-3 text-deshabilitado"></i></button>
+
+                                    <!-- borrado físico -->
+                                    <button *ngIf="permisos.bajasAutorizadas && documento.settings.isBorrado &&
+                                                  ['Desarrollador','Supervisor','Distribuidor'].indexOf(tipoPerfilUsuario)!=-1"
+                                            title="{{'navegabilidad.eliminarFisicamente' | translate}}"
+                                            class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px;"
+                                            (click)="deleteDocumento('borradoFisico',documento)"><i class="fa fa-remove mr-3 text-danger"></i></button>
+
+                                </div>
+                            </td>
+                        </tr>
+
+                    </ng-container>
+
+                </tbody>
+            </table>
+
+            <!-- paginado -->
+            <div class="row" style="border-top:1px solid #ccc;">
+                <div class="col-3" style="padding:10px;">
+                    <div class="bg-white text-center">
+                        <select class="form-control selectpicker" 
+                                id="grilla.paginadoCantidad"                                         
+                                [(ngModel)]="grilla.paginadoCantidad"
+                                (change)="onChangeGrilla('paginadoCantidad',grilla.paginadoCantidad)"> 
+                            <ng-container *ngFor="let opcion of grilla.paginadoDropDown">
+                                <option [ngValue]="opcion">Items x Página {{opcion}}</option>
+                            </ng-container>
+                        </select>
+                    </div>    
+                </div>    
+                <div class="col-9" style="padding:10px;">
+                    <div class="bg-white text-center">
+
+                        <!-- Paginado Local -->
+                        <pagination-controls 
+                            *ngIf="grilla.paginadoTipo=='local'"
+                            autoHide="{{grilla.paginadoAutoHide}}" 
+                            previousLabel="{{'componente-paginado.anterior' | translate}}" 
+                            nextLabel="{{'componente-paginado.siguiente' | translate}}" 
+                            (pageChange)="pagePaginado = $event" 
+                            maxSize="3"></pagination-controls>
+
+                        <!-- Paginado Servidor -->
+                        <lib-shared-paginado-servidor 
+                            *ngIf="grilla.paginadoTipo=='servidor'"
+                            [grilla]="grilla" 
+                            (clickPaginado)="emitClickPaginado($event)"></lib-shared-paginado-servidor>
+
+                    </div>
+                </div>                        
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<!-- *************** FORMULARIO ************************************ -->
+<div *ngIf="['agregar','modificar','consultar'].indexOf(accionForm)!=-1">
+    
+    <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+    
+        <table class="table" style="border:hidden;">
+
+            <tr>
+                <td style="padding-bottom:0px;">
+                    <span style="font-size:20px;"><b><span translate>moduloRutas.integrante</span>: </b></span>
+                    <span style="font-size:20px;">{{fn.mostrarKANE(form.value.usuarioKANE,'apellidoNombre')}}</span>
+                </td>                      
+                <td style="width:220px; text-align:right; padding-top:18px; padding-bottom:0px;">
+                    <lib-shared-form-buttons [accionForm]='accionForm' 
+                                      [permisos]='permisos' 
+                                      (setAccion)="setAccionForm($event)"
+                                      (onSubmitComponent)="onSubmit(form.value)"></lib-shared-form-buttons>
+                </td>                      
+                <td style="width:60px; padding-top:18px; padding-bottom:0px;" *ngIf="accionForm=='consultar'">
+                    <button type="button" 
+                            *ngIf="['modificar','agregar'].indexOf(accionForm)==-1"
+                            class="btn btn-warning"  style="float:right;"
+                            (click)="setAccionForm('listado')" translate>navegabilidad.cerrar</button>
+                </td>                      
+
+            </tr>                      
+        </table>
+
+        <!-- ********* Datos Generales ********** -->
+        <div widget class="card border-0 box-shadow">
+            <div class="card-header transparent border-0 text-muted">
+                <h5 class="mb-0" translate>claseTabs.basic</h5>
+                <div class="widget-controls"> 
+                    <a data-widgster="expand" href="#" class="transition"><i class="fa fa-chevron-down"></i></a>
+                    <a data-widgster="collapse" href="#" class="transition"><i class="fa fa-chevron-up"></i></a>                                     
+                </div>        
+            </div>
+            <div class="card-body pt-0 widget-body"> 
+
+                    <div class="row" style="margin-top:10px;">
+                        <div class="col-6">
+                            <!-- Integrante -->
+                            <div class="form-group">                                
+                                <label class="text-gray" translate>moduloRutas.integrante<span class="required">*</span></label>
+                                <lib-shared-search-autocomplete 
+                                    id="form_usuarioKANE"
+                                    [value]="form.value.usuarioKANE"
+                                    [nameField]="'datosPersonales.apellidoNombre'" 
+                                    [nombreColeccion]="'Usuarios'" 
+                                    [inputStyle]="{}" 
+                                    [placeholder]="'No Indicado'"
+                                    [whereArray]="[]" 
+                                    [orderByArray]="[]" 
+                                    [bdFieldName]="'datosPersonales.apellidoNombre'" 
+                                    [organizacionKNAI]="organizacionKNAI"     
+                                    [tipoPerfilUsuario]="tipoPerfilUsuario"     
+                                    [accionForm]="accionForm"     
+                                    [usuarioKANE]="usuarioKANE"     
+                                    (cargoSearchAutocomplete)="EmitCargoSearchAutocompleteForm('usuarioKANE','KANE',$event)"></lib-shared-search-autocomplete> 
+                                            
+                                <small class="text-danger" 
+                                      *ngIf="form.controls.usuarioKANE.touched && 
+                                             form.controls.usuarioKANE.errors?.required"><span translate>moduloRutas.integrante</span>&nbsp;<span translate>claseValidaciones.esRequerido</span></small>
+                            </div>
+                        </div>
+                        <div class="col-6">                        
+                                <!-- Tipo de Integrante -->
+                                <div class="form-group">
+                                    <label class="text-gray" translate>moduloRutas.tipoIntegrante<span class="required">*</span></label>
+                                    <select class="form-control selectpicker validation-field" 
+                                            id="tipoIntegranteKN" formControlName="tipoIntegranteKN" [compareWith]="compareFn">
+                                        <option [ngValue]="null">{{'No Indicado' | translate}}</option>                                  
+                                        <ng-container *ngFor="let option of msg.cacheColecciones['AuxTiposIntegrantes']">
+                                            <option [ngValue]="option">{{option.nombre | translate}}</option>
+                                        </ng-container>
+                                    </select>
+                                    <small class="text-danger" 
+                                           *ngIf="form.controls.tipoIntegranteKN.touched && 
+                                                  form.controls.tipoIntegranteKN.errors?.required"><span translate>moduloRutas.tipoIntegrante</span>&nbsp;<span translate>claseValidaciones.esRequerido</span></small>
+                                </div>
+                        </div>
+                    
+                    </div>
+                        
+            </div> <!-- FIN card-body -->
+        </div> <!-- FIN widget -->
+
+        <!-- settings   -->
+        <lib-shared-form-settings *ngIf="accionForm!='agregar'"
+            [nameField]="'settings'" 
+            [controlsField]="form.controls.settings"
+            [value]="form.value.settings"
+            [accionForm]="accionForm" 
+            [formInvalid]="formInvalid" 
+            [tipoPerfilUsuario]="tipoPerfilUsuario"
+            (cargoSubEstructura)="emitCargoSubEstructura($event)"></lib-shared-form-settings>
+                            
+
+        <lib-shared-form-buttons [accionForm]='accionForm' 
+                          [permisos]='permisos' 
+                          (setAccion)="setAccionForm($event)"
+                          (onSubmitComponent)="onSubmit(form.value)"></lib-shared-form-buttons>
+
+    </form>    
+
+</div>

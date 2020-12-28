@@ -1,0 +1,56 @@
+{
+    
+    "planifi-k": {
+        "prueba"                : "xxx"
+    },
+
+    "moduloRutas": {
+        "ruta":                 "Route",  
+        "rutas":                "Routes",
+        "patente":              "Patent",
+        "vehiculo":             "Vehicle",    
+        "vehiculos":            "Vehicles",    
+        "principal":            "Principal",
+        "tipoVehiculo":         "Vehicle Type",  
+        "tiposVehiculos":       "Vehicle Types",  
+        "integrante":           "Member",  
+        "integrantes":          "Members",        
+        "tipoIntegrante":       "Type of Member",  
+        "tiposIntegrantes":     "Types of Members",
+        "planificado":          "Planned", 
+        "real":                 "Real",
+        "carga":                "Entry",    
+        "inicio":               "Start",    
+        "salida":               "Salida",    
+        "arribo":               "Arrival",    
+        "finalizacion":         "Ending",
+        "chofer":               "Driver",
+        "acompanante":          "Companion",
+        "origen":               "Origin",
+        "destino":              "Destination",
+        "distanciaPlanificada": "Planned Distance",
+        "costoPlanificado":     "Planned Cost",
+        "parada":               "Stop",    
+        "paradas":              "Stops",    
+        "tiposParadas":         "Types of Stops",    
+        "tipoParada":           "Type of Stop",
+        "entregaMercaderia":    "Delivery Merchandise",
+        "estadosParadas":       "Stopped States",     
+        "estadoParada":         "Stopped State",     
+        "estadosRutas":         "States Routes",    
+        "estadoRuta":           "State Route",
+        "instrucciones":        "Instructions",
+        "entregar":             "Deliver",
+        "retirar":              "Remove",
+        "codigoPedido":         "Order Code",
+        "iniciaAqui":           "Start Here",        
+        "finalizaAqui":         "End Here",
+        "formaCarga":           "Input Way",
+        "calculaHorarios":      "Calculate Times",
+        "ingresaHorarios":      "Input Times",
+        "recorrido":            "Travel",
+        "monitorRutas":         "Routes Monitor",
+        "resumenRuta":          "Route Summary"                
+    }
+    
+}

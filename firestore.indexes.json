@@ -1,0 +1,789 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "AreasNegocio",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "organizacionKN.key",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "nombre",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "AreasNegocio",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "organizacionKNAI.key",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "nombre",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "AreasNegocio",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "organizacionKNAI.key",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "settings.isBorrado",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "nombre",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "AuxIdiomas",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "key",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "nombre",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "AuxiliaresCampos",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "keyAuxiliar",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "etiqueta",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "AuxTiposCuenta",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "organizacionKN.key",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "nombre",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "AuxTiposCuenta",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "organizacionKNAI.key",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "nombre",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "AuxTiposUbicacion",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "organizacionKN.key",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "nombre",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "AuxTiposUbicacion",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "organizacionKNAI.key",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "nombre",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "AuxVentanasAtencion",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "organizacionKN.key",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "nombre",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "AuxVentanasAtencion",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "organizacionKNAI.key",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "nombre",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Distribuidores",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "direccion.pais",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "nombre",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Distribuidores",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "key",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "nombre",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "LogsAuditoria",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "usuarioKANE.key",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "fechaHora",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Organizaciones",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "distribuidor.key",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "nombre",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Organizaciones",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "distribuidor.key",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "settings.isBorrado",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "nombre",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Organizaciones",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "key",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "nombre",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Organizaciones",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "key",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "settings.isBorrado",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "nombre",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Rutas",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "distribuidorKN.key",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "fechaHoraInicioPlaneada",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Rutas",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "estadoRutaKN.key",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "fechaHoraInicioPlaneada",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Rutas",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "integranteChoferKANE.key",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "fechaHoraInicioPlaneada",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Rutas",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "key",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "settings.isBorrado",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "fechaHoraInicioPlaneada",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Rutas",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "keywords",
+          "arrayConfig": "CONTAINS"
+        },
+        {
+          "fieldPath": "fechaHoraInicioPlaneada",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Rutas",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "mostrarEnMonitor",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "fechaHoraInicioPlaneada",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Rutas",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "organizacionKNAI.key",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "settings.isBorrado",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "fechaHoraInicioPlaneada",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Rutas",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "settings.isBorrado",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "fechaHoraInicioPlaneada",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "RutasIntegrantes",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "keyRuta",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "settings.isBorrado",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "usuarioKANE.apellidoNombre",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "RutasIntegrantes",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "keyRuta",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "settings.isBorrado",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "usuarioKANE.apellidoNombre",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "RutasIntegrantes",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "keyRuta",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "usuarioKANE.apellidoNombre",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "RutasIntegrantes",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "keyRuta",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "usuarioKANE.apellidoNombre",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "RutasParadas",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "keyRuta",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "fechaHoraInicioPlaneada",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "RutasParadas",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "keyRuta",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "orden",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "RutasParadas",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "keyRuta",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "settings.isBorrado",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "fechaHoraInicioPlaneada",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "RutasVehiculos",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "keyRuta",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "nombre",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "RutasVehiculos",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "keyRuta",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "nombre",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "RutasVehiculos",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "keyRuta",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "settings.isBorrado",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "vehiculo.nombre",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "RutasVehiculos",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "keyRuta",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "settings.isBorrado",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "vehiculo.nombre",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "RutasVehiculos",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "keyRuta",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "vehiculo.nombre",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Sucursales",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "organizacionKN.key",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "nombre",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Sucursales",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "organizacionKNAI",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "nombre",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Sucursales",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "organizacionKNAI.key",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "nombre",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Sucursales",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "organizacionKNAI.key",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "settings.isActivo",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "nombre",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Sucursales",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "organizacionKNAI.key",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "settings.isBorrado",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "nombre",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Ubicaciones",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "organizacionKN.key",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "nombre",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Ubicaciones",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "organizacionKNAI.key",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "nombre",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Ubicaciones",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "organizacionKNAI.key",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "settings.isBorrado",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "nombre",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Usuarios",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "distribuidor.key",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "perfilUsuario.jerarquia",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Usuarios",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "key",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "perfilUsuario.jerarquia",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Usuarios",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "keywords",
+          "arrayConfig": "CONTAINS"
+        },
+        {
+          "fieldPath": "perfilUsuario.jerarquia",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Usuarios",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "organizacion.key",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "settings.isBorrado",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "perfilUsuario.jerarquia",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Usuarios",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "perfilUsuario.key",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "perfilUsuario.jerarquia",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "Vehiculos",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "organizacionKNAI.key",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "nombre",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

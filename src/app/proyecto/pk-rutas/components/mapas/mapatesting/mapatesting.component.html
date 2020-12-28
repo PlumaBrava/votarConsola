@@ -1,0 +1,34 @@
+<h5>Mapas Here!</h5>
+<div style="padding: 10px 0">
+    <input type="text" placeholder="Lugares..." [(ngModel)]="query" />
+    <button (click)="places(query)">Search</button>
+</div>
+
+<div style="padding: 10px 0">
+    <input type="text" placeholder="Direccion a buscar..." [(ngModel)]="direccionBuscada" />
+    <button (click)="buscaDireccion(direccionBuscada)">Busqueda por direccion</button> 
+</div>
+
+<div style="padding: 10px 0">
+    <input type="number" placeholder="Latitud..." [(ngModel)]="lat" />
+    <input type="number" placeholder="Longitud..." [(ngModel)]="lng" />
+    <button (click)="fetchAddress(lat,lng)">Busqueda por coordenadas</button> 
+</div>
+
+<div style="padding: 10px 0">  
+  <div class="col-xxl-12">  
+    <div class="red-800">  
+      <label>Latitude : {{lat}}</label>  
+          
+      <label>Longitude : {{lng}}</label>  
+    </div>  
+    <div class="blue-800">  
+      <label>Address : {{address}}</label>  
+    </div>  
+  </div>  
+</div>  
+
+<div #map style="width: 1280px; height: 768px"></div>
+
+<!-- <div #map [style.width]="width" [style.height]="height"></div>  --> 
+

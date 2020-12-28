@@ -1,0 +1,236 @@
+
+
+firebase login
+firebase init
+
+// Indicar la carpeta donde ángular compila para hacer el deploy en forma mas directa.
+? What do you want to use as your public directory? dist/pktest
+
+? Configure as a single-page app (rewrite all urls to /index.html)? (y/N)
+
+
+//https://github.com/angular/angularfire/blob/HEAD/docs/install-and-setup.md
+npm install firebase @angular/fire --save
+
+reemplazar en package.json firebase por  "firebase": "^6.2.4", (la última versión da error)
+luego ejecutar:  npm install-> con esto instala todos los pluggin del package.json
+
+// compilación angular
+
+ng build (desarrollo) relacionado con src/environments/environment.ts
+ng build --prod (producción) relacionado con src/environments/environment.prod.ts
+
+en firebase.json reemplazar, para hacer bien el deploy
+
+        "npm --prefix \"$RESOURCE_DIR\" run lint",
+por     "npm --prefix \"%RESOURCE_DIR%\" run lint"
+
+
+// exlcuir de git en .gitignore
+    # funtions
+    /functions/node_modules/
+
+
+//git clonar el repositorio
+
+git clone https://github.com/PlumaBrava/pk.git    
+pull: traer del orgin al master
+push: enviar del master al origin
+
+
+
+//Para las exportaciones de excell
+https://medium.com/@madhavmahesh/exporting-an-excel-file-in-angular-927756ac9857
+npm install file-saver --save
+npm install xlsx —save
+
+// máscaras para los imputs
+ npm install --save ngx-mask
+
+ // --------- manejo de mapas (mapa) ----------------------
+ npm install @agm/core  (ya estaba instalado)
+
+ // --------- manejo de mapas (autocomplete) ----------------------
+ npm install @types/googlemaps --save-dev
+
+ src/tsconfig.app.json
+     "types": [
+           "googlemaps"
+     ]
+      
+ src/declarations.d.ts (cree el archivo)      
+     declare module 'googlemaps';
+
+
+ // ---- recorte de imágenes ----
+ npm install ngx-image-cropper --save
+ 
+ // Spinner
+ npm install ngx-spinner --save
+ 
+ // Pipe Order
+ npm install ngx-order-pipe --save
+
+ // ngx-json-viewer
+ npm install ngx-json-viewer --save
+
+  	 -alternativas https://www.npmjs.com/package/ngx-json-viewer-scrolling (expand)
+
+// jsondiffpatch (mostrar diferencias entre dos jsons)
+   documentación: https://www.npmjs.com/package/jsondiffpatch
+npm install jsondiffpatch
+proyecto/src/styles.scss
+	@import "../node_modules/jsondiffpatch/dist/formatters-styles/html.css";
+	@import "../node_modules/jsondiffpatch/dist/formatters-styles/annotated.css";
+
+// angular-datetime-picker
+// https://daniel-projects.firebaseapp.com/owlng/date-time-picker
+npm i ng-pick-datetime --save
+npm i @angular/cdk --save
+
+    - Reemplazar el moment x ngx-moment
+      npm r moment (había uno js instalado)
+      npm i moment ngx-moment --save
+
+    - Instalar: inputmask  (alternativa a ngx-mask, dado que este rompe con el angular-datetime-picker)
+      npm install inputmask --save
+
+// ngx-color-picker
+// https://www.npmjs.com/package/ngx-color-picker
+// https://zefoy.github.io/ngx-color-picker/
+npm i ngx-color-picker --save
+
+
+// Material Design Iconos (Google)
+1. npm install @mdi/font
+2. Incluso en proyecto/src/styles.scss
+   @import "../node_modules/@mdi/font/css/materialdesignicons.min.css";
+3. En el mismo archivo incluyo estilos adicionales, tomar del link abajo
+   https://materialdesignicons.com/bootstrap
+4. Ejemplo de Uso: 
+   <i class="mdi mdi-flask" aria-hidden="true"></i>
+
+// FireSQL - Query Firestore using SQL syntax
+npm install firesql firebase   
+  - baje ultima versión de Node 12.x
+  - npm rebuild 
+  - npm i esm --> y ejecutar como node -r esm yourApp.js
+
+
+// beepbeep
+1. npm i beepbeep --save
+2. Ejecuta un sonido
+3. Uso
+
+   var beep = require('beepbeep')
+ 
+   beep();        // Beep!     
+   beep(2)        // Beep! Beep!     
+   beep(3, 1000); // Beep! ... Beep! ... Beep!
+     
+   beep([1000, 500, 2000]); // 1 second delay...Beep! 0.5 second delay...Beep! 2 second delay...Beep!
+
+// ngx-pica
+https://www.npmjs.com/package/ngx-pica
+npm i ngx-pica --save
+- agregar en angular.json file:
+        "scripts": [
+          "node_modules/jquery/dist/jquery.min.js",
+          "node_modules/popper.js/dist/umd/popper.min.js",
+          "node_modules/bootstrap/dist/js/bootstrap.min.js",
+    -->   "node_modules/blueimp-canvas-to-blob/js/canvas-to-blob.min.js"  (agregar este)
+        ]
+
+npm rm exif-js 
+npm rm exif 
+
+npm install exifr --save     !! ESTE
+https://github.com/MikeKovarik/exifr
+
+// parche error getStringFromDB
+node_modules/exif-js/exif.js (corregi lo que se indica a continuación en la línea 741)
+function getStringFromDB(buffer, start, length) {
+        var outstr = "";
+        for (var n = start; n < start+length; n++) { // I add let before n variable and now it's work just fine on prod build
+            outstr += String.fromCharCode(buffer.getUint8(n));
+        }
+        return outstr;
+}
+
+
+// --------------------------------------------------------------------------------
+// Firestore Functions
+// --------------------------------------------------------------------------------
+Luego de Instalar functions firebase
+me posiciono dentro de la carpeta functions e instalo
+
+// Estructuras los triggers en diferentes archivos
+npm i glob camelcase
+
+// Envío de Emails
+npm i node-mailer
+
+// Generación de Thumbnails
+   - https://www.npmjs.com/package/image-thumbnail 
+     npm i image-thumbnail (NO LO USE)
+
+   - Varios pasos ver el siguiente link
+     https://fireship.io/lessons/image-thumbnail-resizer-cloud-function/
+
+1. Instalo el Node SDK para Google Cloud Storage
+   npm i @google-cloud/storage
+
+2. Instalo el node-fs-extra, basado en promesas reemplaza el sistema de archivos original (muy básico)
+   npm i fs-extra
+
+3. Instalo el Sharp que generar Thumbnails en lugar del ImageMagick  (4 veces más rápido y más simple de usar)
+   npm i sharp
+
+
+// --------------------------------------------------------------------------------
+// Batch
+// --------------------------------------------------------------------------------
+Me posiciono en la carpeta proyecto/batchs
+
+// clear
+   - Se utilizar para borrar la pantalla
+     npm i clear --save
+
+   - Uso: simplemente coloque al principio del programa
+
+     var clear = require('clear');
+     clear();
+
+
+// chalk
+   - colorea las salidas de la consola
+   - https://github.com/chalk/chalk
+     npm i chalk --save
+
+   - Uso: simplemente colocar al principio del archivo
+
+     const chalk = require('chalk');
+     const error = chalk.bold.red;
+     const warning = chalk.keyword('orange');
+
+   - Ejemplos:
+
+     console.log( error('Error!') );
+     console.log( warning('Warning!') );
+
+     console.log( chalk.blue.bgRed.bold('Hello world!') );
+     console.log( chalk.blue('Hello', 'World!', 'Foo', 'bar', 'biz', 'baz') );
+     console.log( chalk.underline('Hello') );
+
+     console.log( chalk.green('I am a green line ' + 
+                              chalk.blue.underline.bold('with a blue substring') + 
+                              ' that becomes green again!' ) );
+
+    const miles = 18;
+    const calculateFeet = miles => miles * 5280;
+    console.log( chalk`
+      There are {bold 5280 feet} in a mile.
+      In {bold ${miles} miles}, there are {green.bold ${calculateFeet(miles)} feet}.
+    `);
+
+

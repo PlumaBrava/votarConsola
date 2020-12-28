@@ -1,0 +1,171 @@
+{
+    "FOLLOW": "Seguir",
+    "MESSAGE": "Mensaje",
+    "LIKES" : "Me gusta",
+    "FOLLOWERS" : "Seguidores",
+    "FOLLOWING": "Siguiendo",
+    "ABOUT": "Descripción",
+    "FRIENDS": "Amigos",
+    "PHOTOS": "Fotos",
+    "SEE_ALL": "Ver mas",
+    "OK": "OK",
+    "CANCEL": "Cancelar",
+    "SELECT_LANGUAGE": "Selecciona tu idioma",
+    "genericos":{
+      "or"           :" o ",
+      "and"           :" y "
+    },
+    "tabs":{
+          "locationTracker": "Rastreo de Ubicaciones"
+      },
+    "log":{
+          "tituloBarra"         : "Ingreso",
+          "titulo"              : "La mejor aplicación de Traking",
+          "tituloDetalle"       : "Ingrese sus crecenciales",
+          "email"               : "Correo electrónico",
+  
+          "password"            : "Clave",
+  
+          "logIn"               : "Ingresar",
+          "signUp"              : "Registrarse",
+          "logInWithFacebook"   : "Ingresar con Facebook",
+          "logInWithGoogle"     : "Ingresar con Google",
+          "logInWithTwitter"    : "Ingresar con Twitter",
+          "forgotPassword"      : "Olvidó su clave?",
+          "byCreatingAnAccountYouAgreeToOur"      : "Al crear una cuenta usted acepta nuestras ",
+          "termsOfUse"          : "Terminos de uso",
+          "privacyPolicy"       : "Politicas de privacidad",
+          "emailRequerido"      : "El email es un campo obligatorio",
+          "emailIncorrecto"     : "Email Incorrecto",
+          "passwordRequerido"   : "La clave es obligatoria",
+          "password6caracteres" : "la clave debe tener un mínimo de 6 caracteres",
+          "auth_wrong_password"         : "La clave es invalida o el usuario no tiene una clave",
+          "auth_user_not_found"         : "No se tiene registro de este usuario.",
+          "auth_network_request_failed" : "Error de red.",
+          "auth_too_many_requests"      : "Muchos intentos con datos incorrectos. Intente nuevamente mas tarde",
+          "auth_default"                : "error de logg sin clasificar"
+  
+      },
+  
+    "olvidoLaClave":{
+  
+          "tituloBarra"         : "Olvidó la clave?",
+          "recoverYourPassword" : "Recupere su clave",
+          "mensajeRecupero"     : "Por favor, ingrese su correo electrónico y le enviaremos un email para recuperar su clave.",
+          "resetPassword"       : "Renovar la clave",
+          "emailRequired"       : "Correo electrónico es obligatorio.",
+          "emailInvalid"        : "Correo electrónico es incorrecto.",
+  
+  
+          "auth_wrong_password"         : "La clave es invalida o el usuario no tiene una clave",
+          "auth_user_not_found"         : "No se tiene registro de este usuario.",
+          "auth_network_request_failed" : "Error de red.",
+          "auth_too_many_requests"      : "Muchos intentos con datos incorrectos. Intente nuevamente mas tarde",
+          "auth_default"                : "error de logg sin clasificar"
+  
+      },
+  
+    "registrarse":{
+  
+          "tituloBarra"                           : "Registrarse",
+          "titulo"                                : "Bienvenido a Pk Traking",
+          "email"                                 : "Correo electrónico",
+          "password"                              : "Clave",
+          "confirmPassword"                       : "Confirmar  Clave",
+          "tituloDetalle"                         : "La mejor aplicacion de ",
+          "alreadyHaveAnAccount"                  : "Ya tiene una cuenta ? ",
+          "signUp"                                : "Registrarse ",
+          "emailRequired"                         : "Correo electrónico es obligatorio.",
+          "emailInvalid"                          : "Correo electrónico es incorrecto.",
+          "byCreatingAnAccountYouAgreeToOur"      : "Al crear una cuenta usted acepta nuestras ",
+          "termsOfUse"                            : "Terminos de uso",
+          "privacyPolicy"                         : "Politicas de privacidad",
+  
+          "errorUsuarioNoRegistrado"              : "Usuario no autorizado.",
+          "errorUsuarioActivado"                  : "El usuario ya está activado.",
+          "errorEmailUsadoEnMultiplesUsuarios"    : "Este correo está usado en multiples usuarios.",
+  
+  
+          "passwordRequired"                      : "El password es obligatorio.",
+          "passwordMinLength"                     : "La clave debe tener 6 caracteres.",
+          "passwordConfirmationRequired"          : "La confirmación de clave es obligatoria.",
+          "emaiareNotEquallRequired"              : "Las claves no son iguales.",
+  
+          "errores":{
+               "auth/wrong-password":"La clave es invalida o el usuario no tiene una clave",
+               "auth/user-not-found":"No se tiene registro de este usuario.",
+               "auth/network-request-failed":"Error de red.",
+               "auth/too-many-requests":"Muchos intentos con datos incorrectos. Intente nuevamente mas tarde",
+               "auth/email-already-in-use":"Este email ya está en uso",
+               "auth/sin clasificar":"error de logg sin clasificar",
+               "usuarioActivado":"Este usuario ya fue activado!",
+               "usuarioNoRegistrado":"Este usuario no está registrado. Contacte al administrador."
+  
+  
+          }
+      },
+  
+    "menu":{
+          "logOut"                                :"Salir",
+          "tituloLAYOUTS"                         :"Diseños",
+          "layouts":{
+                  "Categories"                    :"Categorias",
+                  "Profile"                       :"Perfiles",
+                  "ContactCard"                   :"Tarjeta de Contacto",
+                  "Notifications"                 :"Notificaciones",
+                  "LocationTracker"               :"Rastreo de Ubicaciones"
+                  },
+          "tituloForms"                           :"Forms",
+          "forms":{
+                "form&validations"                :"Formularios & Validaciones",
+                  "filters"                       :"Filtros"
+              },
+        "tituloIntegrations"                :"Integraciones",
+        "integrations":{
+           "firebase"                     :"Firebase"
+          },
+      "tituloFunctionalities"             :"Functionadad",
+      "funtionalities":{
+        "maps&geolocation"                :"Mapas & Geolocalización",
+        "videoPlaylist"                   :"Lista de videos"
+  
+      },
+      "tituloAccount"                     :"Cuenta",
+      "account":{
+        "logIn"                           :"Logearse",
+        "singUp"                          :"Registro",
+        "tutorial"                        :"Tutorial",
+        "gettingStarted"                  :"Comenzando",
+        "404page"                         :"Página 404"
+  
+      },
+      "tituloShowcase"                    :"Casos de Muestra",
+      "showcase":{
+        "appShell"                        :"Ejemplos",
+        "routeResolversUX"                :"Route Resolvers UX",
+        "customComponents"                :"Componentes de Usuario",
+        "locationTrackerApp"              :"Rastreo de Posiciones",
+        "mapaTastreo"                     :"Mapa Rastero"
+  
+      },
+      "tituloRutas"                       :"Rutas",
+      "rutas":{
+        "listado"                         :"Listado"
+  
+      }
+    },
+    
+    "rutasListing":{
+        "titulo"                        :"Listado Rutas",
+        "filtroPorNombre"               :"Filtrar por nombre...",
+        "noSeEncontraronRutasParaLosFiltrosSeleccionados" : "No se econtraron rutas para los filtros seleccionados"
+    },
+    "paradas":{
+        "titulo"                        :"Lista de Paradas",
+        "filtroPorNombre"               :"Filtrar por nombre...",
+        "noSeEncontraronParadasParaLosFiltrosSeleccionados" : "No se econtraron paradas para los filtros seleccionados",
+        "tituloParadaEdit": "Edición Parada"
+    },
+    "xx":"<h2>Hola <b>{{nombreEmpresa}}</b></h2>"
+  }
+  

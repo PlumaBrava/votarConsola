@@ -1,0 +1,109 @@
+
+// Incorporo íconos de la página https://www.flaticon.com/ como SVG 
+// permiten manejar el color y el tamño facilmente.
+
+// Aqui hay un link con tecnicas para el manejo de SVG con css https://css-tricks.com/change-color-of-svg-on-hover/
+
+// 							IMPORTANTE !!!!
+
+// Para que los tome el menú el icono debe comenzar con la palabra icono
+// Si se pone .iconoXxx detras de .MenuIcono no funciona!!! el orden es importante
+
+.iconoPig{
+mask:url('../assets/iconos/svg/001-pig.svg');
+}
+ 
+
+
+.iconoPorcino{
+mask:url('../assets/iconos/svg/pig.svg');
+width: 70px;
+  height: 70px;
+}
+
+.iconoAve{
+mask:url('../assets/iconos/svg/008-hen.svg');
+}
+ 
+.iconoBovino{
+mask:url('../assets/iconos/svg/002-cow.svg');
+}
+
+
+.iconoDistance{
+mask:url('../assets/iconos/svg/003-distance.svg');
+}
+ 
+
+.iconoTarifas{
+mask:url('../assets/iconos/svg/007-truck.svg');
+}
+
+.iconoMedicaciones{
+mask:url('../assets/iconos/svg/005-medicine.svg');
+} 
+
+
+
+.iconoCotizacion{
+mask:url('../assets/iconos/svg/004-save-money.svg');
+} 
+
+
+.iconoJeringa{
+mask:url('../assets/iconos/svg/006-syringe.svg');
+} 
+
+
+
+.MenuIcono {
+  display: inline-block;
+  background-repeat: no-repeat;
+    background-position: center center;
+  width: 16px;
+  height: 16px;
+  background: #979797;
+ 
+  mask-size: cover;
+  margin: 0px 12px  0px 12px;
+  padding: 0px 0px !important;
+}
+
+.app.combined .menu-wrapper .card a:hover .MenuIcono
+{
+	  background: #FFF;
+}
+
+
+.app.combined .menu-wrapper .card a.active-link .MenuIcono{
+	background: #FFF ;
+} 
+
+
+
+.MenuIconoFavorito {
+  display: inline-block;
+  background-repeat: no-repeat;
+    background-position: center center;
+  width: 16px;
+  height: 16px;
+  background: #979797;
+ 
+  mask-size: cover;
+  margin: 0px 0px  0px 0px !important;
+  padding: 0px 0px !important;
+}
+// para el menu  vertical mini
+.app.mini .sidebar-outer a.menu-item-link .MenuIcono {
+	width: 32px;
+  	height: 32px;
+   	margin: 0px 20px  0px 20px;
+}
+
+.app.compact .sidebar-outer a.menu-item-link .MenuIcono{
+	background: red;
+	width: 32px;
+  	height: 32px;
+   	margin: 0px 20px  0px 20px;
+   	text-align: center;
+}

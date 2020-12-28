@@ -1,0 +1,63 @@
+ 
+
+    @font-face {
+  font-family: "Flaticon";
+  src: url("./Flaticon.eot");
+  src: url("./Flaticon.eot?#iefix") format("embedded-opentype"),
+       url("./Flaticon.woff2") format("woff2"),
+       url("./Flaticon.woff") format("woff"),
+       url("./Flaticon.ttf") format("truetype"),
+       url("./Flaticon.svg#Flaticon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: "Flaticon";
+    src: url("./Flaticon.svg#Flaticon") format("svg");
+  }
+}
+
+    .fi:before{
+        display: inline-block;
+  font-family: "Flaticon";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-decoration: inherit;
+  text-rendering: optimizeLegibility;
+  text-transform: none;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+    }
+
+//     .flaticon-pig:before { content: "\f1100"; }
+// .flaticon-cow:before { content: "\f1101"; }
+// .flaticon-distance:before { content: "\f1102"; }
+// .flaticon-save-money:before { content: "\f1103"; }
+// .flaticon-medicine:before { content: "\f1104"; }
+// .flaticon-syringe:before { content: "\f1105"; }
+// .flaticon-truck:before { content: "\f1106"; }
+// .flaticon-hen:before { content: "\f1107"; }
+
+.fa-porcino:before { content: "\f1100"; }
+.fa-cow:before { content: "\f1101"; }
+.fa-distance:before { content: "\f1102"; }
+.fa-cotizacion:before { content: "\f1103"; }
+.fa-medicine:before { content: "\f1104"; }
+.fa-syringe:before { content: "\f1105"; }
+.fa-truck:before { content: "\f1106"; }
+.fa-ave:before { content: "\f1107"; }
+
+    
+    $font-Flaticon-pig: "\f1100";
+    $font-Flaticon-cow: "\f1101";
+    $font-Flaticon-distance: "\f1102";
+    $font-Flaticon-save-money: "\f1103";
+    $font-Flaticon-medicine: "\f1104";
+    $font-Flaticon-syringe: "\f1105";
+    $font-Flaticon-truck: "\f1106";
+    $font-Flaticon-hen: "\f1107";

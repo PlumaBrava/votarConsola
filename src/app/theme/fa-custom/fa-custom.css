@@ -1,0 +1,53 @@
+@font-face {
+   font-family: 'iconos-fa-custom';
+   src: url('./fonts/pack.eot?lchn8y');
+   src: url('./fonts/pack.eot?lchn8y#iefix') format('embedded-opentype'),
+        url('./fonts/pack.ttf?lchn8y') format('truetype'),
+        url('./fonts/pack.woff2?lchn8y') format('woff'),
+        url('./fonts/pack.woff?lchn8y') format('woff'),
+        url('./fonts/pack.svg?lchn8y#iconos-fa-custom') format('svg');
+   font-weight: normal;
+   font-style: normal;
+}
+
+[class^="fa-custom-"], [class*=" fa-custom-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'iconos-fa-custom' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  display: inline-block;
+  text-rendering: auto;
+  margin: 0;
+  padding: 0;  
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.fa-custom-clip:before {
+  content: "\e900";
+}
+.fa-custom-carpeta:before {
+  content: "\e901";
+}
+.fa-custom-chupete:before {
+  content: "\e902";
+}
+.fa-custom-email:before {
+  content: "\e903";
+}
+.fa-custom-perfil:before {
+  content: "\e904";
+}
+
+/*
+.fa-custom-mapa:before {
+  content: url("./fa-custom-mapa.svg");
+  display: inline-block;
+}
+*/

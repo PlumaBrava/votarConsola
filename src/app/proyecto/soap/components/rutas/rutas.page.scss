@@ -1,0 +1,47 @@
+.table-height { 
+  width: 100%; 
+  max-height: 400px; 
+  overflow: auto; 
+  overflow-x:hidden;
+} 
+
+.header{
+  position:sticky;
+  top: 0 ;
+  background:#f5f5f5;
+}
+.header2{
+  position:sticky;
+  top: 56px ;
+  background:white;  
+}
+
+.headeroff{
+  position:absolute;
+  top: 0 ;
+  visibility: hidden;
+  height:0px;
+  background:white;  
+}
+
+.header2off{
+  position:sticky;
+  top: 0px ;
+  background:white;  
+}
+
+.table-td-condensed tbody > tr > td:nth-child(n) { padding-top:0px; padding-bottom:0px;  }
+.table-td-condensed thead > tr:nth-child(2) > th { padding-top:0px; padding-bottom:0px; }
+  
+//  .ea_table thead > tr:nth-child(1) > th { border:none; }
+//  .ea_table thead > tr:nth-child(2) > th { border:none; }
+ 
+//  .ea_table thead > tr > th:nth-child(n) { margin-left:0px; margin-right: 0px; padding-left:0px;  }
+ 
+//  .ea_table .off thead > tr > th:nth-child(1) { flex: 0.1 1 auto; } 
+//  .ea_table .off tbody > tr > td:nth-child(1) { flex: 0.1 1 auto; } 
+
+//  .ea_table .on thead > tr > th:nth-child(1) { flex: 0.1 1 100px; } 
+//  .ea_table .on tbody > tr > td:nth-child(1) { flex: 0.1 1 100px; } 
+ 
+ 

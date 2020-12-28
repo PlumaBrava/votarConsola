@@ -1,0 +1,99 @@
+{
+
+    "NueveDeJulio"          : "9Julio",
+    "TrenqueLauquen"        : "TLauquen",
+    "Quiroga"               : "Quiroga",
+
+    "nutralmix": {
+        "auxiliaresNutralmix"       : "Auxiliares Nutralmix",
+        "planta"                    : "Planta",
+        "plantas"                   : "Plantas",
+        "tipoProducto"              : "Tipo de Producto",
+        "tiposProductos"            : "Tipos de Productos",
+        "categoriaExterna"          : "Categoría Externa",
+        "categoriasExternas"        : "Categorías Externas",
+        "subcategoriasExternas"     : "Subcategorías Externas",
+        "subcategoriaExterna"       : "Subcategoría Externa",
+        "formaCalculoMP"            : "Forma de Cálculo MP",
+        "proveedor"                 : "Proveedor",
+        "proveedores"               : "Proveedores",
+        "materiaPrima"              : "Materia Prima",
+        "materiasPrimas"            : "Materias Primas",
+        "materiasPrimasCostos"      : "Materias Primas Costos",
+        "producto"                  : "Producto",
+        "productos"                 : "Productos",
+        "productosFormula"          : "Productos Fórmula",
+        "productosPrecios"          : "Productos Precios",
+        "presentacion"              : "Presentación",
+        "valoresNutricionales"      : "Valores Nutricionales",
+        "distribuidor"              : "Distribuidor",
+        "consumoCabezDia"           : "Consumo por Cabeza por Día",
+        "formula"                   : "Fórmula",
+        "formulas"                  : "Fórmulas",
+        "tipoFormula"               : "Tipo de Fórmula",
+        "historial"                 : "Historial",
+        "historialPrecios"          : "Historial de Precios",
+        "historialFormulas"         : "Historial de Fórmulas",
+        "NueveDeJulio"              : "9Julio",
+        "TrenqueLauquen"            : "TLauquen",
+        "Quiroga"                   : "Quiroga",
+        "categoriaProducto"         : "Categoría de Producto",
+        "categoriasProductos"       : "Categorías de Productos",
+        "subcategoriaProducto"      : "Subcategoría de Producto",
+        "subcategoriasProductos"    : "Subcategorías de Productos",
+        "aplicaPorcentajeFormula"   : "Aplica Porcentaje en Fórmula",
+        "nombreCampo"               : "Nombre del Campo",
+        "distanciaNueveDeJulio"     : "Distancia a NueveDeJulio",
+        "distanciaTrenqueLauquen"   : "Distancia a TrenqueLauquen",
+        "distanciaQuiroga"          : "Distancia a Quiroga",
+        "capacidadAlmacenaje"       : "Capacidad de Almacenaje",
+        "cliente"                   : "Cliente",        
+        "clientes"                   : "Clientes",
+        "tiposFormulas"             : "Tipos Formulas",
+        "requierePerfilSupervisor"  : "Requiere Perfil Supervisor",
+        "actualizarPrecios"         : "Actualizar Precios",        
+        "sinonimo1"                 : "Sinónimo 1",        
+        "sinonimo2"                 : "Sinónimo 2",        
+        "sinonimo3"                 : "Sinónimo 3",        
+        "sinonimo4"                 : "Sinónimo 4",        
+        "sinonimo5"                 : "Sinónimo 5",        
+        "sinonimo6"                 : "Sinónimo 6",
+        "clonar"                    : "Clonar Fórmula",
+        "estaSeguroClonar"          : "Confirma la clonación de la fórmula?",
+        "pasarAVigente"             : "Pasar a Vigente",
+        "estaSeguroPasarAVigente"   : "Confirma pasar a Vigente esta fórmula?",
+        "variacionesDePrecios"      : "Variaciones de Precios",
+        "listaodFormulas"           : "Listado de Fórmulas"
+        
+
+    },    
+
+    "valoresNutricionales": {
+        "porcentajeProteina"     : "Proteina", 
+        "energia"                : "Energía", 
+        "grasasTotales"          : "Grasas Totales", 
+        "grasasSaturadas"        : "Grasas Saturadas", 
+        "grasasTrans"            : "Grasas Trans", 
+        "hidratosCarbono"        : "Hidratos Carbono", 
+        "hidratosCarbonoAzucar"  : "Hidratos Carbono Azucar", 
+        "fibra"                  : "Fibra", 
+        "sal"                    : "Sal", 
+        "sodio"                  : "Sodio", 
+        "calcio"                 : "Calcio", 
+        "vitaminaA"              : "Vitamina A", 
+        "vitaminaD"              : "Vitamina D"
+    },
+
+    "ayuda"   :{
+        "titulo"              : "Ayuda",
+        "porcentualEnPesos"   : "% fórmula en Pesos",
+        "costoVienge"         : "Valor Vigente",
+        "costoActualizado"    : "Valor actualizado",
+        "costoActualizadoMayor"    : "Mayor",
+        "costoActualizadoMenor"    : "Menor"
+
+    }   
+    
+}
+
+

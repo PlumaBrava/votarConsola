@@ -1,0 +1,134 @@
+{
+  "FOLLOW": "Follow",
+  "MESSAGE": "Message",
+  "LIKES" : "Likes",
+  "FOLLOWERS" : "Followers",
+  "FOLLOWING": "Following",
+  "ABOUT": "About",
+  "FRIENDS": "Friends",
+  "PHOTOS": "Photos",
+  "SEE_ALL": "See all",
+  "OK": "OK",
+  "CANCEL": "Cancel",
+  "SELECT_LANGUAGE": "Select your language",
+  "genericos":{
+    "or"           :" or ",
+    "and"           :" and "
+  },
+  "tabs":{
+        "locationTracker": "Location Tracker"
+    },
+  "log":{
+        "tituloBarra"         : "LogIn",
+        "titulo"              : "The best tracking application",
+        "tituloDetalle"       : "Insert your crecentials.",
+        "email"               : "email",
+
+        "password"            : "Password",
+
+        "logIn"               : "Log In",
+        "signUp"              : "Sign Up",
+        "logInWithFacebook"   : "Login whith Facebook",
+        "logInWithGoogle"     : "Login whith Google",
+        "logInWithTwitter"    : "Login whith Twitter",
+        "forgotPassword"      : "Forgot Password?",
+        "byCreatingAnAccountYouAgreeToOur"      : "by creating an account you agree to our ",
+        "termsOfUse"          : "tems of use",
+        "privacyPolicy"       : "provacy policy",
+        "emailRequerido"      : "The email is required. ",
+        "emailIncorrecto"     : "The email is invalid. ",
+        "passwordRequerido"   : "The password is required.",
+        "password6caracteres" : "The password needs 6 caracters.",
+        "auth_wrong_password"         : "The password is invalid or the user is not valid.",
+        "auth_user_not_found"         : "The user is not registred.",
+        "auth_network_request_failed" : "Network error.",
+        "auth_too_many_requests"      : "Too may request, try it later",
+        "auth_default"                : "Email is invalid."
+
+    },
+    "olvidoLaClave":{
+        "tituloBarra"         : "Forgot youd password?",
+        "recoverYourPassword" : "Recover your Password",
+        "mensajeRecupero"     : "Please enter your email address and we'll send you an email to reset your password",
+        "resetPassword"       : "Reset Password",
+        "emailRequired"       : "Email is required.",
+        "emailInvalid"        : "Email is invalid.",
+
+        "auth_wrong_password"         : "The password is invalid or the user is not registred.",
+        "auth_user_not_found"         : "the user is not registred.",
+        "auth_network_request_failed" : "Network error.",
+        "auth_too_many_requests"      : "Too may request, try it later",
+        "auth_default"                : "logg error without clasification"
+
+    },
+
+
+    
+  
+  "menu":{
+    "logOut"                            :"Log Out",
+    "tituloLAYOUTS"                     :"LAYOUTS",
+    "layouts":{
+      "Categories"                      :"Categories",
+      "Profile"                         :"Profile",
+      "ContactCard"                     :"Contact Card",
+      "Notifications"                   :"Notifications",
+      "LocationTracker"                 :"LocationTracker"
+    },
+    "tituloForms"                       :"Forms",
+    "forms":{
+      "form&validations"                :"Forms & Validations",
+      "filters"                         :"Filters"
+
+    },
+    "tituloIntegrations"                :"Integrations",
+    "integrations":{
+         "firebase"                     :"Firebase"
+    },
+    "tituloFunctionalities"             :"Functionalities",
+    "funtionalities":{
+      "maps&geolocation"                :"Maps & Geolocation",
+      "videoPlaylist"                   :"Video Playlist"
+
+    },
+    "tituloAccount"                     :"Account",
+    "account":{
+      "logIn"                           :"Log In",
+      "singUp"                          :"Sign Up",
+      "tutorial"                        :"Tutorial",
+      "gettingStarted"                  :"Getting Started",
+      "404page"                         :"404 page"
+
+    },
+    "tituloShowcase"                    :"Showcase",
+    "showcase":{
+      "appShell":"App Shell",
+      "routeResolversUX":"Route Resolvers UX",
+      "customComponents":"Custom Components",
+      "locationTrackerApp":"locationTracker app",
+      "mapaTastreo"       :"Tracking Map"
+
+    },
+    "tituloRutas"                       :"Routes",
+    "rutas":{
+      "listado"                         :"list"
+
+    }
+
+
+
+
+  },
+  "rutasListing":{
+      "titulo"                        :"Routes List",
+      "filtroPorNombre"               :"Filter by name...",
+      "noSeEncontraronRutasParaLosFiltrosSeleccionados" :"No routes found for the selected filters."
+  },
+  "paradas":{
+      "titulo"                        :"Stops List",
+      "filtroPorNombre"               :"Filter by name...",
+      "noSeEncontraronParadasParaLosFiltrosSeleccionados" : "No stops found for the selected filters",
+      "tituloParadaEdit": "Stop Edit"
+  },
+ "xx":"xx"
+}

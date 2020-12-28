@@ -1,0 +1,26 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./app",
+     "types": [
+           "googlemaps",
+           "node"
+     ]
+  },  
+  "files": [
+    "src/main.ts",
+    "src/polyfills.ts",
+    // "src/assets/i18n/es.ts",
+    // "src/assets/i18n/en.ts",
+    // "src/assets/i18n/pt.ts",
+    // "src/assets/i18n/xx.ts",    
+  ],
+  "include": [
+    "src/**/*.d.ts"
+  ],
+  "angularCompilerOptions": {
+    "enableIvy": true,
+    // "trace": true,
+    // "allowEmptyCodegenFiles" : true
+  }
+}

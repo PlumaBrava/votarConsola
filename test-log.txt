@@ -1,0 +1,7 @@
+0: C:\Program Files\nodejs\node.exe
+1: I:\angular2\formula\batchs\SQL.js
+2: P@55w0rd
+doc { key: 'OnL8YhCNKHzXrD1e7RzO', nombre: 'Planfi-k Argentina SA' }
+doc { key: 'Tz73uYv7dkoODWjD5OBl', nombre: 'Planifi-K Brasil' }
+doc { key: 'aSPmjq3vkwl4t0ByymcT', nombre: 'Chile Solutions' }
+doc { key: 'rvuYkD12DBXOphy6govk', nombre: 'Zona Norte Argentina' }

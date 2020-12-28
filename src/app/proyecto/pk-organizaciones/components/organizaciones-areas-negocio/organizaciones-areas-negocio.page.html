@@ -1,0 +1,281 @@
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#ccc"
+  type="ball-spin">
+  <p style="font-size: 16px; color: #ccc" translate>componente-ngx-spinner.grabando</p>
+</ngx-spinner>
+
+<!-- *************** LISTADO ************************************ -->
+<div *ngIf="accionForm=='listado'">
+
+    <div translate>{{errorMensaje}} </div>
+    
+    <div class="row tituloRow" *ngIf="router.url=='/organizacion/listadoAreasNegocio'"> 
+        <div class="col-lg-12 col-12">        
+            <span class="tituloTexto">
+                <b>{{'claseTabs.areasNegocio' | translate}}</b>
+            </span>                
+        </div>
+    </div>
+     
+    <div widget class="card border-0 box-shadow" >
+        <div class="card-header transparent border-0 text-muted">
+            <div class="widget-controls"> 
+                <a data-widgster="expand" href="#" class="transition"><i class="fa fa-chevron-down"></i></a>
+            </div>        
+        </div>
+        <div class="card-body pt-0 widget-body"> 
+
+            <div  class="row" >
+                <div class="col-12">
+                    
+                    <table class="table table-hover">
+
+                        <thead>
+                            
+                            <!-- Títulos de Columnas -->                            
+                            <tr class="titulo-grilla"> 
+                                <th [class.active]="grilla.orderField === 'nombre'"
+                                    (click)="onChangeGrilla('order','nombre')"
+                                    class="mdl-data-table__cell--non-numeric" translate>claseFicha.nombre<span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                                </th> 
+                                <th [class.active]="grilla.orderField === 'unidad1'"
+                                    (click)="onChangeGrilla('order','sUnidadesMedida.unidad1')"
+                                    class="mdl-data-table__cell--non-numeric" translate>moduloOrganizaciones.unidad<b>1</b><span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                                </th> 
+                                <th [class.active]="grilla.orderField === 'unidad2'"
+                                    (click)="onChangeGrilla('order','nombresUnidadesMedida.unidad2')"
+                                    class="mdl-data-table__cell--non-numeric" translate>moduloOrganizaciones.unidad<b>2</b><span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                                </th> 
+                                <th [class.active]="grilla.orderField === 'unidad3'"
+                                    (click)="onChangeGrilla('order','nombresUnidadesMedida.unidad3')"
+                                    class="mdl-data-table__cell--non-numeric" translate>moduloOrganizaciones.unidad<b>3</b><span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                                </th> 
+                                <th [class.active]="grilla.orderField === 'settings.isActivo'" class="text-center"
+                                    (click)="onChangeGrilla('order','settings.isActivo')" translate>claseFicha.activo<span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                                </th>                                 
+                                <th style="width:80px;">
+                                    <button class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px;"
+                                            title="{{'navegabilidad.agregar' | translate}}"
+                                            *ngIf="permisos.altasAutorizadas"
+                                            (click)="abrirFormulario(null)"><i class="fa fa-plus ml-3 text-success"></i></button>
+                                </th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+
+                            <!-- ----------------------------------------------------------------- -->
+                            <!-- ------- Orden, Filtros y Paginado ------------------------------- -->
+                            <!-- ----------------------------------------------------------------- -->
+
+                            <ng-container *ngFor="let documento of listadoPrincipal 
+                                            | orderBy :grilla.orderField :grilla.orderReverse :'case-insensitive'                                        
+                                            | searchFiltro:grilla.paginadoTipo:'settings.borradoFisico':false:'boolean'   
+                                            | paginate: { itemsPerPage: 20, currentPage: p }"> 
+                                            
+                                <tr [ngStyle]="grilla.colorFilaSegunEstado(documento.settings)"
+                                    (mouseover)="grilla.keyHoverActivo=documento.key"
+                                    (mouseout)="grilla.keyHoverActivo=null"              
+                                    [ngClass]="grilla.keyHoverActivo==documento.key ? 'trHover' : 'trNotHover'">
+
+                                    <td class="align-middle" (click)="abrirFormulario(documento)">
+                                        <span class="align-middle">{{documento.nombre}}</span>                            
+                                    </td>    
+                                    <td class="align-middle" (click)="abrirFormulario(documento)">
+                                        <span class="align-middle">{{documento.nombresUnidadesMedida.unidad1}}</span>
+                                    </td>    
+                                    <td class="align-middle" (click)="abrirFormulario(documento)">
+                                        <span class="align-middle">{{documento.nombresUnidadesMedida.unidad2}}</span>
+                                    </td>    
+                                    <td class="align-middle" (click)="abrirFormulario(documento)">
+                                        <span class="align-middle">{{documento.nombresUnidadesMedida.unidad3}}</span>
+                                    </td>    
+                                    <td class="align-middle text-center" (click)="abrirFormulario(documento)">
+                                            <i class="fa fa-check text-secondary" *ngIf="documento.settings.isActivo"></i>
+                                    </td>    
+
+                                    <td class="align-middle">
+                                        <div class="btn-group" role="group">
+                                            <button class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px;"
+                                                    title="{{'navegabilidad.consultar' | translate}}"
+                                                    (click)="abrirFormulario(documento)"><i class="fa fa-search mr-3 text-primary"></i></button>
+
+                                            <!-- borrado lógico -->
+                                            <button *ngIf="permisos.bajasAutorizadas &&
+                                                    documento.settings.documentosAsociados==0 && documento.settings.isBorrado==false" 
+                                                    title="{{'navegabilidad.eliminar' | translate}}"
+                                                    class="btn btn-link btn-lg"  style="padding-left:0px; padding-right:0px;"
+                                                    (click)="deleteDocumento('borradoLogico', documento)"><i class="fa fa-trash mr-3 text-danger"></i></button>
+
+                                            <button *ngIf="permisos.bajasAutorizadas &&
+                                                    documento.settings.documentosAsociados>0 && documento.settings.isBorrado==false" 
+                                                    title="{{fn.titleMensaje('claseValidaciones.documentosAsociados',documento.settings.documentosAsociados)}}"
+                                                    class="btn btn-link btn-lg"  style="padding-left:0px; padding-right:0px;"
+                                                    (click)="fn.alertMensaje('claseValidaciones.documentosAsociados',documento.settings.documentosAsociados)"><i class="fa fa-trash mr-3 text-deshabilitado"></i></button>
+
+                                            <!-- borrado físico -->
+                                            <button *ngIf="permisos.bajasAutorizadas && documento.settings.isBorrado &&
+                                                          ['Desarrollador','Supervisor','Distribuidor'].indexOf(tipoPerfilUsuario)!=-1"
+                                                    title="{{'navegabilidad.eliminarFisicamente' | translate}}"
+                                                    class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px;"
+                                                    (click)="deleteDocumento('borradoFisico',documento)"><i class="fa fa-remove mr-3 text-danger"></i></button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                
+                            </ng-container>
+                                
+                        </tbody>
+                    </table>
+
+                    <!-- paginado -->
+                    <div class="row" style="border-top:1px solid #ccc;">
+                        <div class="col-3" style="padding:10px;">
+                            <div class="bg-white text-center">
+                                <select class="form-control selectpicker" 
+                                        id="grilla.paginadoCantidad"                                         
+                                        [(ngModel)]="grilla.paginadoCantidad"
+                                        (change)="onChangeGrilla('paginadoCantidad',grilla.paginadoCantidad)"> 
+                                    <ng-container *ngFor="let opcion of grilla.paginadoDropDown">
+                                        <option [ngValue]="opcion">Items x Página {{opcion}}</option>
+                                    </ng-container>
+                                </select>
+                            </div>    
+                        </div>    
+                        <div class="col-9" style="padding:10px;">
+                            <div class="bg-white text-center">
+
+                                <!-- Paginado Local -->
+                                <pagination-controls 
+                                    *ngIf="grilla.paginadoTipo=='local'"
+                                    autoHide="{{grilla.paginadoAutoHide}}" 
+                                    previousLabel="{{'componente-paginado.anterior' | translate}}" 
+                                    nextLabel="{{'componente-paginado.siguiente' | translate}}" 
+                                    (pageChange)="pagePaginado = $event" 
+                                    maxSize="3"></pagination-controls>
+
+                                <!-- Paginado Servidor -->
+                                <lib-shared-paginado-servidor 
+                                    *ngIf="grilla.paginadoTipo=='servidor'"
+                                    [grilla]="grilla" 
+                                    (clickPaginado)="emitClickPaginado($event)"></lib-shared-paginado-servidor>
+
+                            </div>
+                        </div>                        
+                    </div>
+
+                </div>
+            </div>
+
+        </div> <!-- FIN card-body -->
+    </div> <!-- FIN widget -->
+</div>
+
+<!-- *************** FORMULARIO ************************************ -->
+<div *ngIf="['agregar','modificar','consultar'].indexOf(accionForm)!=-1">
+    
+    <form [formGroup]="form">
+
+            <div class="row tituloRow">
+                <div class="col-lg-12 col-12" [ngStyle]="router.url!='/organizacion/listadoAreasNegocio' ? {background:'white'} : {}">        
+                    <span class="tituloTexto">
+                        <b>{{'moduloOrganizaciones.areaNegocio' | translate}}: </b>
+                        {{form.value.nombre}}
+                    </span>                
+
+                    <button type="button" 
+                            *ngIf="['modificar','agregar'].indexOf(accionForm)==-1"
+                            class="btn btn-warning"  style="float:right;"
+                            (click)="setAccionForm('listado')" translate>navegabilidad.cerrar</button>
+                    
+                    <span style="width:220px; float:right;">
+                        <lib-shared-form-buttons [accionForm]='accionForm' 
+                                      [permisos]='permisos' 
+                                      (setAccion)="setAccionForm($event)"
+                                      (onSubmitComponent)="onSubmit(form.value)"></lib-shared-form-buttons>
+                    </span>                  
+
+                </div>
+            </div>
+
+            <div widget class="card border-0 box-shadow" style="margin-top:20px; margin-bottom:20px;">
+                <div class="card-header transparent border-0 text-muted">
+                    <h5 class="mb-0" translate>claseTabs.basic</h5>
+                </div>
+                <div class="card-body pt-0 widget-body"> 
+
+                        <!-- Key -->
+                        <div class="form-group" *ngIf="['Desarrollador','Supervisor','Distribuidor'].indexOf(tipoPerfilUsuario)!=-1">
+                            <label class="text-gray" translate>{{'moduloDesarrolladores.key' | translate}}</label>
+                            <input formControlName="key" id="key" 
+                            class="form-control" maxlength="90">  <!-- maxlength="20" -->
+                        </div>
+                    
+                        <!-- Nombre -->
+                        <div class="form-group">
+                            <label class="text-gray" translate>claseFicha.nombre<span class="required">*</span></label>
+                            <input formControlName="nombre" class="form-control validation-field" type="text">
+
+                            <small class="text-danger" *ngIf="form.controls.nombre.touched && form.controls.nombre.errors?.required">
+                            <span translate>claseFicha.nombre</span>&nbsp;<span translate>claseValidaciones.esRequerido</span></small>                              
+                            <small class="text-danger" *ngIf="form.controls.nombre.touched && form.controls.nombre.errors?.minlength"><span translate>claseFicha.nombre</span>&nbsp;<span translate [translateParams]="{value: '3'}">claseValidaciones.minimaCantidad</span></small>
+                        </div>
+                        
+                        <!-- Código -->
+                        <div class="form-group">
+                            <label class="text-gray" translate>claseFicha.codigo</label>
+                            <input formControlName="codigo" class="form-control" type="text">
+                        </div>
+
+                        <!-- Unidades de Medida -->
+                        <div widget class="card border-0 box-shadow" style="margin-top:20px;">
+                            <div class="card-header transparent border-0 text-muted">
+                                <h5 class="mb-0" translate>moduloOrganizaciones.unidadesMedida</h5>
+                                <div class="widget-controls"> 
+                                    <a data-widgster="expand" href="#" class="transition"><i class="fa fa-chevron-down"></i></a>
+                                    <a data-widgster="collapse" href="#" class="transition"><i class="fa fa-chevron-up"></i></a>
+                                </div>        
+                            </div>
+                            <div class="card-body pt-0 widget-body" formGroupName="nombresUnidadesMedida"> 
+
+                                <div class="form-group">
+                                    <label class="text-gray" translate>moduloOrganizaciones.unidad</label>1<span class="required">*</span>
+                                    <input formControlName="unidad1" class="form-control validation-field" type="text">
+
+                                    <small class="text-danger" 
+                                            *ngIf="form.get('nombresUnidadesMedida').get('unidad1').touched && 
+                                                   form.get('nombresUnidadesMedida').get('unidad1').errors?.required"><span translate>moduloOrganizaciones.unidad</span>&nbsp;<span translate>claseValidaciones.esRequerido</span></small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="text-gray" translate>moduloOrganizaciones.unidad</label>2
+                                    <input formControlName="unidad2" class="form-control validation-field" type="text">
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="text-gray" translate>moduloOrganizaciones.unidad</label>3
+                                    <input formControlName="unidad3" class="form-control validation-field" type="text">
+                                </div>                                                        
+
+                            </div> <!-- FIN card-body -->
+                        </div> <!-- FIN widget -->
+
+                        <!-- settings   -->
+                        <lib-shared-form-settings *ngIf="accionForm!='agregar'"
+                        [nameField]="'settings'" 
+                        [controlsField]="form.controls.settings"
+                        [value]="form.value.settings"
+                        [accionForm]="accionForm" 
+                        [formInvalid]="formInvalid" 
+                        [tipoPerfilUsuario]="tipoPerfilUsuario"
+                        (cargoSubEstructura)="emitCargoSubEstructura($event)"></lib-shared-form-settings>
+
+                </div> <!-- FIN card-body -->
+            </div> <!-- FIN widget -->
+
+    </form> 
+
+</div>
+

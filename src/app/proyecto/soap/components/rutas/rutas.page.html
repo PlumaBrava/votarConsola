@@ -1,0 +1,301 @@
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#ccc"
+  type="ball-spin"
+  template="<img src='{{appSettings.settings2.cliente.logos.loading}}'>">
+  <p style="font-size: 16px; color: #ccc" *ngIf="cualSpinner=='buscando'" translate>componente-ngx-spinner.buscandoInformacion</p>
+  <p style="font-size: 16px; color: #ccc" *ngIf="cualSpinner!='buscando'" translate>componente-ngx-spinner.grabando</p>
+</ngx-spinner>
+
+<div translate>{{errorMensaje}}</div>
+
+        
+<!-- Listado Principal  ea_table -->
+<div class="table-height">
+    <table class="table table-hover table-bordered table-condensed table-td-condensed" *ngIf="listadoPrincipal.length>0">
+
+        <thead style="position: sticky; top: 0;">
+
+            <!--------------- Filtros -------------------->
+            <tr> 
+                <th *ngIf="grilla.verColumnaKey" [ngClass]="hideFiltrosListado ? 'headeroff' : 'header'" scope="col">
+                    <input [(ngModel)]="grilla.filtros['key']" *ngIf="grilla.mostrarFiltro('key')"
+                           type="text" class="form-control filtroGrilla"                            
+                           (keyup)="filtrarGrilla('key')"                                    
+                           placeholder="{{'moduloDesarrolladores.key' | translate}}">
+                </th>
+                <th *ngIf="!grilla.verColumnaKey" [ngClass]="hideFiltrosListado ? 'headeroff' : 'header'" scope="col"
+                    colspan="1" style="width:24px; padding-left:0px; padding-right:0px;"></th>
+
+                <th [ngClass]="hideFiltrosListado ? 'headeroff' : 'header'" scope="col" style="width:120px;">
+                    <input [(ngModel)]="grilla.filtros['idRuta']" *ngIf="grilla.mostrarFiltro('idRuta')" 
+                           (keyup)="filtrarGrilla('idRuta')"                                    
+                           type="text" class="form-control filtroGrilla" placeholder="{{'soap.idRuta' | translate}}">
+                </th> 
+                        
+                <th [ngClass]="hideFiltrosListado ? 'headeroff' : 'header'" scope="col">
+                    <input [(ngModel)]="grilla.filtros['nombre']" *ngIf="grilla.mostrarFiltro('nombre')" 
+                           (keyup)="filtrarGrilla('nombre')"                                    
+                           type="text" class="form-control filtroGrilla" placeholder="{{'claseFicha.descripcion' | translate}}">
+                </th> 
+
+                <th [ngClass]="hideFiltrosListado ? 'headeroff' : 'header'" scope="col"></th> <!-- fechaSesion-->
+                
+                <th [ngClass]="hideFiltrosListado ? 'headeroff' : 'header'" scope="col">
+                    <input [(ngModel)]="grilla.filtros['idVehiculo']" *ngIf="grilla.mostrarFiltro('idVehiculo')" 
+                           (keyup)="filtrarGrilla('idVehiculo')"                                    
+                           type="text" class="form-control filtroGrilla" placeholder="{{'soap.idVehiculo' | translate}}">
+                </th> 
+                
+                <th [ngClass]="hideFiltrosListado ? 'headeroff' : 'header'" scope="col">
+                    <input [(ngModel)]="grilla.filtros['idEmpleado']" *ngIf="grilla.mostrarFiltro('idEmpleado')" 
+                           (keyup)="filtrarGrilla('idEmpleado')"                                    
+                           type="text" class="form-control filtroGrilla" placeholder="{{'soap.idEmpleado' | translate}}">
+                </th> 
+
+                <th [ngClass]="hideFiltrosListado ? 'headeroff' : 'header'" scope="col">
+                    <input [(ngModel)]="grilla.filtros['status']" *ngIf="grilla.mostrarFiltro('status')" 
+                           (keyup)="filtrarGrilla('status')"                                    
+                           type="text" class="form-control filtroGrilla" placeholder="{{'soap.status' | translate}}">
+                </th> 
+                
+                <th class="text-center" scope="col" [ngClass]="hideFiltrosListado ? 'headeroff' : 'header'">
+                    <select class="form-control selectpicker filtroGrilla" 
+                            [(ngModel)]="grilla.filtros['yaImportado']">
+                        <option *ngFor="let item of LISTA_DE_FILTROS_SI_NO" [ngValue]="item.logic"> {{item.val | translate}}</option>
+                    </select>
+                </th>                                 
+                
+                <th class="align-middle text-center" [ngClass]="hideFiltrosListado ? 'headeroff' : 'header'" scope="col" colspan="2">
+                            
+                    <i class="fa fa-check text-light"  
+                       *ngIf="importarTodos"  (click)="seleccionarTodosImportar()"></i>
+                       
+                    <i class="fa fa-square-o text-light" 
+                       *ngIf="!importarTodos" (click)="seleccionarTodosImportar()"></i>
+                    
+                </th> 
+        
+            </tr>
+
+            <!-- Títulos de Columnas -->
+            <tr class="titulo-grilla"> 
+
+                <th *ngIf="grilla.verColumnaKey" [ngClass]="hideFiltrosListado ? 'header2off' : 'header2'" scope="col"
+                    [class.active]="grilla.orderField === 'key'"
+                    (click)="onChangeGrilla('order','key')" style="padding-bottom:0px;">
+
+                        <button class="btn btn-link btn-lg"  
+                            style="padding-left:0px; padding-top:0px; margin-right:30px;"
+                            title="{{'grilla.ocultarKey' | translate}}" 
+                            *ngIf="permisos.altasAutorizadas" 
+                            (click)="grilla.verColumnaKey=!grilla.verColumnaKey"><i class="mdi mdi-unfold-less-vertical mdi-24px text-dark"
+                           aria-hidden="true"></i></button>
+
+                        {{'moduloDesarrolladores.key' | translate}}<span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                </th>
+                <th *ngIf="!grilla.verColumnaKey"  [ngClass]="hideFiltrosListado ? 'header2off' : 'header2'" scope="col"
+                 (click)="grilla.verColumnaKey=!grilla.verColumnaKey" title="{{'grilla.mostrarKey' | translate}}"
+                        colspan="1"
+                        style="width:10px; padding-left:0px; padding-right:0px; text-align:center;">
+                    ...
+                </th>
+
+                <th [class.active]="grilla.orderField === 'idRuta'"  style="width:120px;"  [ngClass]="hideFiltrosListado ? 'header2off' : 'header2'" scope="col"
+                    (click)="onChangeGrilla('order','idRuta')"
+                    translate>soap.idRuta<span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                </th> 
+                
+                <th [class.active]="grilla.orderField === 'nombre'"  [ngClass]="hideFiltrosListado ? 'header2off' : 'header2'" scope="col"
+                    (click)="onChangeGrilla('order','nombre')"
+                    translate>claseFicha.descripcion<span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                </th> 
+
+                <th [class.active]="grilla.orderField === 'fechaHoraInicioPlaneada'" [ngClass]="hideFiltrosListado ? 'header2off' : 'header2'" scope="col"
+                    (click)="onChangeGrilla('order','fechaHoraInicioPlaneada')"
+                    class="text-left" translate>claseDateTime.fechaHora<span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                </th> 
+                
+                <th [class.active]="grilla.orderField === 'idVehiculo'" [ngClass]="hideFiltrosListado ? 'header2off' : 'header2'" scope="col"
+                    (click)="onChangeGrilla('order','idVehiculo')"
+                    translate>soap.idVehiculo<span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                </th> 
+
+                <th [class.active]="grilla.orderField === 'idEmpleado'"  [ngClass]="hideFiltrosListado ? 'header2off' : 'header2'" scope="col"
+                    (click)="onChangeGrilla('order','idEmpleado')"
+                    translate>soap.idConductor<span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                </th> 
+
+                <th [class.active]="grilla.orderField === 'status'"  [ngClass]="hideFiltrosListado ? 'header2off' : 'header2'" scope="col"
+                    (click)="onChangeGrilla('order','status')"
+                    translate>soap.status<span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                </th> 
+                
+                <th [class.active]="grilla.orderField === 'yaImportado'" scope="col"
+                    [ngClass]="hideFiltrosListado ? 'header2off' : 'header2'"
+                    (click)="onChangeGrilla('order','yaImportado')"
+                    class="text-center" translate>soap.importado<span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                </th> 
+                
+                <th style="width:100px;" [ngClass]="hideFiltrosListado ? 'header2off' : 'header2'"  scope="col"                      
+                    class="text-right" translate>soap.importar
+                </th> 
+                
+                <th [ngClass]="hideFiltrosListado ? 'header2off' : 'header2'" scope="col" style="width:24px; padding:0px;">
+                    <button title="Mostrar Filtros"
+                        class="btn btn-link btn-sm"
+                        (click)="hideFiltrosListado=!hideFiltrosListado"><i class="fa fa-search ml-3 text-secondary"></i></button>
+                </th>        
+
+            </tr>
+
+        </thead>
+        <tbody>
+
+            <!-- ----------------------------------------------------------------- -->
+            <!-- ------- Orden, Filtros y Paginado ------------------------------- -->
+            <!-- ----------------------------------------------------------------- -->
+
+            <ng-container *ngFor="let documento of listadoPrincipal 
+                        | orderBy :grilla.orderField :grilla.orderReverse :'case-insensitive'                                        
+                        | searchFiltro:grilla.paginadoTipo:'key':grilla.filtros['key']
+                        | searchFiltro:grilla.paginadoTipo:'idRuta':grilla.filtros['idRuta']
+                        | searchFiltro:grilla.paginadoTipo:'nombre':grilla.filtros['nombre']
+                        | searchFiltro:grilla.paginadoTipo:'idVehiculo':grilla.filtros['idVehiculo']
+                        | searchFiltro:grilla.paginadoTipo:'idEmpleado':grilla.filtros['idEmpleado']
+                        | searchFiltro:grilla.paginadoTipo:'status':grilla.filtros['status']
+                        | searchFiltro:grilla.paginadoTipo:'yaImportado':grilla.filtros['yaImportado']:'boolean'                        
+                        | paginate: { itemsPerPage: grilla.paginadoCantidad, 
+                                      currentPage : pagePaginado,
+                                      totalItems  : grilla.resultCantidad }; 
+                          let index = index"> 
+
+                <tr [ngStyle]="colorFilaBody(documento)" (click)="seleccionarItem(documento.key)"
+                    (mouseover)="grilla.keyHoverActivo=documento.key"
+                    (mouseout)="grilla.keyHoverActivo=null"              
+                    [ngClass]="grilla.keyHoverActivo==documento.key ? 'trHover' : 'trNotHover'">
+
+                    <td *ngIf="grilla.verColumnaKey"
+                        class="align-middle"> 
+                        <span class="align-left">{{documento.key}}</span>
+                    </td>
+                    <td *ngIf="!grilla.verColumnaKey"
+                        (click)="grilla.verColumnaKey=!grilla.verColumnaKey"
+                        colspan="1"
+                        style="width:12px; padding-left:0px; padding-right:0px;"></td>
+
+                    <td class="align-middle" style="width:120px;">
+                        <span class="align-middle">{{documento.codigo}}</span>
+                    </td>    
+                            
+                    <td class="align-middle">
+                        <span class="align-left">{{documento.nombre}}</span>
+                    </td>    
+
+                    <td class="align-middle">
+                        <span class="align-middle"  style="width:120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display:block; width:100%; min-width:1px;">{{documento.fechaHoraInicioPlaneada | date:'DD/MM/AAAA HH:MM hs':activeLang}}</span>                          
+                    </td>    
+                    
+                    <td class="align-middle">
+                        <span class="align-left" 
+                              *ngIf="!documento.nombreVehiculo">{{documento.idVehiculo}}</span>
+                        <span class="align-left" 
+                              *ngIf="documento.nombreVehiculo">{{documento.idVehiculo}} - {{documento.nombreVehiculo}}</span>
+                    </td>    
+                    
+                    <td class="align-middle">
+                        <span class="align-left" 
+                              *ngIf="!documento.errorEmpleadoNoImportadaAntes">{{documento.idEmpleado}} - {{documento.nombreEmpleado}}</span>
+                        <span class="align-left" 
+                              *ngIf="documento.errorEmpleadoNoImportadaAntes"
+                              style="color:red;" title="Empleado aún no Importado">{{documento.idEmpleado}}</span>                        
+                    </td>    
+
+                    <td class="align-middle">
+                        <span class="align-left">{{documento.status}}</span>
+                    </td>    
+                    
+                    <td class="align-middle text-center" style="width:60px;">
+                            <i class="fa fa-check" style="color:#aaa;" 
+                               *ngIf="documento.yaImportado==true"></i>
+                    </td>    
+                    
+                    <td class="align-middle text-center" style="width:60px;" colspan="2">
+                        <i class="fa fa-check text-success"  
+                           *ngIf="documento.importar && documento.aptoImportar==true"></i>
+                           
+                        <i class="fa fa-check text-danger"   
+                           title="{{documento.errorValidacion}}"     
+                           *ngIf="documento.importar && documento.aptoImportar==false"></i>
+                        
+                        <i class="fa fa-square-o text-secondary" *ngIf="!documento.importar"></i>
+                    </td>    
+
+                </tr>
+
+            </ng-container>
+            
+        </tbody>
+    </table>
+</div>
+
+<div *ngIf="this.listadoPrincipal.length==0 && this.finalizoSoapComponente"
+     class="text-center" style="color:red;">
+     No se encontraron Rutas para la Sesión Indicada
+</div>
+
+
+<!--------------- Confirmar Exportación -------------------->                        
+<div  class="row" *ngIf="listadoPrincipal.length>0" style="margin-top:20px;">
+    <div class="col-12">
+        
+        <table class="table table-hover" style="width:100%; border-top:3px solid #444; border-bottom:hidden;">
+
+            <thead>
+
+                <tr> 
+                    
+                    <th>
+                        <div style="float:left; padding-top:8px; margin-right:10px;">{{'moduloOrganizaciones.areaNegocio' | translate}}</div>
+                        <div style="float:left; min-width:200px;">
+                            <select [(ngModel)]="filtroSoapAreaNegocio"
+                                    id="filtro_filtroSoapAreaNegocioKN" 
+                                    class="form-control filtroGrilla selectpicker"
+                                    [ngClass]="filtroSoapAreaNegocio ? 'filtroConValor' : 'filtroSinValor'"
+                                    [compareWith]="compareFn">                                       
+                                <option *ngIf="listadoAreasNegocio && listadoAreasNegocio.length!=1"
+                                        [ngValue]="null">{{'moduloOrganizaciones.areaNegocio' | translate}}</option>    
+                                <ng-container *ngFor="let opcion of listadoAreasNegocio">    
+                                    <option [ngValue]="opcion"> {{opcion.nombre}}</option>
+                                </ng-container>            
+                            </select> 
+                        </div>
+                    </th> 
+
+                    <th></th>
+                    
+                    <th class="align-middle" style="width:120px; padding-bottom:0px; padding:5px; padding-top:20px;">
+                        <p class="text-right">
+                            # {{listadoPrincipal.length}}
+                            <font color="red"> | {{cantSeleccionados-cantSeleccionadosOk}}</font>                                    
+                            <font color="green"> | {{cantSeleccionadosOk}}</font>    
+                        </p>
+                    </th>
+                    
+                    <th class="align-middle" style="width:60px; padding-top:0px; padding-bottom:0px; padding:5px; padding-right:15px;">
+                                
+                        <button type="button" class="btn btn-primary btn-sm" style="float:right;"
+                                (click)="comenzarImportacion()">
+                                {{'soap.importar' | translate}}
+                        </button>                                                              
+                    </th>
+                    
+                </tr>
+
+            </thead>
+        </table>
+
+    </div>
+</div>
+

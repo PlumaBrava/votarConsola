@@ -1,0 +1,37 @@
+
+
+@font-face {
+  font-family: "Flaticon";
+  src: url("./Flaticon.eot");
+  src: url("./Flaticon.eot?#iefix") format("embedded-opentype"),
+       url("./Flaticon.woff2") format("woff2"),
+       url("./Flaticon.woff") format("woff"),
+       url("./Flaticon.ttf") format("truetype"),
+       url("./Flaticon.svg#Flaticon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: "Flaticon";
+    src: url("./Flaticon.svg#Flaticon") format("svg");
+  }
+}
+
+[class^="fa-"]:before, [class*=" fa- "]:before,
+[class^="fa-"]:after, [class*=" fa- "]:after {   
+  font-family: Flaticon;
+        font-size: 20px;
+font-style: normal;
+margin-left: 20px;
+}
+
+.fa-porcino:before { content: "\f900"; }
+.fa-cow:before { content: "\f901"; }
+.fa-distance:before { content: "\f902"; }
+.fa-cotizacion:before { content: "\f903"; }
+.fa-medicine:before { content: "\f904"; }
+.fa-syringe:before { content: "\f905"; }
+.fa-truck:before { content: "\f906"; }
+.fa-ave:before { content: "\f907"; }

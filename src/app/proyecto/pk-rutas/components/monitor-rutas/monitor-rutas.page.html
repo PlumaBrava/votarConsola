@@ -1,0 +1,393 @@
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#ccc"
+  type="ball-spin">
+  <p style="font-size: 16px; color: #ccc" translate>componente-ngx-spinner.grabando</p>
+</ngx-spinner>
+
+<!-- *************** LISTADO ************************************ -->
+<!-- <div *ngIf="accionForm=='listado' && grilla!==undefined"> -->
+<div [style.display]="accionForm=='listado' && grilla!==undefined ? 'block' : 'none'">        
+
+    <div class="row tituloRow">
+        <div class="col-lg-12 col-12">        
+            <span class="tituloTexto">
+                <b>{{'moduloRutas.monitorRutas' | translate}}</b>
+            </span>                
+            
+        </div>
+    </div>
+    
+    <div translate>{{errorMensaje}}</div>
+     
+    <div widget class="card border-0 box-shadow" >
+        <div class="card-header transparent border-0 text-muted">
+            <!-- <h5 class="mb-0" translate>moduloRutas.rutas</h5> -->
+            <div class="widget-controls"> 
+                <a data-widgster="expand" href="#" class="transition"><i class="fa fa-chevron-down"></i></a>
+            </div>        
+        </div>
+        <div class="card-body pt-0 widget-body"> 
+
+            <div  class="row" >
+                <div class="col-12">
+                    <table class="table table-hover table-bordered" 
+                          [ngClass]="!grilla.verFiltrosAdicionales ? 'Grilla1FilaFiltros' : 'Grilla2FilaFiltros'">
+
+                        <thead>
+
+                            <!--------------- Filtros -------------------->
+                            <tr style="width:100%;"> 
+                                <th *ngIf="tipoPerfilUsuario=='Desarrollador' && grilla.verColumnaKey">
+                                    <input [(ngModel)]="grilla.filtros['key']" *ngIf="grilla.mostrarFiltro('key')"
+                                           type="text" class="form-control filtroGrilla" 
+                                           placeholder="{{'moduloDesarrolladores.key' | translate}}">
+                                </th>
+                                <th *ngIf="tipoPerfilUsuario=='Desarrollador' && !grilla.verColumnaKey"
+                                    colspan="1" style="width:24px; padding-left:0px; padding-right:0px;"></th>
+
+                                <th *ngIf="['Desarrollador','Supervisor','Distribuidor'].indexOf(tipoPerfilUsuario)!=-1">
+                                    <lib-shared-search-autocomplete 
+                                        id="filtro_organizacionKNAI.key"
+                                        [value]="grilla.filtros['organizacionKNAI.key']"
+                                        [nameField]="'nombre'" 
+                                        [nombreColeccion]="'Organizaciones'" 
+                                        [inputStyle]="grilla.filtrosStyle['organizacionKNAI.key']" 
+                                        [placeholder]="'moduloOrganizaciones.organizacion'"
+                                        [whereArray]="[]" 
+                                        [orderByArray]="[]" 
+                                        [bdFieldName]="'nombre'" 
+                                        [organizacionKNAI]="organizacionKNAI"     
+                                        [tipoPerfilUsuario]="tipoPerfilUsuario"    
+                                        [accionForm]="accionForm"      
+                                        [usuarioKANE]="usuarioKANE"     
+                                        (cargoSearchAutocomplete)="EmitCargoSearchAutocompleteFiltro('organizacionKNAI.key','key', $event)"></lib-shared-search-autocomplete> 
+                                </th> 
+                                        
+                                <th>
+                                    <input [(ngModel)]="grilla.filtros['codigo']" *ngIf="grilla.mostrarFiltro('codigo')" 
+                                           (keyup)="filtrarGrilla('codigo')"                                    
+                                           type="text" class="form-control filtroGrilla" style="min-width:60px;"
+                                           placeholder="{{'claseFicha.codigo' | translate}}">
+                                </th>                                     
+                                
+                                <th>
+                                    <lib-shared-search-autocomplete 
+                                        id="filtro_nombre"
+                                        [value]="grilla.filtros['nombre']"
+                                        [nameField]="'nombre'" 
+                                        [nombreColeccion]="'Rutas'" 
+                                        [inputStyle]="grilla.filtrosStyle['nombre']" 
+                                        [placeholder]="'claseFicha.nombre'"
+                                        [whereArray]="[]" 
+                                        [orderByArray]="[]" 
+                                        [bdFieldName]="'nombre'" 
+                                        [organizacionKNAI]="organizacionKNAI"     
+                                        [tipoPerfilUsuario]="tipoPerfilUsuario"     
+                                        [accionForm]="accionForm"     
+                                        [usuarioKANE]="usuarioKANE"     
+                                        (cargoSearchAutocomplete)="EmitCargoSearchAutocompleteFiltro('nombre','nombre', $event)"></lib-shared-search-autocomplete> 
+                                </th>
+                                
+                                <th>
+                                    <select [(ngModel)]="grilla.filtros['vehiculoPrincipalKN.key']" *ngIf="grilla.mostrarFiltro('vehiculoPrincipalKN.key')"
+                                            id="filtro_vehiculoPrincipalKN.key" 
+                                            class="form-control filtroGrilla selectpicker"
+                                            style="min-width:100px;"
+                                            [ngStyle]="grilla.filtrosStyle['vehiculoPrincipalKN.key']"
+                                            [ngClass]="grilla.filtros['vehiculoPrincipalKN.key'] ? 'filtroConValor' : 'filtroSinValor'"
+                                            (change)="filtrarGrilla('vehiculoPrincipalKN.key')">                                       
+                                       <option [ngValue]="null">{{'moduloRutas.vehiculo' | translate}}</option>                                                             
+                                       <ng-container *ngFor="let opcion of msg.cacheColecciones['AuxVehiculos']">    
+                                            <option [ngValue]="opcion.key"> {{opcion.nombre | translate}}</option>
+                                       </ng-container>            
+                                    </select>            
+                                </th> 
+
+                                <th>
+                                    <lib-shared-search-autocomplete 
+                                        id="filtro_integranteChoferKANE.key"
+                                        [value]="grilla.filtros['integranteChoferKANE.key']"
+                                        [nameField]="'datosPersonales.apellidoNombre'" 
+                                        [nombreColeccion]="'Usuarios'" 
+                                        [inputStyle]="grilla.filtrosStyle['integranteChoferKANE.key']" 
+                                        [placeholder]="'moduloRutas.chofer'"
+                                        [whereArray]="[]" 
+                                        [orderByArray]="[]" 
+                                        [bdFieldName]="'datosPersonales.apellidoNombre'" 
+                                        [organizacionKNAI]="organizacionKNAI"     
+                                        [tipoPerfilUsuario]="tipoPerfilUsuario"     
+                                        [accionForm]="accionForm"     
+                                        [usuarioKANE]="usuarioKANE"     
+                                        (cargoSearchAutocomplete)="EmitCargoSearchAutocompleteFiltro('integranteChoferKANE.key','key',$event)"></lib-shared-search-autocomplete> 
+                                </th> 
+
+                                <th>
+                                    <select [(ngModel)]="grilla.filtros['estadoRutaKN.key']" *ngIf="grilla.mostrarFiltro('estadoRutaKN.key')"
+                                            id="filtro_estadoRutaKN.key" 
+                                            class="form-control filtroGrilla selectpicker"
+                                            style="min-width:100px;"
+                                            [ngStyle]="grilla.filtrosStyle['estadoRutaKN.key']"
+                                            [ngClass]="grilla.filtros['estadoRutaKN.key'] ? 'filtroConValor' : 'filtroSinValor'"
+                                            (change)="filtrarGrilla('estadoRutaKN.key')">                                       
+                                       <option [ngValue]="null">{{'claseFicha.estado' | translate}}</option>                                                             
+                                       <ng-container *ngFor="let opcion of msg.cacheColecciones['AuxEstadosRutas']">    
+                                            <option *ngIf="['EnCarga','CierreEjecucion'].indexOf(opcion.key)==-1"
+                                                    [ngValue]="opcion.key"> {{opcion.nombre | translate}}</option>
+                                       </ng-container>            
+                                    </select>            
+                                </th> 
+                                
+                                <th>
+                                    <input type="text" [owlDateTime]="filtro_fechaHoraInicioPlaneada" 
+                                        id="filtro_fechaHoraInicioPlaneada" 
+                                        class="form-control filtroGrilla" 
+                                        placeholder="{{'claseDateTime.periodo' | translate}}" 
+                                        style="background:white;" 
+                                        [owlDateTimeTrigger]="filtro_fechaHoraInicioPlaneada"
+                                        [selectMode]="'range'" READONLY>  
+                                    <owl-date-time #filtro_fechaHoraInicioPlaneada 
+                                        pickerType="calendar"
+                                        (afterPickerClosed)="closeFilterRangoFechas('fechaHoraInicioPlaneada','filtro_fechaHoraInicioPlaneada')"></owl-date-time>                                    
+                                </th> 
+
+                                <th></th> 
+                                
+                                <th class="align-middle" style="padding-top:0px; padding-bottom:0px;">
+                                    <button title="{{'navegabilidad.reset' | translate}}"
+                                            class="btn btn-link btn-lg"
+                                            (click)="resetFiltros()"><i class="fa fa-eraser ml-3 text-secondary"></i></button>
+                                </th>
+
+                            </tr>
+                        </thead>                                                        
+                    </table>    
+                    
+                    <div class="row">
+                        <div class="col-3" style="padding-right:0px;">
+                            
+                                <table class="table table-hover table-bordered" 
+                                       style="overflow-y:scroll; margin-top:0px; width:100%; display:block;"
+                                       [ngStyle]="{height: heightListado}">
+                                <tbody>
+
+                                    <!-- ----------------------------------------------------------------- -->
+                                    <!-- ------- Orden, Filtros y Paginado ------------------------------- -->
+                                    <!-- ----------------------------------------------------------------- -->
+
+                                    <ng-container *ngFor="let documento of listadoPrincipal 
+                                                | orderBy :grilla.orderField :grilla.orderReverse :'case-insensitive'                                        
+                                                | searchFiltro:grilla.paginadoTipo:'key':grilla.filtros['key']
+                                                | searchFiltro:grilla.paginadoTipo:'organizacionKNAI.key':grilla.filtros['organizacionKNAI.key']                                        
+                                                | searchFiltro:grilla.paginadoTipo:'codigo':grilla.filtros['codigo']
+                                                | searchFiltro:grilla.paginadoTipo:'nombre':grilla.filtros['nombre']                                                                                
+                                                | searchFiltro:grilla.paginadoTipo:'vehiculoPrincipalKN.key':grilla.filtros['vehiculoPrincipalKN.key']
+                                                | searchFiltro:grilla.paginadoTipo:'integranteChoferKANE.key':grilla.filtros['integranteChoferKANE.key']   
+                                                | searchFiltro:grilla.paginadoTipo:'estadoRutaKN.key':grilla.filtros['estadoRutaKN.key']
+                                                | searchFiltro:grilla.paginadoTipo:'fechaHoraInicioPlaneada':grilla.filtros['fechaHoraInicioPlaneada']                                        
+                                                | searchFiltro:grilla.paginadoTipo:'settings.borradoFisico':false:'boolean'   
+                                                | paginate: { itemsPerPage: grilla.paginadoCantidad, 
+                                                              currentPage : pagePaginado,
+                                                              totalItems  : grilla.resultCantidad }; 
+                                                  let index = index"> 
+
+                                        <tr style="width:100%;"> 
+
+                                            <td class="align-middle"  style="width:100%; padding-top:0px; padding-bottom:0px;"
+                                                (click)="abrirFormulario(documento)"
+                                                title="{{documento.nombre}}"> 
+                                                <span class="align-left" style="font-weight:bold;">#{{(index+1)}} - {{documento.codigo}}</span>
+                                                <span class="align-left" >  ({{documento.estadoRutaKN.nombre|translate}})</span>
+                                                <br>
+                                                
+                                                <table class="table" style="margin-bottom:0px;">
+                                                    <tr>
+                                                        <ng-container *ngFor="let color of documento.coloresParadas">
+                                                            <td style="padding:0px; height:10px;" [ngStyle]="{ background: color}"></td>    
+                                                        </ng-container> 
+                                                    </tr>
+                                                </table>        
+                                                
+                                                <!-- <span class="align-left">{{fn.mostrarKN(documento.vehiculoPrincipalKN,'nombre')}}</span>                          
+                                                &nbsp;/ <span class="align-left">{{fn.mostrarKANE(documento.integranteChoferKANE,'apellidoNombre')}}</span><br>                           -->
+                                            
+                                                <span class="align-left" title="{{documento.fechaHoraInicioPlaneada | date:'DD/MM/AAAA':activeLang}}">
+                                                    {{documento.fechaHoraInicioPlaneada | date:'HH:MM hs':activeLang}}
+                                                </span>
+
+                                                <!-- <span *ngIf="documento.distanciaPlanificada">&nbsp;<b>{{documento.distanciaPlanificada | number : '1.2-2'}} Kms</b></span> -->
+                                                
+                                                <span class="align-left" title="{{documento.fechaHoraFinalizacionPlaneada | date:'DD/MM/AAAA':activeLang}}">
+                                                    - {{documento.fechaHoraFinalizacionPlaneada | date:'HH:MM hs':activeLang}}
+                                                </span>
+
+                                                <!-- <span *ngIf="['Desarrollador','Supervisor','Distribuidor'].indexOf(tipoPerfilUsuario)!=-1">
+                                                    <span class="align-left text-truncate">{{fn.mostrarKN(documento.organizacionKNAI,'nombre')}}</span> 
+                                                    / {{fn.mostrarKN(documento.sucursalKN,'nombre')}} / {{fn.mostrarKN(documento.areaNegocioKN,'nombre')}}
+                                                </span>     -->
+                                            </td>    
+                                                                                
+                                            <td class="align-middle" style="width:50px;">
+                                                <div class="btn-group" role="group">
+                                                    <button class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px;"
+                                                            title="{{'navegabilidad.consultar' | translate}}"
+                                                            (click)="abrirFormulario(documento)"><i class="fa fa-search mr-3 text-primary"></i></button>
+                                                            
+                                                    <button class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px;"
+                                                            title="{{'navegabilidad.consultar' | translate}}"
+                                                            (click)="mostrarUbicacionEnMapa(documento)"><i class="fa fa-mouse-pointer mr-3 text-primary"></i></button>
+                                                            
+                                                </div>
+                                            </td>
+                                        </tr>
+
+                                    </ng-container>
+
+                                </tbody>
+                                </table>
+                            
+                        </div> <!-- fin col-3 -->
+                        <div class="col-9" style="padding-left:0px;">
+
+                            <div id="mapMonitor{{dif}}" 
+                                 style="width:100%; border:1px solid #ccc;"
+                                 [ngStyle]="{height: heightMapa}"></div>                               
+                            
+                        </div>
+                    </div> <!-- fin class row -->
+
+                </div>
+            </div>
+
+        </div> <!-- FIN card-body -->
+    </div> <!-- FIN widget -->
+
+</div>
+
+<!-- *************** RESUMEN DE RUTA ************************************ -->
+<div *ngIf="accionForm=='consultar'">
+
+    <div class="row tituloRow">
+        <div class="col-lg-12 col-12">        
+            <span class="tituloTexto">
+                <b>{{'moduloRutas.resumenRuta' | translate}}</b>
+            </span>                
+            
+            <button type="button" class="btn btn-warning"  style="float:right;"
+                    (click)="setAccionForm('listado')" translate>navegabilidad.cerrar</button>
+        
+        </div>
+    </div>
+
+    <div translate>{{errorMensaje}}</div>
+
+    <div class="row">
+        
+            <!-- Resumen de Paradas, Integrantes y Vehículos -->
+            <div class="col-xl-3 mb-3">
+                        
+                    <!-- Vehículos -->
+                    <table class="table table-hover table-bordered table-condensed" style="margin-top:10px;">
+                        <thead>
+                            <tr style="background:#bdbec0; font-size:9px;"> 
+                                <th style="padding-top:5px; padding-bottom:5px;" colspan="2" translate>moduloRutas.vehiculo</th>
+                            </tr>    
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let opcion of listadoRutaVehiculos
+                                        | orderBy :'opcion.tipoVehiculoKN.key' :false :'case-insensitive'">                                                    
+                                <tr style="font-size:9px;">
+                                    <td class="align-left text-left" style="padding-top:5px; padding-bottom:5px;">                                                 
+                                        {{opcion.vehiculo.nombre}} {{opcion.vehiculo.patente}}
+                                    </td>    
+                                    <td class="align-left text-center" style="padding-top:5px; padding-bottom:5px;" width="10%"
+                                        (click)="forzarSolapa('Vehiculos',opcion,'consultar')">                                                 
+                                        <i class="fa fa-check text-secondary" 
+                                           *ngIf="fn.mostrarKN(form.value.vehiculoPrincipalKN,'key')==opcion.vehiculo.key"></i>
+                                    </td>    
+                                </tr>        
+                            </ng-container>   
+                                                                    
+                        </tbody>
+                    </table>                 
+
+                    <!-- Integrantes -->
+                    <table class="table table-hover table-bordered" style="margin-top:10px; font-size:9px;">
+                        <thead>
+                            <tr style="background:#bdbec0; font-size:9px;"> 
+                                <th style="padding-top:5px; padding-bottom:5px;" translate>moduloRutas.integrante</th>
+                                <th style="padding-top:5px; padding-bottom:5px;" class="text-center" translate>claseFicha.tipo</th>
+                            </tr>    
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let integrante of listadoRutaIntegrantes
+                                        | orderBy :'orden' :false :'case-insensitive'">                                                    
+                                <tr style="font-size:9px;">
+                                    <td class="align-left text-left " style="padding-top:5px; padding-bottom:5px;">                                                 
+                                        {{fn.mostrarKANE(integrante.usuarioKANE,'apellidoNombre')}}
+                                    </td>    
+                                    <td class="align-middle text-center" style="padding-top:5px; padding-bottom:5px;">
+                                        {{fn.mostrarKN(integrante.tipoIntegranteKN,'nombre')}}
+                                    </td>    
+                                </tr>        
+                            </ng-container>   
+                                                                    
+                        </tbody>
+                    </table>   
+                    
+                    <!-- Paradas -->
+                    <div class="row" 
+                         style="margin-left:0px; margin-right:0px; margin-top:10px; height:20px; border:1px solic #ccc; background:#bdbec0; font-size:9px;">
+                        <div class="col-7" style="padding-left:10px; padding-right:5px; padding-top:3px;">
+                             <span style="font-weight:bold; color:black;">{{'moduloRutas.parada' | translate}}</span>
+                        </div>
+                        <div class="col-3" style="padding-left:5px; padding-right:5px; padding-top:3px;">
+                            <span style="font-weight:bold; color:black;"> {{'claseFicha.estado' | translate}}</span>                                        
+                        </div>     
+                        <div class="col-2" style="padding-left:5px; padding-right:5px; padding-top:3px;">
+                            <span style="font-weight:bold; color:black;">Kms</span>                                        
+                        </div>     
+                    </div>    
+                    
+                    <ng-container *ngFor="let documento of listadoRutaParadas
+                                | orderBy :'documento.orden' :false :'case-insensitive';
+                                  let index=index">                                                    
+                        <div class="row" style="margin-left:0px; margin-right:0px; border:1px solid #ccc; font-size:9px;" id="parada{{index}}">
+                            <div class="col-7" style="padding-left:10px; padding-right:5px;">
+                                <span class="align-middle" style="color:#666; font-weight:bold;">{{documento.ubicacion.nombre}}</span><br>
+                                {{fn.mostrarKN(documento.tipoParada,'nombre')}}
+                           </div>
+                           <div class="col-3" style="padding-left:5px; padding-right:5px;">
+                                <span class="align-middle" style="color:#666; font-weight:bold;" translate>{{fn.mostrarKN(documento.estadoParadaKN,'nombre')}}</span><br>
+                                {{documento.fechaHoraInicioPlaneada | date:'HH:MM hs':activeLang}}
+                            </div>     
+                            
+                           <div class="col-2 text-right" style="padding-left:5px; padding-right:5px;">
+                                {{kmDistanciaDireccionAnterior(index) | number : '1.2-2'}} 
+                            </div>                                                     
+                       </div>    
+                    </ng-container>    
+                    
+                     <!-- Totales-->
+                     <div class="row" style="margin-left:0px; margin-right:0px; border:1px solid #ccc; font-size:9px;">
+                        <div class="col-7" style="padding-left:10px; padding-right:5px;">
+                        </div>
+                        <div class="col-3" style="padding-left:5px; padding-right:5px;">
+                        </div>     
+                        
+                        <div class="col-2 text-right" style="padding-left:5px; padding-right:5px;">
+                            {{form.value.distanciaPlanificada}} 
+                        </div>                                         
+                   </div>    
+                   
+            </div>
+            
+            <div class="col-xl-9 mb-9">
+            
+                    <div id="mapResumenRuta{{dif}}" style="width:100%; height:500px;"></div>                               
+            </div>                
+
+    </div>        
+    
+</div>    

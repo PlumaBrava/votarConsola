@@ -1,0 +1,475 @@
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#ccc"
+  type="ball-spin">
+  <p style="font-size: 16px; color: #ccc" translate>componente-ngx-spinner.grabando</p>
+</ngx-spinner>
+
+<!-- *************** LISTADO ************************************ -->
+<div *ngIf="accionForm=='listado' && grilla!==undefined">
+
+    <div translate>{{errorMensaje}}</div>
+
+    <div class="row tituloRow">
+        <div class="col-lg-12 col-12">        
+            <span class="tituloTexto">
+                <b>{{'menu.distribuidores' | translate}}</b>
+            </span>                
+        </div>
+    </div>
+    
+    <div widget class="card border-0 box-shadow" >
+        <div class="card-header transparent border-0 text-muted">
+            <div class="widget-controls"> 
+                <a data-widgster="expand" href="#" class="transition"><i class="fa fa-chevron-down"></i></a>
+            </div>        
+        </div>
+        <div class="card-body pt-0 widget-body"> 
+
+            <div  class="row" >
+                <div class="col-12">
+                    <table class="table table-hover" 
+                          [ngClass]="!grilla.verFiltrosAdicionales ? 'Grilla1FilaFiltros' : 'Grilla2FilaFiltros'">
+
+                        <thead>
+
+                            <!--------------- Filtros -------------------->
+                            <tr> 
+                                <th *ngIf="tipoPerfilUsuario=='Desarrollador' && grilla.verColumnaKey">
+                                    <input [(ngModel)]="grilla.filtros['key']" *ngIf="grilla.mostrarFiltro('key')"
+                                           type="text" class="form-control filtroGrilla" 
+                                           placeholder="{{'moduloDesarrolladores.key' | translate}}">
+                                </th>
+                                <th *ngIf="tipoPerfilUsuario=='Desarrollador' && !grilla.verColumnaKey"
+                                    colspan="1" style="width:24px; padding-left:0px; padding-right:0px;"></th>
+
+                                <th>
+                                    <input [(ngModel)]="grilla.filtros['nombre']" *ngIf="grilla.mostrarFiltro('nombre')" 
+                                           (keyup)="filtrarGrilla('nombre')"                                    
+                                           type="text" class="form-control" placeholder="{{'claseFicha.nombre' | translate}}">
+                                </th> 
+                                <th></th> <!-- logo -->
+                                <th>
+                                    <select [(ngModel)]="grilla.filtros['direccion.pais']"  *ngIf="grilla.mostrarFiltro('direccion.pais')"
+                                            class="form-control selectpicker"
+                                            (change)="filtrarGrilla('direccion.pais')">
+                                        <option *ngFor="let pais of LISTA_DE_PAISES" [ngValue]="pais.id"> {{pais.val | translate}}</option>
+                                    </select>            
+                                </th> 
+                                <th>
+                                    <input [(ngModel)]="grilla.filtros['telefono.numeroTelefono1']" *ngIf="grilla.mostrarFiltro('telefono.numeroTelefono1')" 
+                                            (change)="filtrarGrilla('telefono.numeroTelefono1')"
+                                            type="text" class="form-control" placeholder="{{'claseTelefono.telefono' | translate}}">                                
+                                </th> 
+                                <th>
+                                    <select [(ngModel)]="grilla.filtros['settings.isActivo']"  *ngIf="grilla.mostrarFiltro('settings.isActivo')"
+                                            (change)="filtrarGrilla('settings.isActivo')"                                    
+                                            class="form-control selectpicker">
+                                        <option *ngFor="let item of LISTA_DE_FILTROS_SI_NO" [ngValue]="item.logic"> {{item.val | translate}}</option>
+                                    </select>
+                                </th>                                 
+
+                                <th class="align-middle" style="padding-top:0px; padding-bottom:0px;">
+                                    <button title="{{'navegabilidad.reset' | translate}}"
+                                            class="btn btn-link btn-lg"
+                                            (click)="resetFiltros()"><i class="fa fa-eraser ml-3 text-secondary"></i></button>
+                                </th>
+
+                            </tr>
+
+                            <!-- Títulos de Columnas -->
+                            <tr class="titulo-grilla"> 
+
+                                <th *ngIf="tipoPerfilUsuario=='Desarrollador' && grilla.verColumnaKey"
+                                    [class.active]="grilla.orderField === 'key'"
+                                    (click)="onChangeGrilla('order','key')" style="padding-bottom:0px;">
+
+                                        <button class="btn btn-link btn-lg"  
+                                            style="padding-left:0px; padding-top:0px; margin-right:30px;"
+                                            title="{{'grilla.ocultarKey' | translate}}" 
+                                            *ngIf="permisos.altasAutorizadas" 
+                                            (click)="grilla.verColumnaKey=!grilla.verColumnaKey"><i class="mdi mdi-unfold-less-vertical mdi-24px text-dark"
+                                           aria-hidden="true"></i></button>
+
+                                        {{'moduloDesarrolladores.key' | translate}}<span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                                </th>
+                                <th *ngIf="tipoPerfilUsuario=='Desarrollador' && !grilla.verColumnaKey"
+                                 (click)="grilla.verColumnaKey=!grilla.verColumnaKey" title="{{'grilla.mostrarKey' | translate}}"
+                                        colspan="1"
+                                        style="width:10px; padding-left:0px; padding-right:0px; text-align:center;">
+                                    ...
+                                </th>
+
+                                <th [class.active]="grilla.orderField === 'nombre'"
+                                    (click)="onChangeGrilla('order','nombre')"
+                                    translate>claseFicha.nombre<span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                                </th> 
+
+                                <th [class.active]="grilla.orderField === 'logoIMG'" style="width:60px;"
+                                    (click)="onChangeGrilla('order','logoIMG')"
+                                    class="text-center" translate>claseFicha.logo<span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                                </th> 
+
+                                <th [class.active]="grilla.orderField === 'direccion.pais'"
+                                    (click)="onChangeGrilla('order','direccion.pais')" translate>claseDireccion.pais<span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                                </th> 
+                                <th [class.active]="grilla.orderField === 'telefono.numeroTelefono1'"
+                                    (click)="onChangeGrilla('order','telefono.numeroTelefono1')" translate>claseTelefono.telefono<span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                                </th> 
+                                <th [class.active]="grilla.orderField === 'settings.isActivo'" class="text-center"
+                                    (click)="onChangeGrilla('order','settings.isActivo')" translate>claseFicha.activo<span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                                </th>                                 
+
+                                <th class="align-middle" style="padding-top:0px; padding-bottom:0px;">
+                                    <!-- Agregar -->
+                                    <button class="btn btn-link btn-lg"  
+                                    title="{{'navegabilidad.agregar' | translate}}" 
+                                    *ngIf="permisos.altasAutorizadas" (click)="abrirFormulario(null)"><i class="fa fa-plus ml-3 text-success"></i></button>
+                                </th>    
+
+                            </tr>
+
+                        </thead>
+                        <tbody>
+
+                            <!-- ----------------------------------------------------------------- -->
+                            <!-- ------- Orden, Filtros y Paginado ------------------------------- -->
+                            <!-- ----------------------------------------------------------------- -->
+
+                            <ng-container *ngFor="let documento of listadoPrincipal 
+                                        | orderBy :grilla.orderField :grilla.orderReverse :'case-insensitive'                                        
+                                        | searchFiltro:grilla.paginadoTipo:'key':grilla.filtros['key']
+                                        | searchFiltro:grilla.paginadoTipo:'nombre':grilla.filtros['nombre']
+                                        | searchFiltro:grilla.paginadoTipo:'direccion.pais':grilla.filtros['direccion.pais']
+                                        | searchFiltro:grilla.paginadoTipo:'telefono.numeroTelefono1':grilla.filtros['telefono.numeroTelefono1']
+                                        | searchFiltro:grilla.paginadoTipo:'settings.isActivo':grilla.filtros['isActivo']:'boolean'   
+                                        | searchFiltro:grilla.paginadoTipo:'settings.borradoFisico':false:'boolean'   
+                                        | paginate: { itemsPerPage: grilla.paginadoCantidad, 
+                                                      currentPage : pagePaginado,
+                                                      totalItems  : grilla.resultCantidad }; 
+                                          let index = index"> 
+
+                                 <tr [ngStyle]="grilla.colorFilaSegunEstado(documento.settings)"
+                                     (mouseover)="grilla.keyHoverActivo=documento.key"
+                                     (mouseout)="grilla.keyHoverActivo=null"              
+                                     [ngClass]="grilla.keyHoverActivo==documento.key ? 'trHover' : 'trNotHover'">
+
+                                    <td *ngIf="tipoPerfilUsuario=='Desarrollador' && grilla.verColumnaKey"
+                                        class="align-middle"
+                                        (click)="abrirFormulario(documento)"> 
+                                        <span class="align-left">{{documento.key}}</span>
+                                    </td>
+                                    <td *ngIf="tipoPerfilUsuario=='Desarrollador' && !grilla.verColumnaKey"
+                                        (click)="grilla.verColumnaKey=!grilla.verColumnaKey"
+                                        colspan="1"
+                                        style="width:12px; padding-left:0px; padding-right:0px;"></td>
+
+                                    <td class="align-middle" (click)="abrirFormulario(documento)">
+                                        <span class="align-middle">{{documento.nombre}}</span>
+                                    </td>    
+
+                                    <td class="align-middle" (click)="abrirFormulario(documento)">
+                                        <!-- logo -->
+                                        <div class="image-wrapper" style="padding-top:0px; margin-top:0px;">
+                                           <img [src]="documento.logoIMG.linkThumb" 
+                                                *ngIf="documento.logoIMG && documento.logoIMG.linkThumb" 
+                                                width="100%" style="width:60px; border:1px solid #ccc;">
+                                            <img src="assets/img/app/no-image.png" width="100%" 
+                                                 *ngIf="!documento.logoIMG"
+                                                style="width:60px; border:1px solid #ccc;">
+                                        </div>
+                                    </td>
+
+                                    <td class="align-middle" (click)="abrirFormulario(documento)">
+                                        <span class="align-middle">{{fn.mostrarKN(documento.direccion.paisKN,'nombre')}}</span>                            
+                                    </td>    
+                                    <td class="align-middle" (click)="abrirFormulario(documento)">
+                                        <span class="align-middle text-truncate">
+                                        {{documento.telefono.tipoTelefono1}} {{documento.telefono.numeroTelefono1}}</span>                            
+                                    </td>    
+                                    <td class="align-middle text-center" (click)="abrirFormulario(documento)">
+                                            <i class="fa fa-check text-secondary" *ngIf="documento.settings.isActivo"></i>
+                                    </td>    
+
+                                    <td class="align-middle">
+                                        <div class="btn-group" role="group">
+                                            <button class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px;"
+                                                    title="{{'navegabilidad.consultar' | translate}}"
+                                                    (click)="abrirFormulario(documento)"><i class="fa fa-search mr-3 text-primary"></i></button>
+
+                                            <!-- borrado lógico -->
+                                            <button *ngIf="permisos.bajasAutorizadas &&
+                                                    documento.settings.documentosAsociados==0 && documento.settings.isBorrado==false" 
+                                                    title="{{'navegabilidad.eliminar' | translate}}"
+                                                    class="btn btn-link btn-lg"  style="padding-left:0px; padding-right:0px;"
+                                                    (click)="deleteDocumento('borradoLogico', documento)"><i class="fa fa-trash mr-3 text-danger"></i></button>
+
+                                            <button *ngIf="permisos.bajasAutorizadas &&
+                                                    documento.settings.documentosAsociados>0 && documento.settings.isBorrado==false" 
+                                                    title="{{fn.titleMensaje('claseValidaciones.documentosAsociados',documento.settings.documentosAsociados)}}"
+                                                    class="btn btn-link btn-lg"  style="padding-left:0px; padding-right:0px;"
+                                                    (click)="fn.alertMensaje('claseValidaciones.documentosAsociados',documento.settings.documentosAsociados)"><i class="fa fa-trash mr-3 text-deshabilitado"></i></button>
+
+                                            <!-- borrado físico -->
+                                            <button *ngIf="permisos.bajasAutorizadas && documento.settings.isBorrado &&
+                                                          ['Desarrollador','Supervisor','Distribuidor'].indexOf(tipoPerfilUsuario)!=-1"
+                                                    title="{{'navegabilidad.eliminarFisicamente' | translate}}"
+                                                    class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px;"
+                                                    (click)="deleteDocumento('borradoFisico',documento)"><i class="fa fa-remove mr-3 text-danger"></i></button>
+
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            </ng-container>
+
+                        </tbody>
+                    </table>
+
+                    <!-- paginado -->
+                    <div class="row" style="border-top:1px solid #ccc;">
+                        <div class="col-3" style="padding:10px;">
+                            <div class="bg-white text-center">
+                                <select class="form-control selectpicker" 
+                                        id="grilla.paginadoCantidad"                                         
+                                        [(ngModel)]="grilla.paginadoCantidad"
+                                        (change)="onChangeGrilla('paginadoCantidad',grilla.paginadoCantidad)"> 
+                                    <ng-container *ngFor="let opcion of grilla.paginadoDropDown">
+                                        <option [ngValue]="opcion">Items x Página {{opcion}}</option>
+                                    </ng-container>
+                                </select>
+                            </div>    
+                        </div>    
+                        <div class="col-9" style="padding:10px;">
+                            <div class="bg-white text-center">
+
+                                <!-- Paginado Local -->
+                                <pagination-controls 
+                                    *ngIf="grilla.paginadoTipo=='local'"
+                                    autoHide="{{grilla.paginadoAutoHide}}" 
+                                    previousLabel="{{'componente-paginado.anterior' | translate}}" 
+                                    nextLabel="{{'componente-paginado.siguiente' | translate}}" 
+                                    (pageChange)="pagePaginado = $event" 
+                                    maxSize="3"></pagination-controls>
+
+                                <!-- Paginado Servidor -->
+                                <lib-shared-paginado-servidor 
+                                    *ngIf="grilla.paginadoTipo=='servidor'"
+                                    [grilla]="grilla" 
+                                    (clickPaginado)="emitClickPaginado($event)"></lib-shared-paginado-servidor>
+
+                            </div>
+                        </div>                        
+                    </div>
+
+                </div>
+            </div>
+
+        </div> <!-- FIN card-body -->
+    </div> <!-- FIN widget -->
+
+</div>
+
+<!-- *************** FORMULARIO ************************************ -->
+<div *ngIf="['agregar','modificar','consultar'].indexOf(accionForm)!=-1">
+    
+    <div class="row tituloRow">
+        <div class="col-lg-12 col-12">        
+            <span class="tituloTexto">
+                <b>{{'moduloDistribuidores.distribuidor' | translate}}: </b>
+                {{form.value.nombre}}
+            </span>                
+            <button type="button" 
+                *ngIf="['modificar','agregar'].indexOf(accionForm)==-1"
+                class="btn btn-warning tituloButton" 
+                (click)="setAccionForm('listado')" translate>navegabilidad.salir</button>
+
+        </div>
+    </div>
+    
+    <div class="row" style="margin-top:10px;">
+        <div class="col-lg-12 col-12">
+
+            <div widget class="card border-0 box-shadow">
+                <div class="card-body pt-0 widget-body" style="margin-top:20px;"> 
+
+                        <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+
+                            <lib-shared-form-buttons [accionForm]='accionForm' 
+                                              [permisos]='permisos' 
+                                              (setAccion)="setAccionForm($event)"
+                                              (onSubmitComponent)="onSubmit(form.value)"></lib-shared-form-buttons>
+
+                            <div class="row px-3" style="margin-top:20px;">
+
+                                <div class="col-xl-6 mb-4">
+
+                                        <!-- ********* datos generales ********** -->
+                                        <div widget class="card border-0 box-shadow">
+                                            <div class="card-header transparent border-0 text-muted">
+                                                <h5 class="mb-0" translate>claseTabs.basic</h5>
+                                                <div class="widget-controls"> 
+                                                    <a data-widgster="expand" href="#" class="transition"><i class="fa fa-chevron-down"></i></a>
+                                                    <a data-widgster="collapse" href="#" class="transition"><i class="fa fa-chevron-up"></i></a>                                     
+                                                </div>        
+                                            </div>
+                                            <div class="card-body pt-0 widget-body"> 
+
+                                                    <!-- Key -->
+                                                    <div class="form-group">
+                                                        <label class="text-gray" translate>{{'moduloDesarrolladores.key' | translate}}</label>
+                                                        <input formControlName="key" id="key" 
+                                                        class="form-control" maxlength="90">  <!-- maxlength="20" -->
+                                                    </div>
+
+                                                    <!-- Nombre -->
+                                                    <div class="form-group">
+                                                        <label class="text-gray" translate>claseFicha.nombre<span class="required">*</span></label>
+                                                        <input formControlName="nombre" class="form-control validation-field" type="text">
+                                                        <small class="text-danger" *ngIf="form.controls.nombre.touched && form.controls.nombre.errors?.required"><span translate>claseFicha.nombre</span>&nbsp;<span translate>claseValidaciones.esRequerido</span></small>                              
+                                                        <small class="text-danger" *ngIf="form.controls.nombre.touched && form.controls.nombre.errors?.minlength"><span translate>claseFicha.nombre</span>&nbsp;<span translate [translateParams]="{value: '3'}">claseValidaciones.minimaCantidad</span></small>
+                                                    </div>
+
+                                                    <!-- Email -->
+                        							<div class="form-group">
+                                                        <label class="text-gray" translate>claseFicha.email<span class="required">*</span></label>
+                                                        <input formControlName="email" class="form-control validation-field" type="text">
+
+                                                        <small class="text-danger" *ngIf="form.controls.email.touched && form.controls.email.errors?.required"><span translate>claseFicha.email</span>&nbsp;<span translate>claseValidaciones.esRequerido</span></small>                              
+                                                        <small class="text-danger" *ngIf="form.controls.email.touched && form.controls.email.errors?.email"><span translate>claseFicha.email</span>&nbsp;<span translate>claseValidaciones.formatoInvalido</span></small>
+                                                    </div>
+
+                                                    <!-- Web -->
+                                                    <div class="form-group">
+                                                        <label class="text-gray" translate>claseFicha.web<span class="required">*</span></label>
+                                                        <input formControlName="web" class="form-control validation-field" type="text">
+                                                        <small class="text-danger" *ngIf="form.controls.web.touched && form.controls.web.errors?.email"><span translate>claseFicha.web</span>&nbsp;<span translate>claseValidaciones.formatoInvalido</span></small>
+
+                                                    </div>
+
+                                                    <!-- logoIMG -->
+                                                    <div class="form-group" 
+                                                         style="margin-bottom:0px; padding-bottom:0px;">
+                                                        <label class="text-gray" translate>claseFicha.logo</label>
+                                                        <lib-shared-input-image 
+                                                            [imageField]="'logoIMG'" 
+                                                            [image]="form.value.logoIMG.link"
+                                                            [accionForm]="accionForm" 
+                                                            (desabilitarGrabar)="emitDesabilitarGrabar($event)"
+                                                            (cargoArchivo)="emitCargoArchivo($event)"
+                                                            (borroArchivo)="emitBorroArchivo($event)"></lib-shared-input-image>
+                                                    </div>
+
+                                                    <!-- manualFILE -->
+                                                    <!-- <div class="form-group" 
+                                                         style="margin-bottom:0px; padding-bottom:0px;">
+                                                        <label class="text-gray" translate>manualFILE</label><br>
+                                                        <lib-shared-input-file 
+                                                            [archivoField]="'manualFILE'" 
+                                                            [archivo]="form.value.manualFILE.link"
+                                                            [accionForm]="accionForm" 
+                                                            (desabilitarGrabar)="emitDesabilitarGrabar($event)"
+                                                            (cargoArchivo)="emitCargoArchivo($event)"
+                                                            (borroArchivo)="emitBorroArchivo($event)"></lib-shared-input-file>
+                                                    </div> -->
+
+                                                    <!-- croppIMG -->
+                                                    <!-- <div class="form-group">
+                                                        <label class="text-gray" translate>croppIMG</label><br>
+                                                        <lib-shared-input-croppie [aspectRatio]="6 / 4" 
+                                                                     [imageField]="'croppIMG'" 
+                                                                     [image]="form.value.croppIMG.link"
+                                                                     [accionForm]="accionForm" 
+                                                                     (desabilitarGrabar)="emitDesabilitarGrabar($event)"
+                                                            (cargoArchivo)="emitCargoArchivo($event)"
+                                                            (borroArchivo)="emitBorroArchivo($event)"></lib-shared-input-croppie>
+                                                    </div>     -->
+
+                                                    <!-- Idioma -->                                                    
+                                                    <div class="form-group">
+                                                        <label class="text-gray" translate>idioma.idioma<span class="required">*</span></label>
+                                                        <select class="form-control selectpicker validation-field" 
+                                                                id="idioma" formControlName="idioma">
+                                                            <option [ngValue]="null" translate>No Indicado</option>                     
+                                                            <ng-container *ngFor="let opcion of msg.cacheColecciones['AuxIdiomas']">
+                                                                <option *ngIf="ValidaDocumentoIsActivo(opcion.key, opcion.settings.isActivo, form.value.idioma)"
+                                                                        [ngValue]="opcion.key">{{opcion.nombre | translate}}</option>
+                                                            </ng-container>
+                                                        </select>
+                                                        <small *ngIf="form.controls.idioma.touched && form.controls.idioma.errors?.required" class="text-danger"><span translate>claseFicha.idioma</span>&nbsp;<span translate>claseValidaciones.esRequerido</span></small>
+                                                    </div>
+                                            
+                    			                    <!-- Persona de Contacto -->
+                    			                    <div class="form-group">
+                    	                                <label class="text-gray" translate>claseFicha.personaContacto<span class="required">*</span></label>
+                    	                                <input formControlName="personaDeContacto" class="form-control validation-field" type="text">
+                                                	</div>
+
+                                            </div> <!-- FIN card-body -->
+                                        </div> <!-- FIN widget -->
+
+                                        <!-- Redes Sociales --->    
+                                        <lib-shared-form-redSocial 
+                                        [nameField]="'redSocial'" 
+                                        [controlsField]="form.controls.redSocial"
+                                        [value]="form.value.redSocial"
+                                        [accionForm]="accionForm" 
+                                        [formInvalid]="formInvalid" 
+                                        (cargoSubEstructura)="emitCargoSubEstructura($event)"></lib-shared-form-redSocial>
+                                        
+                                        <!-- settings   -->
+                                        <lib-shared-form-settings *ngIf="accionForm!='agregar'"
+                                        [nameField]="'settings'" 
+                                        [controlsField]="form.controls.settings"
+                                        [value]="form.value.settings"
+                                        [accionForm]="accionForm" 
+                                        [formInvalid]="formInvalid" 
+                                        [tipoPerfilUsuario]="tipoPerfilUsuario"
+                                        (cargoSubEstructura)="emitCargoSubEstructura($event)"></lib-shared-form-settings>
+                                        
+                                </div>  <!-- FIN col-xl-6 mb-4 -->
+
+                                <div class="col-xl-6 mb-4">                                    
+
+                                        <!-- ********** dirección ********** -->
+                                        <lib-shared-form-direccion 
+                                        [nameField]="'direccion'" 
+                                        [etiquetaField]="'claseTabs.direccion'" 
+                                        [controlsField]="form.controls.direccion"
+                                        [value]="form.value.direccion"
+                                        [accionForm]="accionForm" 
+                                        [formInvalid]="formInvalid" 
+                                        [organizacionKNAI]="this.organizacionKNAI"
+                                        [usuarioKANE]="usuarioKANE"
+                                        [nombreColeccion]="nombreColeccion"                                    
+                                        (cargoSubEstructura)="emitCargoSubEstructura($event)"></lib-shared-form-direccion>
+
+                                        <!-- Telefono -->
+                                        <lib-shared-form-telefono 
+                                        [nameField]="'telefono'" 
+                                        [controlsField]="form.controls.telefono"
+                                        [value]="form.value.telefono"
+                                        [accionForm]="accionForm" 
+                                        [formInvalid]="formInvalid" 
+                                        (cargoSubEstructura)="emitCargoSubEstructura($event)"></lib-shared-form-telefono>
+
+                                </div>  <!-- FIN col-xl-6 mb-4 -->
+
+                            </div> <!-- fin div class="row -->
+
+                            <lib-shared-form-buttons [accionForm]='accionForm' 
+                                              [permisos]='permisos' 
+                                              (setAccion)="setAccionForm($event)"
+                                              (onSubmitComponent)="onSubmit(form.value)"></lib-shared-form-buttons>
+
+
+                        </form>    
+
+                </div> <!-- FIN card-body -->
+            </div> <!-- FIN widget -->
+
+        </div>        
+    </div>    
+</div>
+

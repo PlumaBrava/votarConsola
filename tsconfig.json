@@ -1,0 +1,53 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths":{
+      // para facilitar los link a appModule se llaman con @app
+      "@environments/*":["src/environments/*"],
+      "@assets/*":["src/assets/*"],
+      "@settings/*":["src/app/*"],
+      "@settings-file":["src/app/app.settings"], 
+
+      //Maqueta//
+      "@maq-autorizacion/*":  ["src/app/maqueta/autorizacion/*"],
+      "@maq-mocks/*":         ["src/app/maqueta/mocks/*"],
+      "@maq-models/*":        ["src/app/maqueta/models/*"],
+      
+      "@maq-modules/*":       ["src/app/maqueta/modules/*"],
+
+      "@maq-servicios/*":     ["src/app/maqueta/servicios/*"],
+          "@maq-console":     ["src/app/maqueta/servicios/console/console"],
+          "@maq-bd/*":        ["src/app/maqueta/servicios/bd/*"],
+          "@maq-funciones":   ["src/app/maqueta/servicios/funciones/funciones.service"],
+          "@maq-apis":        ["src/app/maqueta/servicios/apis/apis.service"],
+      
+
+      
+      "@maq-shared/*":["src/app/maqueta/shared/*"],
+      
+      //Projecto
+      "@proyecto/*":["src/app/proyecto/*"],
+      "@proyecto-models/*":["src/app/proyecto/models/*"],
+       
+    },
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "lib": [
+      "es2018",
+      "dom"
+    ],
+    "resolveJsonModule": true,
+    "esModuleInterop": true
+  }
+}

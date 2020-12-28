@@ -1,0 +1,98 @@
+{
+    
+    "NueveDeJulio"          : "9Julio",
+    "TrenqueLauquen"        : "TLauquen",
+    "Quiroga"               : "Quiroga",
+    
+    "nutralmix": {
+        "auxiliaresNutralmix"       : "Auxiliaries Nutralmix",
+        "planta"                    : "Factory",
+        "plantas"                   : "Factories",
+        "tipoProducto"              : "Product Type",
+        "tiposProductos"            : "Product's Types",
+        "categoriasExterna"         : "External Category",
+        "categoriasExternas"        : "External Categories",
+        "subcategoriaExterna"       : "Subcategoría Externa",
+        "subcategoriasExternas"     : "Subcategorías Externas",
+        "formaCalculoMP"            : "MP Calculation Form",
+        "proveedor"                 : "Provider",
+        "proveedores"               : "Providers",
+        "materiasPrima"             : "Raw Material",
+        "materiasPrimas"            : "Raw Materials",
+        "materiasPrimasCostos"      : "Raw Materials Costs",
+        "producto"                  : "Product",
+        "productos"                 : "Products",
+        "productosFormula"          : "Formula Products",
+        "productosPrecios"          : "Prices Products",
+        "presentacion"              : "Presentation",
+        "valoresNutricionales"      : "Nutritional Values",
+        "distribuidor"              : "Dealer",
+        "consumoCabezDia"           : "Consumo por Cabeza por Día",
+        "formula"                   : "Formula",
+        "formulas"                  : "Formulas",
+        "tipoFormula"               : "Type of Formula",
+        "historial"                 : "History",
+        "historialPrecios"          : "Price History",
+        "historialFormulas"         : "Formulas History",
+        "NueveDeJulio"              : "9Julio",
+        "TrenqueLauquen"            : "TLauquen",
+        "Quiroga"                   : "Quiroga",
+        "categoriaProducto"         : "Categoría de Producto",
+        "categoriasProductos"       : "Categorías de Productos",
+        "subcategoriaProducto"      : "Subcategoría de Producto",
+        "subcategoriasProductos"    : "Subcategorías de Productos",
+        "aplicaPorcentajeFormula"   : "Aplica Porcentaje en Fórmula",
+        "nombreCampo"               : "Nombre del Campo",
+        "distanciaNueveDeJulio"     : "Distancia a NueveDeJulio",
+        "distanciaTrenqueLauquen"   : "Distancia a TrenqueLauquen",
+        "distanciaQuiroga"          : "Distancia a Quiroga",
+        "capacidadAlmacenaje"       : "Capacidad de Almacenaje",
+        "cliente"                   : "Cliente",        
+        "clientes"                  : "Clientes",
+        "tiposFormulas"             : "Formulas Types",
+        "requierePerfilSupervisor"  : "Supervisor Profile needed",
+        "actualizarPrecios"         : "Price Actualization",
+        "sinonimo1"                 : "Sinonimo 1",        
+        "sinonimo2"                 : "Sinonimo 2",        
+        "sinonimo3"                 : "Sinonimo 3",        
+        "sinonimo4"                 : "Sinonimo 4",        
+        "sinonimo5"                 : "Sinonimo 5",        
+        "sinonimo6"                 : "Sinonimo 6",
+        "clonar"                    : "Clonning",
+        "estaSeguroClonar"          : "Do you confirm the clonning?",
+        "pasarAVigente"             : "Trasform to Vigente",
+        "estaSeguroPasarAVigente"   : "Do you confirm the transform to vigente?",
+        "variacionesDePrecios"      : "Price Changes",
+        "listaodFormulas"           : "Formulas List"
+
+    },
+    
+    "valoresNutricionales": {
+        "porcentajeProteina"     : "Protein", 
+        "energia"                : "Energy", 
+        "grasasTotales"          : "Total Fats", 
+        "grasasSaturadas"        : "Saturated Fats", 
+        "grasasTrans"            : "Trans Fats", 
+        "hidratosCarbono"        : "Carbohydrates", 
+        "hidratosCarbonoAzucar"  : "Carbohydrate Sugar", 
+        "fibra"                  : "Fiber", 
+        "sal"                    : "Salt", 
+        "sodio"                  : "Sodium", 
+        "calcio"                 : "Calcium", 
+        "vitaminaA"              : "Vitamin A", 
+        "vitaminaD"              : "Vitamin D"
+    },
+    
+    
+    "ayuda"   :{
+        "titulo"              : "Help",
+        
+        "porcentualEnPesos"   : "% formula Pesos",
+        "costoVienge"         : "Vigente value",
+        "costoActualizado"    : "Actualiced value",
+        "costoActualizadoMayor"    : "Bigger",
+        "costoActualizadoMenor"    : "Smaller"
+
+    }
+    
+}

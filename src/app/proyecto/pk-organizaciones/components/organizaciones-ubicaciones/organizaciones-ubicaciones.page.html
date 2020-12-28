@@ -1,0 +1,942 @@
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#ccc"
+  type="ball-spin">
+  <p style="font-size: 16px; color: #ccc" translate>componente-ngx-spinner.grabando</p>
+</ngx-spinner>
+
+<!-- *************** Transferencias Excell ************************************ -->
+    <lib-shared-transferencia-archivos *ngIf="existeImportadorExcel && configExcel"
+        #transferenciaArchivos 
+        [iniciarTransferencia]  = 'configExcel.iniciarTransferencia' 
+        [criteriosTransferencia]= 'configExcel.criteriosTransferencia' 
+        [transferenciaBaseDatos]= 'configExcel.transferenciaBaseDatos' 
+        [tipoDeVerificaciones]  = 'configExcel.tipoDeVerificaciones'
+        [archivoExcel]          = 'configExcel.tipoDeVerificaciones'
+        [archivoExcel]          = 'configExcel.archivoExcel'
+        (resetFileInput)        = 'emit_finalizoTransferenciaExcel()'
+    ></lib-shared-transferencia-archivos>
+
+
+<!-- *************** LISTADO ************************************ -->
+<div *ngIf="accionForm=='listado'">
+
+    <div translate>{{errorMensaje}} </div>
+
+    <div class="row tituloRow" *ngIf="router.url=='/organizacion/listadoUbicaciones'"> 
+        <div class="col-lg-12 col-12">        
+            <span class="tituloTexto">
+                <b>{{'claseTabs.ubicaciones' | translate}}</b>
+            </span>                
+        </div>
+    </div>
+    
+    <div widget class="card border-0 box-shadow" >
+        <div class="card-header transparent border-0 text-muted">
+            <div class="widget-controls"> 
+                <a data-widgster="expand" href="#" class="transition"><i class="fa fa-chevron-down"></i></a>
+            </div>        
+        </div>
+        <div class="card-body pt-0 widget-body"> 
+
+            <div  class="row" >
+                <div class="col-12">
+                    
+                    <table class="table table-hover" 
+                          [ngClass]="!grilla.verFiltrosAdicionales ? 'Grilla1FilaFiltros' : 'Grilla2FilaFiltros'">
+
+                        <thead>
+
+                            <!--------------- Filtros -------------------->
+                            <tr> 
+                                <th>
+                                    <input [(ngModel)]="grilla.filtros['nombre']" *ngIf="grilla.mostrarFiltro('nombre')" 
+                                           (keyup)="filtrarGrilla('nombre')"                                    
+                                           type="text" class="form-control filtroGrilla" placeholder="{{'claseFicha.nombre' | translate}}">
+                                </th> 
+                                <th>
+                                    <select [(ngModel)]="grilla.filtros['tipoCuentaKN.key']" *ngIf="grilla.mostrarFiltro('tipoCuentaKN.key')"
+                                            id="filtro_tipoCuentaKN.key" 
+                                            class="form-control filtroGrilla selectpicker"
+                                            [ngStyle]="grilla.filtrosStyle['tipoCuentaKN.key']"
+                                            [ngClass]="grilla.filtros['tipoCuentaKN.key'] ? 'filtroConValor' : 'filtroSinValor'"
+                                            (change)="filtrarGrilla('tipoCuentaKN.key')">                                       
+                                        <option [ngValue]="null">{{'claseFicha.tipoCuenta' | translate}}</option>    
+                                        <ng-container *ngFor="let opcion of msg.cacheColecciones['AuxTiposCuenta']">    
+                                            <option [ngValue]="opcion.key"> {{opcion.nombre | translate}}</option>
+                                        </ng-container>            
+                                    </select>
+                                </th>
+                                <th>
+                                    <input type="text" [(ngModel)]="grilla.filtros['direccion.calle']" 
+                                           class="form-control filtroGrilla"
+                                           placeholder="{{'claseDireccion.direccion' | translate}}">
+                                </th>                                                                                                  
+                                <th>
+                                    <input type="text" [(ngModel)]="grilla.filtros['direccion.ciudad']" 
+                                           class="form-control filtroGrilla"
+                                           placeholder="{{'claseDireccion.ciudad' | translate}}">
+                                </th>                                                                                                  
+                                <th>
+                                    <select [(ngModel)]="grilla.filtros['sucursalKN.key']" *ngIf="grilla.mostrarFiltro('sucursalKN.key')"
+                                            id="filtro_sucursalKN.key" 
+                                            class="form-control filtroGrilla selectpicker"
+                                            [ngStyle]="grilla.filtrosStyle['sucursalKN.key']"
+                                            [ngClass]="grilla.filtros['sucursalKN.key'] ? 'filtroConValor' : 'filtroSinValor'"
+                                            (change)="filtrarGrilla('sucursalKN.key')">                                       
+                                        <option [ngValue]="null">{{'moduloOrganizaciones.sucursal' | translate}}</option>    
+                                        <ng-container *ngFor="let opcion of msg.cacheColecciones['Sucursales']">    
+                                            <option [ngValue]="opcion.key"> {{opcion.nombre | translate}}</option>
+                                        </ng-container>            
+                                    </select>
+                                </th> 
+                                <th>
+                                    <select [(ngModel)]="grilla.filtros['areaNegocio.key']" *ngIf="grilla.mostrarFiltro('areaNegocio.key')"
+                                            id="filtro_areaNegocio.key" 
+                                            class="form-control filtroGrilla selectpicker"
+                                            [ngStyle]="grilla.filtrosStyle['areaNegocio.key']"
+                                            [ngClass]="grilla.filtros['areaNegocio.key'] ? 'filtroConValor' : 'filtroSinValor'"
+                                            (change)="filtrarGrilla('areaNegocio.key')">                                       
+                                        <option [ngValue]="null">{{'moduloOrganizaciones.areaNegocio' | translate}}</option>    
+                                        <ng-container *ngFor="let opcion of msg.cacheColecciones['AreasNegocio']">    
+                                            <option [ngValue]="opcion.key"> {{opcion.nombre | translate}}</option>
+                                        </ng-container>            
+                                    </select>
+                                </th>
+                                <th>
+                                    <select [(ngModel)]="grilla.filtros['settings.isActivo']"  *ngIf="grilla.mostrarFiltro('settings.isActivo')"
+                                            (change)="filtrarGrilla('settings.isActivo')"                                    
+                                            class="form-control selectpicker filtroGrilla">
+                                        <option *ngFor="let item of LISTA_DE_FILTROS_SI_NO" [ngValue]="item.logic"> {{item.val | translate}}</option>
+                                    </select>
+                                </th> 
+                                                                
+                                <th class="align-middle" style="padding-top:0px; padding-bottom:0px;">
+                                    <button title="{{'navegabilidad.reset' | translate}}"
+                                            class="btn btn-link btn-lg"
+                                            (click)="resetFiltros()"><i class="fa fa-eraser ml-3 text-secondary"></i></button>
+                                </th>
+                            </tr>
+                            
+                            <!-- Títulos de Columnas -->                            
+                            <tr class="titulo-grilla"> 
+                                <th [class.active]="grilla.orderField === 'nombre'" colspan="2"
+                                    (click)="onChangeGrilla('order','nombre')"
+                                    class="mdl-data-table__cell--non-numeric" translate>claseFicha.nombre<span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                                </th> 
+                                <th [class.active]="grilla.orderField === 'direccion.ciudad'" class="text-left" colspan="2"
+                                    (click)="onChangeGrilla('order','direccion.ciudad')" translate>claseDireccion.direccion <b>&nbsp;/&nbsp;</b><b translate>claseDireccion.ciudad</b><span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                                </th> 
+                                <th style="min-width:150px;" translate>moduloOrganizaciones.sucursal</th> 
+                                <th style="min-width:150px;" translate>moduloOrganizaciones.areaNegocio</th> 
+                                
+                                <th [class.active]="grilla.orderField === 'settings.isActivo'" class="text-center"
+                                    (click)="onChangeGrilla('order','settings.isActivo')" translate>claseFicha.activo<span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                                </th>                                 
+                                
+                                <th class="align-middle" style="padding-top:0px; padding-bottom:0px;">
+                                    <div class="btn-group" role="group">
+                                        <!-- Agregar -->
+                                        <button class="btn btn-link btn-lg"  
+                                        title="{{'navegabilidad.agregar' | translate}}" 
+                                        *ngIf="permisos.altasAutorizadas" (click)="abrirFormulario(null)"><i class="fa fa-plus ml-3 text-success"></i></button>
+                                        
+                                        <!-- Importar Archivo con ubicaciones -->
+                                        <button class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px;"
+                                                data-toggle="tooltip" 
+                                                title="{{'componente-listado.importar' | translate}}" 
+                                                *ngIf="permisos.altasAutorizadas && existeImportadorExcel" 
+                                                (click)="fileInput1.click()">
+                                    
+                                        <input type="file" #fileInput1 
+                                               style="display:none;"  
+                                               (change)="configurarTransferenciaExcel($event);" />
+                                        <i class="fa fa-cloud-upload ml-3 text-alert"></i>
+                                        </button>
+
+  
+                                    </div>    
+
+                                </th>    
+                            </tr>
+
+                        </thead>
+                        <tbody>
+
+                            <!-- ----------------------------------------------------------------- -->
+                            <!-- ------- Orden, Filtros y Paginado ------------------------------- -->
+                            <!-- ----------------------------------------------------------------- -->
+
+                            <ng-container *ngFor="let documento of listadoPrincipal 
+                                | orderBy :grilla.orderField :grilla.orderReverse :'case-insensitive'                                        
+                                | searchFiltro:grilla.paginadoTipo:'key':grilla.filtros['key']
+                                | searchFiltro:grilla.paginadoTipo:'nombre':grilla.filtros['nombre']
+                                | searchFiltro:grilla.paginadoTipo:'tipoCuentaKN.key':grilla.filtros['tipoCuentaKN.key']
+                                | searchFiltro:grilla.paginadoTipo:'direccion.ciudad':grilla.filtros['direccion.ciudad']
+                                | searchFiltro:grilla.paginadoTipo:'direccion.calle':grilla.filtros['direccion.calle']
+                                | searchFiltro:grilla.paginadoTipo:'sucursalKN.key':grilla.filtros['sucursalKN.key']
+                                | searchFiltro:grilla.paginadoTipo:'areaNegocio.key':grilla.filtros['areaNegocio.key']
+                                | searchFiltro:grilla.paginadoTipo:'settings.isActivo':grilla.filtros['isActivo']:'boolean'   
+                                | searchFiltro:grilla.paginadoTipo:'settings.borradoFisico':false:'boolean'   
+                                | paginate: { itemsPerPage: grilla.paginadoCantidad, 
+                                                currentPage : pagePaginado,
+                                                totalItems  : grilla.resultCantidad }; 
+                                                let index = index"> 
+                                            
+                                <tr [ngStyle]="grilla.colorFilaSegunEstado(documento.settings)"
+                                    (mouseover)="grilla.keyHoverActivo=documento.key"
+                                    (mouseout)="grilla.keyHoverActivo=null"              
+                                    [ngClass]="grilla.keyHoverActivo==documento.key ? 'trHover' : 'trNotHover'">
+
+                                    <td class="align-middle" (click)="abrirFormulario(documento)" colspan="2">
+                                        <span [ngClass]="documento.settings.isActivo ? 'spanGrillaResaltadoActivo' : 'spanGrillaResaltadoNoActivo'"
+                                              class="align-left text-truncate" >{{documento.nombre}}</span><br>
+                                        {{fn.mostrarKN(documento.tipoUbicacionKN,'nombre') | translate}}
+                                        {{fn.mostrarKN(documento.tipoCuentaKN,'nombre') | translate}}
+                                    </td>    
+                                    <td class="align-middle text-left" colspan="2" (click)="abrirFormulario(documento)">
+                                        <span [ngClass]="documento.settings.isActivo ? 'spanGrillaResaltadoActivo' : 'spanGrillaResaltadoNoActivo'"
+                                             class="align-left text-truncate">
+                                            {{documento.direccion.calle}}
+                                            <span *ngIf="documento.direccion.numero">&nbsp;{{documento.direccion.numero}}</span>
+                                            <span *ngIf="documento.direccion.bloque">&nbsp;{{documento.direccion.bloque}}</span>
+                                            <span *ngIf="documento.direccion.piso">&nbsp;{{documento.direccion.piso}}</span>
+                                            <span *ngIf="documento.direccion.departamento">&nbsp;{{documento.direccion.departamento}}</span><br>
+                                        </span>    
+                                        {{documento.direccion.ciudad}} 
+                                        <span *ngIf="documento.direccion.partido">&nbsp;({{documento.direccion.partido}})</span>
+                                    </td>    
+     
+                                    <td class="align-middle" (click)="abrirFormulario(documento)">
+                                        <span class="align-middle text-truncate">{{fn.mostrarKN(documento.sucursalKN,'nombre')}}</span>
+                                    </td>                                    
+                                    <td class="align-middle" (click)="abrirFormulario(documento)">
+                                        <span class="align-middle text-truncate">{{fn.mostrarKN(documento.areaNegocio,'nombre')}}</span>
+                                    </td>                                    
+                                    <td class="align-middle text-center" (click)="abrirFormulario(documento)">
+                                            <i class="fa fa-check text-secondary" *ngIf="documento.settings.isActivo"></i>
+                                    </td>    
+
+                                    <td class="align-middle">
+                                        <div class="btn-group" role="group">
+                                            <button class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px;"
+                                                    title="{{'navegabilidad.consultar' | translate}}"
+                                                    (click)="abrirFormulario(documento)"><i class="fa fa-search mr-3 text-primary"></i></button>
+                                                    
+                                            <!-- borrado lógico -->
+                                            <button *ngIf="permisos.bajasAutorizadas &&
+                                                    documento.settings.documentosAsociados==0 && documento.settings.isBorrado==false" 
+                                                    title="{{'navegabilidad.eliminar' | translate}}"
+                                                    class="btn btn-link btn-lg"  style="padding-left:0px; padding-right:0px;"
+                                                    (click)="deleteDocumento('borradoLogico', documento)"><i class="fa fa-trash mr-3 text-danger"></i></button>
+
+                                            <button *ngIf="permisos.bajasAutorizadas &&
+                                                    documento.settings.documentosAsociados>0 && documento.settings.isBorrado==false" 
+                                                    title="{{fn.titleMensaje('claseValidaciones.documentosAsociados',documento.settings.documentosAsociados)}}"
+                                                    class="btn btn-link btn-lg"  style="padding-left:0px; padding-right:0px;"
+                                                    (click)="fn.alertMensaje('claseValidaciones.documentosAsociados',documento.settings.documentosAsociados)"><i class="fa fa-trash mr-3 text-deshabilitado"></i></button>
+
+                                            <!-- borrado físico -->
+                                            <button *ngIf="permisos.bajasAutorizadas && documento.settings.isBorrado &&
+                                                          ['Desarrollador','Supervisor','Distribuidor'].indexOf(tipoPerfilUsuario)!=-1"
+                                                    title="{{'navegabilidad.eliminarFisicamente' | translate}}"
+                                                    class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px;"
+                                                    (click)="deleteDocumento('borradoFisico',documento)"><i class="fa fa-remove mr-3 text-danger"></i></button>
+
+                                        </div>
+                                    </td>
+                                </tr>
+                            </ng-container>    
+                            
+                        </tbody>
+                    </table>
+
+                    <!-- paginado -->
+                    <div class="row" style="border-top:1px solid #ccc;">
+                        <div class="col-3" style="padding:10px;">
+                            <div class="bg-white text-center">
+                                <select class="form-control selectpicker" 
+                                        id="grilla.paginadoCantidad"                                         
+                                        [(ngModel)]="grilla.paginadoCantidad"
+                                        (change)="onChangeGrilla('paginadoCantidad',grilla.paginadoCantidad)"> 
+                                    <ng-container *ngFor="let opcion of grilla.paginadoDropDown">
+                                        <option [ngValue]="opcion">Items x Página {{opcion}}</option>
+                                    </ng-container>
+                                </select>
+                            </div>    
+                        </div>    
+                        <div class="col-9" style="padding:10px;">
+                            <div class="bg-white text-center">
+
+                                <!-- Paginado Local -->
+                                <pagination-controls 
+                                    *ngIf="grilla.paginadoTipo=='local'"
+                                    autoHide="{{grilla.paginadoAutoHide}}" 
+                                    previousLabel="{{'componente-paginado.anterior' | translate}}" 
+                                    nextLabel="{{'componente-paginado.siguiente' | translate}}" 
+                                    (pageChange)="pagePaginado = $event" 
+                                    maxSize="3"></pagination-controls>
+
+                                <!-- Paginado Servidor -->
+                                <lib-shared-paginado-servidor 
+                                    *ngIf="grilla.paginadoTipo=='servidor'"
+                                    [grilla]="grilla" 
+                                    (clickPaginado)="emitClickPaginado($event)"></lib-shared-paginado-servidor>
+
+                            </div>
+                        </div>                        
+                    </div>
+
+                </div>
+            </div>
+
+        </div> <!-- FIN card-body -->
+    </div> <!-- FIN widget -->
+</div>
+
+<!-- *************** FORMULARIO ************************************ -->
+<div *ngIf="['agregar','modificar','consultar'].indexOf(accionForm)!=-1">
+
+    <form [formGroup]="form">
+        
+            <div class="row tituloRow">
+                <div class="col-lg-12 col-12" [ngStyle]="router.url!='/organizacion/listadoUbicaciones' ? {background:'white'} : {}">        
+                    <span class="tituloTexto">
+                        <b>{{'moduloOrganizaciones.ubicacion' | translate}}: </b>
+                        {{form.value.nombre}}
+                    </span>                
+
+                    <button type="button" 
+                            *ngIf="['modificar','agregar'].indexOf(accionForm)==-1"
+                            class="btn btn-warning"  style="float:right;"
+                            (click)="setAccionForm('listado')" translate>navegabilidad.cerrar</button>
+                    
+                    <span style="width:220px; float:right;">
+                        <lib-shared-form-buttons [accionForm]='accionForm' 
+                                      [permisos]='permisos' 
+                                      (setAccion)="setAccionForm($event)"
+                                      (onSubmitComponent)="onSubmit(form.value)"></lib-shared-form-buttons>
+                    </span>                  
+
+                </div>
+            </div>
+            
+            <div class="row px-3">
+
+                <div class="col-xl-6 mb-4" style="padding-left:0px;">
+
+                    <!-- ********* datos generales ********** -->
+                    <div widget class="card border-0 box-shadow" style="padding-top:0px;">
+                        <div class="card-header transparent border-0 text-muted">
+                            <h5 class="mb-0" translate>claseTabs.basic</h5>
+                            <div class="widget-controls"> 
+                                <a data-widgster="expand" href="#" class="transition"><i class="fa fa-chevron-down"></i></a>
+                                <a data-widgster="collapse" href="#" class="transition"><i class="fa fa-chevron-up"></i></a>
+                            </div>        
+                        </div>
+                        <div class="card-body pt-0 widget-body"> 
+                            
+                                <!-- Key -->
+                                <div class="form-group" *ngIf="['Desarrollador','Supervisor','Distribuidor'].indexOf(tipoPerfilUsuario)!=-1">
+                                    <label class="text-gray" translate>{{'moduloDesarrolladores.key' | translate}}</label>
+                                    <input formControlName="key" id="key" 
+                                    class="form-control" maxlength="90">  <!-- maxlength="20" -->
+                                </div>
+
+                                <!-- Nombre -->
+                                <div class="form-group">
+                                    <label class="text-gray" translate>claseFicha.nombre<span class="required">*</span></label>
+                                    <input formControlName="nombre" class="form-control" type="text">
+
+                                    <small class="text-danger" *ngIf="form.controls.nombre.touched && form.controls.nombre.errors?.required"><span translate>claseFicha.nombre</span>&nbsp;<span translate>claseValidaciones.esRequerido</span></small>
+                                    <small class="text-danger" *ngIf="form.controls.nombre.touched && form.controls.nombre.errors?.minlength"><span translate>claseFicha.nombre</span>&nbsp;<span translate [translateParams]="{value: '3'}">claseValidaciones.minimaCantidad</span></small>
+                                </div>
+
+                                <!-- Código -->
+                                <div class="form-group">
+                                    <label class="text-gray" translate>claseFicha.codigo</label>
+                                    <input formControlName="codigo" class="form-control" type="text">
+                                </div>
+                                
+                                <!-- Sucursal -->
+                                <div class="form-group">
+                                    <label class="text-gray" translate>moduloOrganizaciones.sucursal<span class="required">*</span></label>                                            
+                                    <select class="form-control selectpicker validation-field" 
+                                            id="sucursalKN" formControlName="sucursalKN" [compareWith]="compareFn">
+                                        <option [ngValue]="null">{{'No Indicado' | translate}}</option>                                  
+                                        <ng-container *ngFor="let option of msg.cacheColecciones['Sucursales']">
+                                            <option [ngValue]="option">{{option.nombre | translate}}</option>
+                                        </ng-container>
+                                    </select>
+                                    <small class="text-danger" 
+                                            *ngIf="form.controls.sucursalKN.touched && 
+                                                   form.controls.sucursalKN.errors?.required"><span translate>moduloOrganizaciones.sucursal</span>&nbsp;<span translate>claseValidaciones.esRequerido</span></small>
+                                </div>  
+
+                                <!-- Areas de Negocio -->
+                                <div class="form-group">
+                                    <label class="text-gray" translate>moduloOrganizaciones.areaNegocio<span class="required">*</span></label>                                            
+                                    <select class="form-control selectpicker validation-field" 
+                                            id="areaNegocio" formControlName="areaNegocio" [compareWith]="compareFn">
+                                        <option [ngValue]="null">{{'No Indicado' | translate}}</option>                                  
+                                        <ng-container *ngFor="let option of getListadoAreasNegocioAsociadasASucursal()">
+                                            <option [ngValue]="option">{{option.nombre | translate}}</option>
+                                        </ng-container>
+                                    </select>
+                                    <small class="text-danger" 
+                                            *ngIf="form.controls.areaNegocio.touched && 
+                                                   form.controls.areaNegocio.errors?.required"><span translate>moduloOrganizaciones.areaNegocio</span>&nbsp;<span translate>claseValidaciones.esRequerido</span></small>
+                                </div>  
+
+                                <!-- Tipo de Ubicacion -->
+                                <div class="form-group">
+                                    <label class="text-gray" translate>claseFicha.tipoUbicacion<span class="required">*</span></label>
+                                    <select class="form-control selectpicker validation-field" 
+                                            id="tipoUbicacionKN" formControlName="tipoUbicacionKN" [compareWith]="compareFn">
+                                        <option [ngValue]="null">{{'No Indicado' | translate}}</option>                                  
+                                        <ng-container *ngFor="let option of msg.cacheColecciones['AuxTiposUbicacion']">
+                                            <option *ngIf="ValidaDocumentoIsActivo(option.key, option.settings.isActivo, form.value.tipoUbicacionKN)"
+                                                    [ngValue]="option">{{option.nombre | translate}}</option>
+                                        </ng-container>
+                                    </select>
+                                    <small class="text-danger" 
+                                           *ngIf="form.controls.tipoUbicacionKN.touched && 
+                                                  form.controls.tipoUbicacionKN.errors?.required"><span translate>claseFicha.tipoUbicacion</span>&nbsp;<span translate>claseValidaciones.esRequerido</span></small>
+                                </div>
+
+                                <!-- Tipo de Cuenta -->
+                                <div class="form-group">
+                                    <label class="text-gray" translate>claseFicha.tipoCuenta<span class="required">*</span></label>
+                                    <select class="form-control selectpicker validation-field" 
+                                            id="tipoCuentaKN" formControlName="tipoCuentaKN" [compareWith]="compareFn">
+                                        <option [ngValue]="null">{{'No Indicado' | translate}}</option>                                  
+                                        <ng-container *ngFor="let option of msg.cacheColecciones['AuxTiposCuenta']">
+                                            <option *ngIf="ValidaDocumentoIsActivo(option.key, option.settings.isActivo, fn.mostrarKN(form.value.tipoUbicacionKN,'key'))"
+                                                    [ngValue]="option">{{option.nombre | translate}}</option>
+                                        </ng-container>
+                                    </select>
+                                    <small class="text-danger" 
+                                           *ngIf="form.controls.tipoCuentaKN.touched && 
+                                                  form.controls.tipoCuentaKN.errors?.required"><span translate>claseFicha.tipoCuenta</span>&nbsp;<span translate>claseValidaciones.esRequerido</span></small>
+                                </div>
+
+                                <!-- Email -->
+                                <div class="form-group">
+                                    <label class="text-gray" translate>claseFicha.email</label>
+                                    <input formControlName="email" class="form-control" type="text">
+                                </div>
+
+                                <div class="row">
+                                    
+                                    <div class="col 6 form-group">    
+                                        <!-- Tiempo de Servicio -->
+                                        <label class="text-gray" translate>moduloOrganizaciones.tiempoServicio<span class="required">*</span></label>
+                                        <ngb-timepicker formControlName="tiempoServicio" [spinners]="false" size="small"
+                                                            [ngClass]="checkHora(form.value.tiempoServicio) ? 'ngb-timepicker-complete' : 'ngb-timepicker-empty'"></ngb-timepicker>                                    
+                                        <small class="text-danger" 
+                                               *ngIf="form.controls.tiempoServicio.touched && 
+                                                      form.controls.tiempoServicio.errors?.required"><span translate>moduloOrganizaciones.tiempoServicio</span>&nbsp;<span translate>claseValidaciones.esRequerido</span></small>
+                                    </div>
+                                    
+                                    <div class="col 6">
+                                        <div class="form-group">
+                                            <!-- Radio de Entrega -->
+                                            <label class="text-gray" translate>moduloOrganizaciones.radioEntrega<span class="required">*</span></label>
+                                            <div class="input-group" style="padding-left:0px;">
+                                                <input formControlName="radioEntrega" id="radioEntrega" 
+                                                       mask="999"
+                                                       class="form-control" type="text" style="width:150px;">
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text">mts</span>
+                                                </div>
+                                            </div>
+                                            <small class="text-danger" 
+                                            *ngIf="form.controls.radioEntrega.touched && 
+                                                   form.controls.radioEntrega.errors?.required"><span translate>moduloOrganizaciones.radioEntrega</span>&nbsp;<span translate>claseValidaciones.esRequerido</span></small>
+                                         
+                                        </div>
+                                    </div>                                        
+                                </div>
+
+                        </div> <!-- FIN card-body -->
+                    </div> <!-- FIN widget -->
+
+                </div>
+                <div class="col-xl-6 mb-4" style="padding-left:0px;">
+
+                    <!-- settings   -->
+                    <lib-shared-form-settings *ngIf="accionForm!='agregar'"
+                    [nameField]="'settings'" 
+                    [controlsField]="form.controls.settings"
+                    [value]="form.value.settings"
+                    [accionForm]="accionForm" 
+                    [formInvalid]="formInvalid" 
+                    [tipoPerfilUsuario]="tipoPerfilUsuario"
+                    (cargoSubEstructura)="emitCargoSubEstructura($event)"></lib-shared-form-settings>
+
+                    <!-- Telefono -->
+                    <lib-shared-form-telefono 
+                    [nameField]="'telefono'" 
+                    [controlsField]="form.controls.telefono"
+                    [value]="form.value.telefono"
+                    [accionForm]="accionFormComponentes" 
+                    [formInvalid]="formInvalid" 
+                    (cargoSubEstructura)="emitCargoSubEstructura($event)"></lib-shared-form-telefono>
+
+                </div> <!-- fin class col -->    
+            </div> <!-- fin class row --> 
+
+            <!-- Ventanas de Atención   -->
+            <div widget class="card border-0 box-shadow" style="margin-top:20px;">
+                <div class="card-header transparent border-0 text-muted">
+                    <h5 class="mb-0" translate>claseDateTime.horarios</h5>
+                    <div class="widget-controls"> 
+                        <a data-widgster="expand" href="#" class="transition"><i class="fa fa-chevron-down"></i></a>
+                        <a data-widgster="collapse" href="#" class="transition"><i class="fa fa-chevron-up"></i></a>
+                    </div>        
+                </div>
+                <div class="card-body pt-0 widget-body" formGroupName="ventanaAtencion"> 
+
+                        <div class="form-group  ">
+                          <label class="text-gray" translate>claseDateTime.ventanaAtencion<span class="required">*</span></label>
+
+                              <select class="form-control selectpicker"  
+                                      id="ventanaAtencion" formControlName="key"
+                                      (change)="onChangeVentanaAtencion(form.value.ventanaAtencion.key)">
+                                <option [ngValue]="null">{{'Personalizada' | translate}}</option>          
+                                <option *ngFor="let ventana of msg.cacheColecciones['AuxVentanasAtencion']"   
+                                        [ngValue]="ventana.key">{{ventana.nombre | translate}}</option>
+                              </select>
+                        </div>  
+
+                        <!-- Horarios de Atención -->
+                        <table class="table table-sm" style="border:hidden;">
+                        <thead>
+                            <tr>     
+                                <td translate>claseDateTime.dia</td>                      
+                                <td class="text-center" translate>claseDateTime.horaDesde</td>                      
+                                <td style="padding-left:0px; padding-right:0px;"></td>                      
+                                <td class="text-center" translate>claseDateTime.horaHasta</td>                      
+                                <td style="width:10px;"></td>                      
+                                <td class="text-center" translate>claseDateTime.horaDesde</td>              
+                                <td style="padding-left:0px; padding-right:0px;"></td>                              
+                                <td class="text-center" translate>claseDateTime.horaHasta</td>                      
+                                <td style="width:10px;"></td>                      
+                                <td class="text-center" translate>claseDateTime.horaDesde</td>              
+                                <td style="padding-left:0px; padding-right:0px;"></td>                              
+                                <td class="text-center" translate>claseDateTime.horaHasta</td>                      
+                                <td></td>
+                            </tr>                      
+                        </thead>    
+                        <tbody formGroupName="horarioAtencion">
+                            <tr formGroupName="lunes">
+                                <td class="align-middle"> 
+                                    <label class="text-gray" translate>claseDateTime.lunes</label>
+                                </td>                      
+                                <td> 
+                                    <ngb-timepicker formControlName="horaDesde1" [spinners]="false" size="small" (change)="changeTimePicker('lunes.horaDesde1')"
+                                    class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('lunes.horaDesde1')"></ngb-timepicker>
+                                </td>                      
+                                <td style="padding-left:0px; padding-right:0px;">-</td>                      
+                                <td> 
+                                    <ngb-timepicker formControlName="horaHasta1" [spinners]="false" size="small"
+                                    class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('lunes.horaHasta1')"></ngb-timepicker>
+                                </td>                      
+                                <td></td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaDesde2" [spinners]="false" size="small" class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('lunes.horaDesde2')"></ngb-timepicker>
+                                </td>                      
+                                <td style="padding-left:0px; padding-right:0px;">-</td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaHasta2" [spinners]="false" size="small" class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('lunes.horaHasta2')"></ngb-timepicker>
+                                </td>                      
+                                <td></td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaDesde3" [spinners]="false" size="small" class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('lunes.horaDesde3')"></ngb-timepicker>
+                                </td>                      
+                                <td style="padding-left:0px; padding-right:0px;">-</td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaHasta3" [spinners]="false" size="small" class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('lunes.horaHasta3')"></ngb-timepicker>
+                                </td>                      
+                                <td style="padding-top:0px; padding-bottom:0px; width:60px; white-space: nowrap;">
+                                    <button class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px; padding-top:0px; padding-bottom:0px;"
+                                        title="{{'navegabilidad.copiar' | translate}}"
+                                        (click)="copyHorario('lunes')"><i class="fa fa-copy mr-3 text-primary"></i></button>
+
+                                    <button class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px; padding-top:0px; padding-bottom:0px;"
+                                        title="{{'navegabilidad.copiar' | translate}}"
+                                        *ngIf="horarioCopiado"
+                                        (click)="pasteHorario('lunes')"><i class="fa fa-paste mr-3 text-primary"></i></button>
+                                </td>
+                            </tr>                      
+
+                            <tr formGroupName="martes">     
+                                <td class="align-middle"> 
+                                    <label class="text-gray" translate>claseDateTime.martes</label>
+                                </td>                      
+                                <td> 
+                                    <ngb-timepicker formControlName="horaDesde1" [spinners]="false" size="small"
+                                    class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('martes.horaDesde1')"></ngb-timepicker>
+                                </td>                      
+                                <td style="padding-left:0px; padding-right:0px;">-</td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaHasta1" [spinners]="false" size="small"
+                                    class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('martes.horaHasta1')"></ngb-timepicker>
+                                </td>                      
+                                <td></td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaDesde2" [spinners]="false" size="small" class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('martes.horaDesde2')"></ngb-timepicker>
+                                </td>                      
+                                <td style="padding-left:0px; padding-right:0px;">-</td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaHasta2" [spinners]="false" size="small" class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('martes.horaHasta2')"></ngb-timepicker>
+                                </td>                      
+                                <td></td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaDesde3" [spinners]="false" size="small" class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('martes.horaDesde3')"></ngb-timepicker>
+                                </td>                      
+                                <td style="padding-left:0px; padding-right:0px;">-</td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaHasta3" [spinners]="false" size="small" class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('martes.horaHasta3')"></ngb-timepicker>
+                                </td>                      
+                                <td style="padding-top:0px; padding-bottom:0px; width:60px; white-space: nowrap;">
+                                    <button class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px; padding-top:0px; padding-bottom:0px;"
+                                        title="{{'navegabilidad.copiar' | translate}}"
+                                        (click)="copyHorario('martes')"><i class="fa fa-copy mr-3 text-primary"></i></button>
+
+                                    <button class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px; padding-top:0px; padding-bottom:0px;"
+                                        title="{{'navegabilidad.copiar' | translate}}"
+                                        *ngIf="horarioCopiado"
+                                        (click)="pasteHorario('martes')"><i class="fa fa-paste mr-3 text-primary"></i></button>
+                                </td>
+                            </tr>                      
+
+                            <tr formGroupName="miercoles">     
+                                <td class="align-middle"> 
+                                    <label class="text-gray" translate>claseDateTime.miercoles</label>
+                                </td>                      
+                                <td> 
+                                    <ngb-timepicker formControlName="horaDesde1" [spinners]="false" size="small"
+                                    class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('miercoles.horaDesde1')"></ngb-timepicker>
+                                </td>                      
+                                <td style="padding-left:0px; padding-right:0px;">-</td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaHasta1" [spinners]="false" size="small"
+                                    class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('miercoles.horaHasta1')"></ngb-timepicker>
+                                </td>                      
+                                <td></td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaDesde2" [spinners]="false" size="small" class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('miercoles.horaDesde2')"></ngb-timepicker>
+                                </td>                      
+                                <td style="padding-left:0px; padding-right:0px;">-</td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaHasta2" [spinners]="false" size="small" class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('miercoles.horaHasta2')"></ngb-timepicker>
+                                </td>                      
+                                <td></td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaDesde3" [spinners]="false" size="small" class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('miercoles.horaDesde3')"></ngb-timepicker>
+                                </td>                      
+                                <td style="padding-left:0px; padding-right:0px;">-</td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaHasta3" [spinners]="false" size="small" class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('miercoles.horaHasta3')"></ngb-timepicker>
+                                </td>                      
+                                <td style="padding-top:0px; padding-bottom:0px; width:60px; white-space: nowrap;">
+                                    <button class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px; padding-top:0px; padding-bottom:0px;"
+                                        title="{{'navegabilidad.copiar' | translate}}"
+                                        (click)="copyHorario('miercoles')"><i class="fa fa-copy mr-3 text-primary"></i></button>
+
+                                    <button class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px; padding-top:0px; padding-bottom:0px;"
+                                        title="{{'navegabilidad.copiar' | translate}}"
+                                        *ngIf="horarioCopiado"
+                                        (click)="pasteHorario('miercoles')"><i class="fa fa-paste mr-3 text-primary"></i></button>
+                                </td>
+                            </tr>                      
+
+                            <tr formGroupName="jueves">     
+                                <td class="align-middle"> 
+                                    <label class="text-gray" translate>claseDateTime.jueves</label>
+                                </td>                      
+                                <td> 
+                                    <ngb-timepicker formControlName="horaDesde1" [spinners]="false" size="small"
+                                    class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('jueves.horaDesde1')"></ngb-timepicker>
+                                </td>                      
+                                <td style="padding-left:0px; padding-right:0px;">-</td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaHasta1" [spinners]="false" size="small"
+                                    class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('jueves.horaHasta1')"></ngb-timepicker>
+                                </td>                      
+                                <td></td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaDesde2" [spinners]="false" size="small" class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('jueves.horaDesde2')"></ngb-timepicker>
+                                </td>                      
+                                <td style="padding-left:0px; padding-right:0px;">-</td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaHasta2" [spinners]="false" size="small" class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('jueves.horaHasta2')"></ngb-timepicker>
+                                </td>                      
+                                <td></td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaDesde3" [spinners]="false" size="small" class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('jueves.horaDesde3')"></ngb-timepicker>
+                                </td>                      
+                                <td style="padding-left:0px; padding-right:0px;">-</td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaHasta3" [spinners]="false" size="small" class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('jueves.horaHasta3')"></ngb-timepicker>
+                                </td>                      
+                                <td style="padding-top:0px; padding-bottom:0px; width:60px; white-space: nowrap;">
+                                    <button class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px; padding-top:0px; padding-bottom:0px;"
+                                        title="{{'navegabilidad.copiar' | translate}}"
+                                        (click)="copyHorario('jueves')"><i class="fa fa-copy mr-3 text-primary"></i></button>
+
+                                    <button class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px; padding-top:0px; padding-bottom:0px;"
+                                        title="{{'navegabilidad.copiar' | translate}}"
+                                        *ngIf="horarioCopiado"
+                                        (click)="pasteHorario('jueves')"><i class="fa fa-paste mr-3 text-primary"></i></button>
+                                </td>
+                            </tr>                      
+
+                            <tr formGroupName="viernes">     
+                                <td class="align-middle"> 
+                                    <label class="text-gray" translate>claseDateTime.viernes</label>
+                                </td>                      
+                                <td> 
+                                    <ngb-timepicker formControlName="horaDesde1" [spinners]="false" size="small"
+                                    class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('viernes.horaDesde1')"></ngb-timepicker>
+                                </td>                      
+                                <td style="padding-left:0px; padding-right:0px;">-</td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaHasta1" [spinners]="false" size="small"
+                                    class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('viernes.horaHasta1')"></ngb-timepicker>
+                                </td>                      
+                                <td></td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaDesde2" [spinners]="false" size="small" class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('viernes.horaDesde2')"></ngb-timepicker>
+                                </td>                      
+                                <td style="padding-left:0px; padding-right:0px;">-</td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaHasta2" [spinners]="false" size="small" class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('viernes.horaHasta2')"></ngb-timepicker>
+                                </td>                      
+                                <td></td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaDesde3" [spinners]="false" size="small" class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('viernes.horaDesde3')"></ngb-timepicker>
+                                </td>                      
+                                <td style="padding-left:0px; padding-right:0px;">-</td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaHasta3" [spinners]="false" size="small" class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('viernes.horaHasta3')"></ngb-timepicker>
+                                </td>                      
+                                <td style="padding-top:0px; padding-bottom:0px; width:60px; white-space: nowrap;">
+                                    <button class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px; padding-top:0px; padding-bottom:0px;"
+                                        title="{{'navegabilidad.copiar' | translate}}"
+                                        (click)="copyHorario('viernes')"><i class="fa fa-copy mr-3 text-primary"></i></button>
+
+                                    <button class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px; padding-top:0px; padding-bottom:0px;"
+                                        title="{{'navegabilidad.copiar' | translate}}"
+                                        *ngIf="horarioCopiado"
+                                        (click)="pasteHorario('viernes')"><i class="fa fa-paste mr-3 text-primary"></i></button>
+                                </td>
+                            </tr>                      
+
+                            <tr formGroupName="sabado">     
+                                <td class="align-middle"> 
+                                    <label class="text-gray" translate>claseDateTime.sabado</label>
+                                </td>                      
+                                <td> 
+                                    <ngb-timepicker formControlName="horaDesde1" [spinners]="false" size="small"
+                                    class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('sabado.horaDesde1')"></ngb-timepicker>
+                                </td>                      
+                                <td style="padding-left:0px; padding-right:0px;">-</td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaHasta1" [spinners]="false" size="small"
+                                    class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('sabado.horaHasta1')"></ngb-timepicker>
+                                </td>                      
+                                <td></td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaDesde2" [spinners]="false" size="small" class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('sabado.horaDesde2')"></ngb-timepicker>
+                                </td>                      
+                                <td style="padding-left:0px; padding-right:0px;">-</td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaHasta2" [spinners]="false" size="small" class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('sabado.horaHasta2')"></ngb-timepicker>
+                                </td>                      
+                                <td></td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaDesde3" [spinners]="false" size="small" class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('sabado.horaDesde3')"></ngb-timepicker>
+                                </td>                      
+                                <td style="padding-left:0px; padding-right:0px;">-</td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaHasta3" [spinners]="false" size="small" class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('sabado.horaHasta3')"></ngb-timepicker>
+                                </td>                      
+                                <td style="padding-top:0px; padding-bottom:0px; width:60px; white-space: nowrap;">
+                                    <button class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px; padding-top:0px; padding-bottom:0px;"
+                                        title="{{'navegabilidad.copiar' | translate}}"
+                                        (click)="copyHorario('sabado')"><i class="fa fa-copy mr-3 text-primary"></i></button>
+
+                                    <button class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px; padding-top:0px; padding-bottom:0px;"
+                                        title="{{'navegabilidad.copiar' | translate}}"
+                                        *ngIf="horarioCopiado"
+                                        (click)="pasteHorario('sabado')"><i class="fa fa-paste mr-3 text-primary"></i></button>
+                                </td>
+                            </tr>                      
+
+                            <tr formGroupName="domingo">     
+                                <td class="align-middle"> 
+                                    <label class="text-gray" translate>claseDateTime.domingo</label>
+                                </td>                      
+                                <td> 
+                                    <ngb-timepicker formControlName="horaDesde1" [spinners]="false" size="small"
+                                    class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('domingo.horaDesde1')"></ngb-timepicker>
+                                </td>                      
+                                <td style="padding-left:0px; padding-right:0px;">-</td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaHasta1" [spinners]="false" size="small"
+                                    class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('domingo.horaHasta1')"></ngb-timepicker>
+                                </td>                      
+                                <td></td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaDesde2" [spinners]="false" size="small" class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('domingo.horaDesde2')"></ngb-timepicker>
+                                </td>                      
+                                <td style="padding-left:0px; padding-right:0px;">-</td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaHasta2" [spinners]="false" size="small" class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('domingo.horaHasta2')"></ngb-timepicker>
+                                </td>                      
+                                <td></td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaDesde3" [spinners]="false" size="small" class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('domingo.horaDesde3')"></ngb-timepicker>
+                                </td>                      
+                                <td style="padding-left:0px; padding-right:0px;">-</td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaHasta3" [spinners]="false" size="small" class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('domingo.horaHasta3')"></ngb-timepicker>
+                                </td>                      
+                                <td style="padding-top:0px; padding-bottom:0px; width:60px; white-space: nowrap;">
+                                    <button class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px; padding-top:0px; padding-bottom:0px;"
+                                        title="{{'navegabilidad.copiar' | translate}}"
+                                        (click)="copyHorario('domingo')"><i class="fa fa-copy mr-3 text-primary"></i></button>
+
+                                    <button class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px; padding-top:0px; padding-bottom:0px;"
+                                        title="{{'navegabilidad.copiar' | translate}}"
+                                        *ngIf="horarioCopiado"
+                                        (click)="pasteHorario('domingo')"><i class="fa fa-paste mr-3 text-primary"></i></button>
+                                </td>
+                            </tr>                      
+
+                            <tr formGroupName="visperaFeriado">     
+                                <td class="align-middle"> 
+                                    <label class="text-gray" translate>claseDateTime.visperaFeriado</label>
+                                </td>                      
+                                <td> 
+                                    <ngb-timepicker formControlName="horaDesde1" [spinners]="false" size="small"
+                                    class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('visperaFeriado.horaDesde1')"></ngb-timepicker>
+                                </td>                      
+                                <td style="padding-left:0px; padding-right:0px;">-</td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaHasta1" [spinners]="false" size="small"
+                                    class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('visperaFeriado.horaHasta1')"></ngb-timepicker>
+                                </td>                      
+                                <td></td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaDesde2" [spinners]="false" size="small" class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('visperaFeriado.horaDesde2')"></ngb-timepicker>
+                                </td>                      
+                                <td style="padding-left:0px; padding-right:0px;">-</td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaHasta2" [spinners]="false" size="small" class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('visperaFeriado.horaHasta2')"></ngb-timepicker>
+                                </td>                      
+                                <td></td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaDesde3" [spinners]="false" size="small" class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('visperaFeriado.horaDesde3')"></ngb-timepicker>
+                                </td>                      
+                                <td style="padding-left:0px; padding-right:0px;">-</td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaHasta3" [spinners]="false" size="small" class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('visperaFeriado.horaHasta3')"></ngb-timepicker>
+                                </td>                      
+                                <td style="padding-top:0px; padding-bottom:0px; width:60px; white-space: nowrap;">
+                                    <button class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px; padding-top:0px; padding-bottom:0px;"
+                                        title="{{'navegabilidad.copiar' | translate}}"
+                                        (click)="copyHorario('visperaFeriado')"><i class="fa fa-copy mr-3 text-primary"></i></button>
+
+                                    <button class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px; padding-top:0px; padding-bottom:0px;"
+                                        title="{{'navegabilidad.copiar' | translate}}"
+                                        *ngIf="horarioCopiado"
+                                        (click)="pasteHorario('visperaFeriado')"><i class="fa fa-paste mr-3 text-primary"></i></button>
+                                </td>
+                            </tr>                      
+
+                            <tr formGroupName="feriado">     
+                                <td class="align-middle"> 
+                                    <label class="text-gray" translate>claseDateTime.feriado</label>
+                                </td>                      
+                                <td> 
+                                    <ngb-timepicker formControlName="horaDesde1" [spinners]="false" size="small"
+                                    class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('feriado.horaDesde1')"></ngb-timepicker>
+                                </td>                      
+                                <td style="padding-left:0px; padding-right:0px;">-</td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaHasta1" [spinners]="false" size="small"
+                                    class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('feriado.horaHasta1')"></ngb-timepicker>
+                                </td>                      
+                                <td></td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaDesde2" [spinners]="false" size="small" class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('feriado.horaDesde2')"></ngb-timepicker>
+                                </td>                      
+                                <td style="padding-left:0px; padding-right:0px;">-</td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaHasta2" [spinners]="false" size="small" class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('feriado.horaHasta2')"></ngb-timepicker>
+                                </td>                      
+                                <td></td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaDesde3" [spinners]="false" size="small" class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('feriado.horaDesde3')"></ngb-timepicker>
+                                </td>                      
+                                <td style="padding-left:0px; padding-right:0px;">-</td>                      
+                                <td>
+                                    <ngb-timepicker formControlName="horaHasta3" [spinners]="false" size="small" class="ngb-timepicker-complete" [ngClass]="getClassHorarioAtencion('feriado.horaHasta3')"></ngb-timepicker>
+                                </td>                      
+                                <td style="padding-top:0px; padding-bottom:0px; width:60px; white-space: nowrap;">
+                                    <button class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px; padding-top:0px; padding-bottom:0px;"
+                                        title="{{'navegabilidad.copiar' | translate}}"
+                                        (click)="copyHorario('feriado')"><i class="fa fa-copy mr-3 text-primary"></i></button>
+
+                                    <button class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px; padding-top:0px; padding-bottom:0px;"
+                                        title="{{'navegabilidad.copiar' | translate}}"
+                                        *ngIf="horarioCopiado"
+                                        (click)="pasteHorario('feriado')"><i class="fa fa-paste mr-3 text-primary"></i></button>
+                                </td>
+                            </tr>                      
+
+                        </tbody>    
+                        </table>
+
+                </div> <!-- FIN card-body -->
+            </div> <!-- FIN widget -->
+
+            <!-- ********** dirección ********** -->
+            <lib-shared-form-direccion 
+            [nameField]="'direccion'" 
+            [etiquetaField]="'claseTabs.direccion'" 
+            [controlsField]="form.controls.direccion"
+            [value]="form.value.direccion"
+            [accionForm]="accionForm" 
+            [formInvalid]="formInvalid" 
+            [organizacionKNAI]="this.organizacionKNAI"
+            [usuarioKANE]="usuarioKANE"
+            [nombreColeccion]="nombreColeccion"                                    
+            (cargoSubEstructura)="emitCargoSubEstructura($event)"></lib-shared-form-direccion>
+            
+            <table class="table" style="border:hidden;">
+            <tr>
+                <td style="text-align:right;">
+                    <lib-shared-form-buttons [accionForm]='accionForm' 
+                                      [permisos]='permisos' 
+                                      (setAccion)="setAccionForm($event)"
+                                      (onSubmitComponent)="onSubmit(form.value)"></lib-shared-form-buttons>
+                </td>                      
+                <td style="width:60px;" *ngIf="accionForm=='consultar'">
+                    <button type="button" 
+                            *ngIf="['modificar','agregar'].indexOf(accionForm)==-1"
+                            class="btn btn-warning"  style="float:right;"
+                            (click)="setAccionForm('listado')" translate>navegabilidad.cerrar</button>
+                </td>                      
+            </tr>                      
+            </table>
+
+
+    </form> 
+
+</div>
+
