@@ -10,7 +10,7 @@ export const environment = {
   tipoServidor: {  
       hosting           : 'firebase',       // firebase  o externo
       login             : 'firebase',       // firebase  o sql
-      baseDatos         : 'mssql',      // firestore o sql mssql
+      baseDatos         : 'mssql',          // firestore o sql mssql
       storage           : 'firebase',       // firebase  o externo
   },  
   firebase:  {

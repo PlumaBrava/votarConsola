@@ -31,7 +31,7 @@ export const environment = {
         documentRoot   : 'planifi-k/www',
     },
     sql: {
-        apiURL          : 'http://localhost/',           //Desarrollo
+        apiURL          : 'http://localhost:3000/',           //Desarrollo
     },
     storage: {
         serverURL       : 'https://www.lincolnonline.com.ar/archivos/',        //Desarrollo

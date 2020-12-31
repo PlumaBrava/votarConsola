@@ -38,9 +38,9 @@
                             <!--------------- Filtros -------------------->
                             <tr> 
                                 <th *ngIf="tipoPerfilUsuario=='Desarrollador' && grilla.verColumnaKey">
-                                    <input [(ngModel)]="grilla.filtros['key']" *ngIf="grilla.mostrarFiltro('key')"
+                                    <input [(ngModel)]="grilla.filtros['NumConcejal']" *ngIf="grilla.mostrarFiltro('NumConcejal')"
                                            type="text" class="form-control filtroGrilla" 
-                                           placeholder="{{'moduloDesarrolladores.key' | translate}}">
+                                           placeholder="{{'votar.numConcejal' | translate}}">
                                 </th>
                                 <th *ngIf="tipoPerfilUsuario=='Desarrollador' && !grilla.verColumnaKey"
                                     colspan="1" style="width:24px; padding-left:0px; padding-right:0px;"></th>

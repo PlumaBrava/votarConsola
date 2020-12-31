@@ -1,0 +1,600 @@
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#ccc"
+  type="ball-spin">
+  <p style="font-size: 16px; color: #ccc" translate>componente-ngx-spinner.grabando</p>
+</ngx-spinner>
+
+<!-- *************** LISTADO ************************************ -->
+<div *ngIf="accionForm=='listado' && grilla!==undefined">
+
+    <div class="row tituloRow">
+        <div class="col-lg-12 col-12">        
+            <span class="tituloTexto">
+                <b>{{'votar.concejales' | translate}}</b>
+            </span>                
+        </div>
+    </div>
+
+    <div translate>{{errorMensaje}}</div>
+     
+    <div widget class="card border-0 box-shadow" >
+        <div class="card-header transparent border-0 text-muted">
+            <!-- <h5 class="mb-0" translate>moduloRutas.rutas</h5> -->
+            <div class="widget-controls"> 
+                <a data-widgster="expand" href="#" class="transition"><i class="fa fa-chevron-down"></i></a>
+            </div>        
+        </div>
+        <div class="card-body pt-0 widget-body"> 
+
+            <div  class="row" >
+                <div class="col-12">
+                    <table class="table table-hover table-bordered" 
+                          [ngClass]="!grilla.verFiltrosAdicionales ? 'Grilla1FilaFiltros' : 'Grilla2FilaFiltros'">
+
+                        <thead>
+
+                            <!--------------- Filtros -------------------->
+                            <tr> 
+                                <th *ngIf="tipoPerfilUsuario=='Desarrollador' && grilla.verColumnaKey">
+                                    <input [(ngModel)]="grilla.filtros['NumConcejal']" *ngIf="grilla.mostrarFiltro('NumConcejal')"
+                                           type="text" class="form-control filtroGrilla" 
+                                           placeholder="{{'votar.numConcejal' | translate}}">
+                                </th>
+                                <th *ngIf="tipoPerfilUsuario=='Desarrollador' && !grilla.verColumnaKey"
+                                    colspan="1" style="width:24px; padding-left:0px; padding-right:0px;"></th>
+
+
+                                        
+                                <th>
+                                    <input [(ngModel)]="grilla.filtros['Concejal']"  
+                                           (keyup)="filtrarGrilla('Concejal')"                                    
+                                           type="text" class="form-control filtroGrilla" style="min-width:60px;"
+                                           placeholder="{{'votar.concejal' | translate}}">
+                                </th>                                     
+                                        
+                                <th>
+                                    <input [(ngModel)]="grilla.filtros['Abreviacion']"  
+                                           (keyup)="filtrarGrilla('Abreviacion')"                                    
+                                           type="text" class="form-control filtroGrilla" style="min-width:60px;"
+                                           placeholder="{{'votar.abreviacion' | translate}}">
+                                </th>                                     
+                                        
+                                <th>
+                                    <input [(ngModel)]="grilla.filtros['Email']"  
+                                           (keyup)="filtrarGrilla('Email')"                                    
+                                           type="text" class="form-control filtroGrilla" style="min-width:60px;"
+                                           placeholder="{{'votar.email' | translate}}">
+                                </th>                                     
+                                        
+                                <!-- <th>
+                                    <input [(ngModel)]="grilla.filtros['NumPropuesto']"  
+                                           (keyup)="filtrarGrilla('NumPropuesto')"                                    
+                                           type="text" class="form-control filtroGrilla" style="min-width:60px;"
+                                           placeholder="{{'votar.numPropuesto' | translate}}">
+                                </th>                                      -->
+                                        
+                                <th>
+                                    <select [(ngModel)]="grilla.filtros['Clasificacion']" *ngIf="grilla.mostrarFiltro('Clasificacion')"
+                                            class="form-control filtroGrilla selectpicker"
+                                            [ngClass]="grilla.filtros['Clasificacion'] ? 'filtroConValor' : 'filtroSinValor'"
+                                            (change)="filtrarGrilla('Clasificacion')">
+                                        <option *ngFor="let item of getListadoSiNo('Clasificacion')" [ngValue]="item.logic"> {{item.val | translate}}</option>
+                                    </select>
+                                </th> 
+
+                                <th>
+                                    <select [(ngModel)]="grilla.filtros['Estado']" *ngIf="grilla.mostrarFiltro('Estado')"
+                                            class="form-control filtroGrilla selectpicker"
+                                            [ngClass]="grilla.filtros['Estado'] ? 'filtroConValor' : 'filtroSinValor'"
+                                            (change)="filtrarGrilla('Estado')">
+                                        <option *ngFor="let item of listadoSiNoActivo" [ngValue]="item.logic"> {{item.val | translate}}</option>
+                                    </select>
+                                </th> 
+
+
+                                    
+                                <th>
+                                    <input [(ngModel)]="grilla.filtros['BancaFila']"  
+                                           (keyup)="filtrarGrilla('BancaFila')"                                    
+                                           type="text" class="form-control filtroGrilla" style="min-width:60px;"
+                                           placeholder="{{'votar.bancaFila' | translate}}">
+                                </th>     
+
+                                <th>
+                                    <input [(ngModel)]="grilla.filtros['BancaColumna']"  
+                                           (keyup)="filtrarGrilla('BancaColumna')"                                    
+                                           type="text" class="form-control filtroGrilla" style="min-width:60px;"
+                                           placeholder="{{'votar.bancaColumna' | translate}}">
+                                </th>     
+                                
+                                
+                                <th class="align-middle" style="padding-top:0px; padding-bottom:0px;">
+                                    <button title="{{'navegabilidad.reset' | translate}}"
+                                            class="btn btn-link btn-lg"
+                                            (click)="resetFiltros()"><i class="fa fa-eraser ml-3 text-secondary"></i></button>
+                                </th>
+
+                            </tr>
+
+                            <!-- Títulos de Columnas -->
+                            <tr class="titulo-grilla"> 
+
+                                <th *ngIf="tipoPerfilUsuario=='Desarrollador' && grilla.verColumnaKey"                                    
+                                    [class.active]="grilla.orderField === 'key'"
+                                    (click)="onChangeGrilla('order','key')" style="padding-bottom:0px;">
+
+                                        <button class="btn btn-link btn-lg"  
+                                            style="padding-left:0px; padding-top:0px; margin-right:30px;"
+                                            title="{{'grilla.ocultarKey' | translate}}" 
+                                            *ngIf="permisos.altasAutorizadas" 
+                                            (click)="grilla.verColumnaKey=!grilla.verColumnaKey"><i class="mdi mdi-unfold-less-vertical mdi-24px text-dark"
+                                           aria-hidden="true"></i></button>
+
+                                        {{'votar.numConcejal' | translate}}<span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                                </th>
+                                <th *ngIf="tipoPerfilUsuario=='Desarrollador' && !grilla.verColumnaKey"
+                                 (click)="grilla.verColumnaKey=!grilla.verColumnaKey" title="{{'grilla.mostrarKey' | translate}}"
+                                        colspan="1"
+                                        style="width:10px; padding-left:0px; padding-right:0px; text-align:center;">
+                                    ...
+                                </th>
+                                
+                                <th *ngIf="['Desarrollador','Supervisor','Distribuidor'].indexOf(tipoPerfilUsuario)!=-1"
+                                    translate>votar.concejal
+                                </th> 
+
+                                <th [class.active]="grilla.orderField === 'nombre'" [attr.colspan]="1"
+                                    class="text-left"
+                                    (click)="onChangeGrilla('order','Abreviacion')"
+                                    translate>votar.abreviacion<span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                                </th> 
+                                
+                                <th [class.active]="grilla.orderField === 'Email'" class="text-left" colspan="1"
+                                    (click)="onChangeGrilla('order','Email')" translate>votar.email
+                                    <span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                                </th>                                 
+
+                                <!-- <th [class.active]="grilla.orderField === 'NumPropuesto'" class="text-left" 
+                                    (click)="onChangeGrilla('order','NumPropuesto')" translate>votar.numPropuesto
+                                    <span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                                </th>                                  -->
+                                
+
+
+                                <th [class.active]="grilla.orderField === 'Clasificacion'" class="text-center"
+                                    (click)="onChangeGrilla('order','Clasificacion')" translate>votar.clasificacion
+                                    <span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                                </th>                                 
+
+                                                            
+                                <th [class.active]="grilla.orderField === 'Estado'" class="text-center"
+                                    (click)="onChangeGrilla('order','Estado')"  translate>votar.estado
+                                    <span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span> 
+                                </th>
+
+                                <th [class.active]="grilla.orderField === 'BancaFila'" class="text-center"
+                                    (click)="onChangeGrilla('order','BancaFila')"  translate>votar.bancaFila
+                                    <span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                                </th>                                 
+
+                                <th [class.active]="grilla.orderField === 'BancaColumna'" class="text-center"
+                                    (click)="onChangeGrilla('order','BancaColumna')"  translate>votar.bancaColumna
+                                    <span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>                                 
+                                </th>                                 
+
+                                <th class="align-middle" style="padding-top:0px; padding-bottom:0px;">
+                                    <!-- Agregar -->
+                                    <button class="btn btn-link btn-lg"  
+                                    title="{{'navegabilidad.agregar' | translate}}" 
+                                    *ngIf="permisos.altasAutorizadas" (click)="abrirFormulario(null)"><i class="fa fa-plus ml-3 text-success"></i></button>
+                                </th>    
+
+                            </tr>
+
+                        </thead>
+                        <tbody>
+
+                            <!-- ----------------------------------------------------------------- -->
+                            <!-- ------- Orden, Filtros y Paginado ------------------------------- -->
+                            <!-- ----------------------------------------------------------------- -->
+
+                            <ng-container *ngFor="let documento of listadoPrincipal 
+                                        | orderBy :grilla.orderField :grilla.orderReverse :'case-insensitive'                                        
+                                        | searchFiltro:grilla.paginadoTipo:'NumConcejal':grilla.filtros['NumConcejal']
+                                        | searchFiltro:grilla.paginadoTipo:'Concejal':grilla.filtros['Concejal']
+                                        | searchFiltro:grilla.paginadoTipo:'NumPropuesto':grilla.filtros['NumPropuesto']
+                                        | searchFiltro:grilla.paginadoTipo:'Clasificacion':grilla.filtros['Clasificacion']
+                                        | searchFiltro:grilla.paginadoTipo:'Estado':grilla.filtros['Estado']
+                                        | searchFiltro:grilla.paginadoTipo:'Abreviacion':grilla.filtros['Abreviacion']
+                                        | searchFiltro:grilla.paginadoTipo:'Abreviacion':grilla.filtros['Abreviacion']
+                                        | searchFiltro:grilla.paginadoTipo:'BancaFila':grilla.filtros['BancaFila']
+                                        | searchFiltro:grilla.paginadoTipo:'BancaColumna':grilla.filtros['BancaColumna']
+                                        | searchFiltro:grilla.paginadoTipo:'Email':grilla.filtros['Email']
+                                        
+                                        | searchFiltro:grilla.paginadoTipo:'settings.borradoFisico':false:'boolean'   
+                                        | paginate: { itemsPerPage: grilla.paginadoCantidad, 
+                                                      currentPage : pagePaginado,
+                                                      totalItems  : grilla.resultCantidad }; 
+                                          let index = index"> 
+
+                                 <tr [ngStyle]="grilla.colorFilaSegunEstado(documento?.settings)"
+                                     (mouseover)="grilla.keyHoverActivo=documento.NumConcejal"
+                                     (mouseout)="grilla.keyHoverActivo=null"              
+                                     [ngClass]="grilla.keyHoverActivo==documento.NumConcejal ? 'trHover' : 'trNotHover'">
+
+                                    <td *ngIf="tipoPerfilUsuario=='Desarrollador' && grilla.verColumnaKey"
+                                        class="align-middle"
+                                        (click)="abrirFormulario(documento)"> 
+                                        <span class="align-left">{{documento.NumConcejal}}</span>
+                                    </td>
+                                    <td *ngIf="tipoPerfilUsuario=='Desarrollador' && !grilla.verColumnaKey"
+                                        (click)="grilla.verColumnaKey=!grilla.verColumnaKey"
+                                        colspan="1"
+                                        style="width:12px; padding-left:0px; padding-right:0px;"></td>
+
+                                    <td class="align-middle" (click)="abrirFormulario(documento)" translate>
+                                        {{documento.Concejal}}
+                                    </td>
+
+                                    <td class="align-middle" (click)="abrirFormulario(documento)" translate>
+                                        {{documento.Abreviacion}}</td>  
+
+                                    <td class="align-middle" (click)="abrirFormulario(documento)" translate>
+                                        {{documento.Email}}  </td>                                                                              
+
+                                    <!-- <td class="align-middle" (click)="abrirFormulario(documento)" translate>
+                                        {{documento.NumPropuesto}}  </td>        -->
+                                    
+                                    <td class="align-middle text-center" (click)="abrirFormulario(documento)">
+                                            <i class="fa fa-check text-secondary" *ngIf="documento.Clasificacion"></i>
+                                    </td>
+
+
+                                    <td class="align-middle text-center" (click)="abrirFormulario(documento)">
+                                        <i class="fa fa-check text-secondary" *ngIf="documento.Estado"></i>
+                                    </td>
+
+
+                                    <td class="align-middle" (click)="abrirFormulario(documento)" translate>
+                                        {{documento.BancaFila}}  </td>                                          
+
+                                    <td class="align-middle" (click)="abrirFormulario(documento)" translate>
+                                        {{documento.BancaColumna}}  </td>                                          
+
+                                         
+                                         
+                                                
+
+                                    <!-- <td class="align-middle text-center" (click)="abrirFormulario(documento)">
+                                        <span [ngClass]="documento.settings.isActivo ? 'spanGrillaResaltadoActivo' : 'spanGrillaResaltadoNoActivo'"
+                                              class="align-middle">{{documento.fechaHoraInicioPlaneada | date:'DD/MM/AAAA':activeLang}}</span><br>
+                                        <span class="align-middle">{{documento.fechaHoraInicioPlaneada | date:'HH:MM hs':activeLang}}</span>                          
+                                    </td>     -->
+
+                                    <!-- <td class="align-middle text-center" (click)="abrirFormulario(documento)">
+                                        <span [ngClass]="documento.settings.isActivo ? 'spanGrillaResaltadoActivo' : 'spanGrillaResaltadoNoActivo'"
+                                              class="align-middle">{{documento.fechaHoraFinalizacionPlaneada | date:'DD/MM/AAAA':activeLang}}</span><br>
+                                        <span class="align-middle">{{documento.fechaHoraFinalizacionPlaneada | date:'HH:MM hs':activeLang}}</span>                          
+                                    </td>     -->
+                                                                        
+                                    <td class="align-middle">
+                                        <div class="btn-group" role="group">
+                                            <button class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px;"
+                                                    title="{{'navegabilidad.consultar' | translate}}"
+                                                    (click)="abrirFormulario(documento)"><i class="fa fa-search mr-3 text-primary"></i></button>
+
+                                            <!-- borrado lógico -->
+                                            <!-- <button *ngIf="permisos.bajasAutorizadas &&
+                                                    documento.settings.documentosAsociados==0 && documento.settings.isBorrado==false" 
+                                                    title="{{'navegabilidad.eliminar' | translate}}"
+                                                    class="btn btn-link btn-lg"  style="padding-left:0px; padding-right:0px;"
+                                                    (click)="deleteDocumento('borradoLogico', documento)"><i class="fa fa-trash mr-3 text-danger"></i></button> -->
+
+                                            <!-- <button *ngIf="permisos.bajasAutorizadas &&
+                                                    documento.settings.documentosAsociados>0 && documento.settings.isBorrado==false" 
+                                                    title="{{fn.titleMensaje('claseValidaciones.documentosAsociados',documento.settings.documentosAsociados)}}"
+                                                    class="btn btn-link btn-lg"  style="padding-left:0px; padding-right:0px;"
+                                                    (click)="fn.alertMensaje('claseValidaciones.documentosAsociados',documento.settings.documentosAsociados)"><i class="fa fa-trash mr-3 text-deshabilitado"></i></button> -->
+
+                                            <!-- borrado físico -->
+                                            <!-- <button *ngIf="permisos.bajasAutorizadas && documento.settings.isBorrado &&
+                                                          ['Desarrollador','Supervisor','Distribuidor'].indexOf(tipoPerfilUsuario)!=-1"
+                                                    title="{{'navegabilidad.eliminarFisicamente' | translate}}"
+                                                    class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px;"
+                                                    (click)="deleteDocumento('borradoFisico',documento)"><i class="fa fa-remove mr-3 text-danger"></i></button> -->
+
+                                        </div>
+                                    </td>
+                                </tr>
+
+                            </ng-container>
+
+                        </tbody>
+                    </table>
+
+                    <!-- paginado -->
+                    <div class="row" style="border-top:1px solid #ccc;">
+                        <div class="col-3" style="padding:10px;">
+                            <div class="bg-white text-center">
+                                <select class="form-control selectpicker" 
+                                        id="grilla.paginadoCantidad"                                         
+                                        [(ngModel)]="grilla.paginadoCantidad"
+                                        (change)="onChangeGrilla('paginadoCantidad',grilla.paginadoCantidad)"> 
+                                    <ng-container *ngFor="let opcion of grilla.paginadoDropDown">
+                                        <option [ngValue]="opcion">Items x Página {{opcion}}</option>
+                                    </ng-container>
+                                </select>
+                            </div>    
+                        </div>    
+                        <div class="col-9" style="padding:10px;">
+                            <div class="bg-white text-center">
+
+                                <!-- Paginado Local -->
+                                <pagination-controls 
+                                    *ngIf="grilla.paginadoTipo=='local'"
+                                    autoHide="{{grilla.paginadoAutoHide}}" 
+                                    previousLabel="{{'componente-paginado.anterior' | translate}}" 
+                                    nextLabel="{{'componente-paginado.siguiente' | translate}}" 
+                                    (pageChange)="pagePaginado = $event" 
+                                    maxSize="3"></pagination-controls>
+
+                                <!-- Paginado Servidor -->
+                                <lib-shared-paginado-servidor 
+                                    *ngIf="grilla.paginadoTipo=='servidor'"
+                                    [grilla]="grilla" 
+                                    (clickPaginado)="emitClickPaginado($event)"></lib-shared-paginado-servidor>
+
+                            </div>
+                        </div>                        
+                    </div>
+
+                </div>
+            </div>
+
+        </div> <!-- FIN card-body -->
+    </div> <!-- FIN widget -->
+
+</div>
+
+<!-- *************** FORMULARIO ************************************ -->
+<div *ngIf="['agregar','modificar','consultar'].indexOf(accionForm)!=-1 && form.value">
+    
+    <div class="row tituloRow">
+        <div class="col-lg-12 col-12">        
+            <span class="tituloTexto">
+                <b>{{'votar.concejales' | translate}}: </b>
+                {{form.value.Concejal}} <span *ngIf="form.value.NumConcejal">({{form.value.NumConcejal}})</span>
+            </span>                
+            <button type="button" 
+                *ngIf="['modificar','agregar'].indexOf(accionForm)==-1 &&
+                       router.url!='/usuarios/fichaOrganizacion'"
+                class="btn btn-warning tituloButton" 
+                (click)="setAccionForm('listado')" translate>navegabilidad.salir</button>
+
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-lg-12 col-12">
+
+            <div class="clearfix">            
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" 
+                           href="#panelFicha" id="tabFicha" 
+                           translate>claseTabs.ficha</a>
+                    </li>
+
+                    <!-- Solapas Activas cuando no estoy editando Ficha -->
+                    <li class="nav-item" *ngIf="form.value.key && ['modificar','agregar'].indexOf(accionForm)==-1">
+                        <a class="nav-link" data-toggle="tab" 
+                           href="#panelVehiculos" id="tabVehiculos" 
+                           (click)="clickSolapa('#tabVehiculos')" 
+                           translate>moduloRutas.vehiculos</a>
+                    </li>
+                    <li class="nav-item" *ngIf="form.value.key && ['modificar','agregar'].indexOf(accionForm)==-1">
+                        <a class="nav-link" data-toggle="tab" 
+                           href="#panelIntegrantes" id="tabIntegrantes"
+                           (click)="clickSolapa('#tabIntegrantes')"  
+                           translate>moduloRutas.integrantes</a>
+                    </li>
+                    <li class="nav-item" *ngIf="form.value.key && ['modificar','agregar'].indexOf(accionForm)==-1">
+                        <a class="nav-link" data-toggle="tab" 
+                           href="#panelParadas" id="tabParadas" 
+                           (click)="clickSolapa('#tabParadas')" 
+                           translate>moduloRutas.paradas</a>
+                    </li>
+                    <li class="nav-item" *ngIf="form.value.key && ['modificar','agregar'].indexOf(accionForm)==-1 && listadoRutaParadas.length>1">
+                        <a class="nav-link" data-toggle="tab" 
+                           href="#panelRecorrido" id="tabRecorrido" 
+                           (click)="clickSolapa('#tabRecorrido')" 
+                           translate>moduloRutas.recorrido</a>
+                    </li>
+
+                    <!-- Solapas Deshabilitadas -->
+                    <li class="nav-item" *ngIf="form.value.key && ['modificar','agregar'].indexOf(accionForm)!=-1">
+                        <a class="nav-link" 
+                           href="javascript:;" translate>moduloRutas.vehiculos</a>
+                    </li>
+                    <li class="nav-item" *ngIf="form.value.key && ['modificar','agregar'].indexOf(accionForm)!=-1">
+                        <a class="nav-link" 
+                           href="javascript:;" translate>moduloRutas.integrantes</a>
+                    </li>
+                    <li class="nav-item" *ngIf="form.value.key && ['modificar','agregar'].indexOf(accionForm)!=-1">
+                        <a class="nav-link" 
+                           href="javascript:;" translate>moduloRutas.rutas</a>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="tab-content top" >
+                <!-- style="background-color: red;" -->
+                <div class="tab-pane active" id="panelFicha" style="padding-top:0px; padding-bottom:0px; ">
+                    
+                        <div class="row" style="margin-bottom:0px;">
+                                                               
+                                    <!-- ******************** FICHA ********************* -->    
+                                    <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" style="padding:10px; width: 100%; background-color: blue;">
+
+                                        <lib-shared-form-buttons 
+                                                          [accionForm]='accionForm'
+                                                          [permisos]='permisos' 
+                                                          (setAccion)="setAccionForm($event)"
+                                                          (onSubmitComponent)="onSubmit(form.value)"></lib-shared-form-buttons>
+
+                                        <!-- ********* datos generales ********** -->
+                                        <div widget class="card border-0 box-shadow" style="margin-top:10px;">
+                                            <div class="card-header transparent border-0 text-muted">
+                                                <h5 class="mb-0" translate>claseTabs.basic</h5>
+                                                <div class="widget-controls"> 
+                                                     <a data-widgster="expand" href="#" class="transition"><i class="fa fa-chevron-down"></i></a>
+                                                    <a data-widgster="collapse" href="#" class="transition"><i class="fa fa-chevron-up"></i></a>                                     
+                                                </div>        
+                                            </div>
+                                            <div class="card-body pt-0 widget-body"> 
+                                                
+                                                <div class="row">
+                                                    <!-- NumConcejal -->
+                                                    <div class="form-group col-4">
+                                                        <label class="text-gray" translate>votar.numConcejal<span class="required">*</span></label>
+                                                        <input formControlName="NumConcejal" class="form-control validation-field" type="text">
+                                                        <small class="text-danger" *ngIf="form.controls.NumConcejal.touched && form.controls.NumConcejal.errors?.required"><span translate>votar.NumConcejal</span>&nbsp;<span translate>claseValidaciones.esRequerido</span></small>                              
+                                                    </div>                                                                        
+    
+                                                    <!-- Concejal -->
+                                                    <div class="form-group col-4">
+                                                        <label class="text-gray" translate>votar.concejal<span class="required">*</span></label>
+                                                        <input formControlName="Concejal" class="form-control validation-field" type="text">
+                                                        <small class="text-danger" *ngIf="form.controls.Concejal.touched && form.controls.Concejal.errors?.required"><span translate>votar.concejal</span>&nbsp;<span translate>claseValidaciones.esRequerido</span></small>                              
+                                                    </div>
+
+                                                    <!-- Abreviacion -->
+                                                    <div class="form-group col-4">
+                                                        <label class="text-gray" translate>votar.abreviacion<span class="required">*</span></label>
+                                                        <input formControlName="Abreviacion" class="form-control validation-field" type="text">
+                                                        <small class="text-danger" *ngIf="form.controls.Abreviacion.touched && form.controls.Abreviacion.errors?.required"><span translate>votar.concejal</span>&nbsp;<span translate>claseValidaciones.esRequerido</span></small>                              
+                                                        <small class="text-danger" *ngIf="form.controls.Abreviacion.touched && form.controls.Abreviacion.errors?.maxLength"><span translate>votar.concejal</span>&nbsp;<span translate>Excedio cantidad de caracteres</span></small>        
+                                                    </div>
+                                                </div>        
+
+                                                <div class="row">
+                                                    <!-- Email -->
+                                                    <div class="form-group col-4">
+                                                        <label class="text-gray" translate>votar.email<span class="required">*</span></label>
+                                                        <input formControlName="Email" class="form-control validation-field" type="text">
+                                                        <small class="text-danger" *ngIf="form.controls.Email.touched && form.controls.Email.errors?.required"><span translate>votar.email</span>&nbsp;<span translate>claseValidaciones.esRequerido</span></small>                              
+                                                        <small class="text-danger" *ngIf="form.controls.Email.touched && form.controls.Email.errors?.email"><span translate>votar.email</span>&nbsp;<span translate>Inválido</span></small>                              
+                                                    </div>                                                                        
+    
+                                                    <!-- BancaFila -->
+                                                    <div class="form-group col-4">
+                                                        <label class="text-gray" translate>votar.bancaFila<span class="required">*</span></label>
+                                                        <input formControlName="BancaFila" class="form-control validation-field" type="text">
+                                                        <small class="text-danger" *ngIf="form.controls.BancaFila.touched && form.controls.BancaFila.errors?.required"><span translate>votar.bancaFila</span>&nbsp;<span translate>claseValidaciones.esRequerido</span></small>                              
+                                                    </div>
+
+                                                    <!-- BancaColumna -->
+                                                    <div class="form-group col-4">
+                                                        <label class="text-gray" translate>votar.bancaColumna<span class="required">*</span></label>
+                                                        <input formControlName="BancaColumna" class="form-control validation-field" type="text">
+                                                        <small class="text-danger" *ngIf="form.controls.BancaColumna.touched && form.controls.BancaColumna.errors?.required"><span translate>votar.bancaColumna</span>&nbsp;<span translate>claseValidaciones.esRequerido</span></small>                              
+                                                    </div>
+                                                </div>        
+                                                    
+                                                    
+                                                <div class="row">
+                                                    <!-- Clasificacion -->
+                                                    <div class="col-6">
+                                                        
+                                                        <div class="form-group" >
+                                                            <div class="check">
+                                                                <label class="container-small checkbox-label" style="padding-right:10px;">{{'votar.clasificacion' | translate}}</label>
+                                                                <input type="checkbox" formControlName="Clasificacion">
+                                                            </div>      
+                                                        </div>                                
+                                                                                
+                                                    </div>                                
+
+                                                    <!-- Estado -->
+                                                    <div class="col-6">
+                                                        <div class="form-group float-left" >
+                                                            <div class="check">
+                                                                <label class="container-small checkbox-label " style="padding-right:10px;">{{'votar.estado' | translate}}</label>
+                                                                <input type="checkbox" formControlName="Estado">
+                                                            </div>      
+                                                        </div>                                                                                     
+                                                    </div>
+                                                        
+                                                </div>        
+                                                
+                                            </div> <!-- FIN card-body -->
+                                        </div> <!-- FIN widget -->
+
+
+
+                                                                        
+                                        
+                                        <!-- settings   -->
+
+                                        <lib-shared-form-buttons [accionForm]='accionForm' 
+                                                          [permisos]='permisos' 
+                                                          (setAccion)="setAccionForm($event)"
+                                                          (onSubmitComponent)="onSubmit(form.value)"></lib-shared-form-buttons>
+
+                                </form>    
+
+                
+                        
+
+                            
+                    </div> <!-- fin row division-->
+                    
+                </div> <!-- FIN tab-pane id="ta" -->
+
+                <div class="tab-pane" id="panelVehiculos">
+                    <!-- <app-rutas-vehiculos 
+                        [ruta]="formatearDocumentoconForm(this.form.value,'vehiculos')"
+                        [permisos]="permisos"
+                        [accionInicial]="componenteVehiculosAccionInicial"
+                        [documentoInicial]="componenteVehiculosDocumentoInicial"
+                        (actualizarRutaconComponente)="actualizarRutaconComponente($event)">                        
+                    </app-rutas-vehiculos> -->
+                </div>
+
+                <div class="tab-pane" id="panelIntegrantes">
+                    <!-- <app-rutas-integrantes
+                        [ruta]="formatearDocumentoconForm(this.form.value,'integrantes')"
+                        [permisos]="permisos"
+                        [accionInicial]="componenteIntegrantesAccionInicial"
+                        [documentoInicial]="componenteIntegrantesDocumentoInicial"
+                        (actualizarRutaconComponente)="actualizarRutaconComponente($event)">                        
+                    </app-rutas-integrantes> -->
+                </div>
+
+                <div class="tab-pane" id="panelParadas">
+                    <!-- <app-rutas-paradas                    
+                        [ruta]="formatearDocumentoconForm(this.form.value,'paradas')"
+                        [permisos]="permisos"
+                        [accionInicial]="componenteParadasAccionInicial"
+                        [documentoInicial]="componenteParadasDocumentoInicial"
+                        (actualizarRutaconComponente)="actualizarRutaconComponente($event)">                        
+                    </app-rutas-paradas> -->
+                </div>
+
+                <div class="tab-pane" id="panelRecorrido">
+                    
+                        <!-- Dibujo de la Ruta en Mapa -->
+                        <div id="mapRuta{{dif}}" 
+                             style="width:100%;" 
+                             [ngStyle]="{height: heightMapa}"></div>                                                               
+
+                </div>
+                
+            </div>                   
+
+        </div>
+    </div>
+
+</div>

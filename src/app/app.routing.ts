@@ -28,7 +28,7 @@ export const routes: Routes = [
         
         /* Modulos de del proyecto */
         { path: 'rutas'                   ,loadChildren: () => import('@proyecto/pk-rutas/pk-rutas.module').then(m => m.PkRutasModule), data: { breadcrumb: 'breadcrumb.rutas' },  canActivate: [CanActivateViaAuthGuard]  },        
-        // { path: 'organizacion'            ,loadChildren: () => import('@proyecto/pk-organizaciones/pk-organizaciones.module').then(m => m.PkOrganizacionesModule), data: { breadcrumb: 'breadcrumb.usuarios' },  canActivate: [CanActivateViaAuthGuard]  },                
+        { path: 'consola'                 ,loadChildren: () => import('@proyecto/consola/consola.module').then(m => m.ConsolaModule), data: { breadcrumb: 'breadcrumb.usuarios' } },
         { path: 'organizacion'            ,loadChildren: () => import('@proyecto/configuracion/configuracion.module').then(m => m.ConfiguracionModule), data: { breadcrumb: 'breadcrumb.usuarios' }, canActivate: [CanActivateViaAuthGuard]  },                
         
         { path: 'conectorRoadNet'         ,loadChildren: () => import('@proyecto/soap/soap.module').then(m => m.SoapModule), data: { breadcrumb: 'soap.conectoresRoadNet' },  canActivate: [CanActivateViaAuthGuard]  },                
