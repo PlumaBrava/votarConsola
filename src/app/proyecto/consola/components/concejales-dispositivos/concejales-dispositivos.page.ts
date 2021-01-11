@@ -5,10 +5,10 @@ import { Component, OnInit, OnDestroy, ViewEncapsulation, ChangeDetectorRef } fr
 
 
 import { PageGenerica2 }        from '@maq-modules/page-generica/page-generica2.page';
-import { ConfigComponente }     from './concejales.config';
+import { ConfigComponente }     from './concejales-dispositivos.config';
 
 
-import { Concejales,ConcejalesInterface }   from '@proyecto/models/concejales/concejales.model';
+import {ConcejalesDispositivos, ConcejalesDispositivosInterface}   from '@proyecto/models/concejales/concejales.model';
 
 
 import firebase from 'firebase/app';
@@ -22,16 +22,16 @@ declare let jQuery: any;
 declare var H: any;  
 
 @Component({
-  selector: 'app-concejales',
-  templateUrl: './concejales.page.html',
+  selector: 'app-concejales-dispostivos',
+  templateUrl: './concejales-dispositivos.page.html', 
   styleUrls: [
     '../../../../maqueta/modules/page-generica/page-generica.page.scss',
-    './concejales.page.scss'
+    './concejales-dispositivos.page.scss'
   ],
   encapsulation: ViewEncapsulation.None
 })
 
-export class ConcejalesComponent extends PageGenerica2<Concejales<ConcejalesInterface> > implements OnInit, OnDestroy {
+export class ConcejalesDispositivosComponent extends PageGenerica2<ConcejalesDispositivos<ConcejalesDispositivosInterface> > implements OnInit, OnDestroy {
 
 
 
@@ -41,7 +41,7 @@ export class ConcejalesComponent extends PageGenerica2<Concejales<ConcejalesInte
       super(changeDetectorRef);    
   }  
 
-  public logComponente = log(...values('componente', 'Concejales'));
+  public logComponente = log(...values('componente', 'Concejales-Dispositivos'));
  
 
 
@@ -78,30 +78,7 @@ export class ConcejalesComponent extends PageGenerica2<Concejales<ConcejalesInte
         // Configuración del Componente
         // --------------------------------------------------------------          
         let argumentos={};
-      
-        
-                
-        
-        if(this.tipoPerfilUsuario=='Organizacion' && this.organizacionKNAI) {
-          argumentos['grillaWhereArray']=[{ 
-              key:      'organizacionKNAI.key', 
-              operador: '==', 
-              value:    this.organizacionKNAI.key
-          }];                    
-        }  
-        if(this.tipoPerfilUsuario=='Distribuidor' && this.distribuidorKN) {
-            argumentos['grillaWhereArray']=[{ 
-                key:      'distribuidorKN.key', 
-                operador: '==', 
-                value:    this.distribuidorKN.key
-            }];                    
-        }  
-      
         this.configComponente = new ConfigComponente(argumentos, this.fb, this.fn);
-
-
-       
-    
         super.configuracionComponente();                  
   }
   

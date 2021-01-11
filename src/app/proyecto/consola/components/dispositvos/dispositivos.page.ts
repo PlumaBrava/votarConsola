@@ -5,10 +5,10 @@ import { Component, OnInit, OnDestroy, ViewEncapsulation, ChangeDetectorRef } fr
 
 
 import { PageGenerica2 }        from '@maq-modules/page-generica/page-generica2.page';
-import { ConfigComponente }     from './concejales.config';
+import { ConfigComponente }     from './dispositivos.config';
 
 
-import { Concejales,ConcejalesInterface }   from '@proyecto/models/concejales/concejales.model';
+import { Dispositivos, DispositivosInterface }   from '@proyecto/models/dispositivos/dispositivos.model';
 
 
 import firebase from 'firebase/app';
@@ -22,16 +22,16 @@ declare let jQuery: any;
 declare var H: any;  
 
 @Component({
-  selector: 'app-concejales',
-  templateUrl: './concejales.page.html',
+  selector: 'app-dispositivos',
+  templateUrl: './dispositivos.page.html',
   styleUrls: [
     '../../../../maqueta/modules/page-generica/page-generica.page.scss',
-    './concejales.page.scss'
+    './dispositivos.page.scss'
   ],
   encapsulation: ViewEncapsulation.None
 })
 
-export class ConcejalesComponent extends PageGenerica2<Concejales<ConcejalesInterface> > implements OnInit, OnDestroy {
+export class DispositivosComponent extends PageGenerica2<Dispositivos<DispositivosInterface> > implements OnInit, OnDestroy {
 
 
 
@@ -41,7 +41,7 @@ export class ConcejalesComponent extends PageGenerica2<Concejales<ConcejalesInte
       super(changeDetectorRef);    
   }  
 
-  public logComponente = log(...values('componente', 'Concejales'));
+  public logComponente = log(...values('componente', 'Dispositivos'));
  
 
 
@@ -192,7 +192,7 @@ export class ConcejalesComponent extends PageGenerica2<Concejales<ConcejalesInte
   }  
   
   onSubmit(documento:any):void {
-    log(...values('funcionComponente','Rutas.onSubmit'));
+    log(...values('funcionComponente','Dispositivo.onSubmit'));
     console.log("onSubmit",documento);
 
 

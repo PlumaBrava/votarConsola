@@ -1,7 +1,7 @@
 import { log, logIf, logTable, values } from '@maq-console';
 
 import { FormGroup, FormControl, FormBuilder, Validators, FormsModule } from '@angular/forms';
-import { Concejales,ConcejalesInterface }   from '@proyecto/models/concejales/concejales.model';
+import {ConcejalesDispositivos, ConcejalesDispositivosInterface}   from '@proyecto/models/concejales/concejales.model';
 
 export class ConfigComponente {
 
@@ -22,7 +22,7 @@ export class ConfigComponente {
       // Colección Principal
       this.nombreColeccion ='concejales';
       this.campoClave      ='NumConcejal';
-      this.t               = new Concejales(); //Construir una clase con todos los campos. 
+      this.t               = new ConcejalesDispositivos(); //Construir una clase con todos los campos. 
       this.mostrarDiferenciaModeloFomulario=true;
 
       this.columnasAdicionalesLogTable = [];

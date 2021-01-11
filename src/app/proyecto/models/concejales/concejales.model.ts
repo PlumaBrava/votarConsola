@@ -1,6 +1,7 @@
 
 
-/* Concejales tiene el listado de consejles */
+/* Concejales tiene el listado de concejales */
+import { Settings }         from '@maq-models/settings/settings.model';
 
 export class Concejales<ConcejalesInterface> {
 
@@ -13,9 +14,22 @@ export class Concejales<ConcejalesInterface> {
   BancaFila     : number;
   BancaColumna  : number;
   Email         : string;
+  settings      : Settings;
  
-  constructor(init?:Partial<ConcejalesInterface>) {
-    Object.assign(this, init);
+  // constructor(init?:Partial<ConcejalesInterface>) {
+  //   Object.assign(this, init);
+  // }
+  constructor() {
+    this.NumConcejal   =null;
+    this.Concejal      =null;
+    this.NumPropuesto  =null;
+    this.Clasificacion =null;
+    this.Estado        =null;
+    this.Abreviacion   =null;
+    this.BancaFila     =null;
+    this.BancaColumna  =null;
+    this.Email         =null;
+    this.settings      =new Settings();
   }
 }  
 
@@ -41,9 +55,17 @@ export class ConcejalesDispositivos<ConcejalesDispositivosInterface> {
   Clave             : string;
   Macaddresses      : string
   Presente          : boolean;
+  settings          : Settings;
   
-  constructor(init?:Partial<ConcejalesDispositivosInterface>) {
-    Object.assign(this, init);
+  constructor() {
+    this.NumConcejal    = null;
+    this.NumDispositivo = null;
+    this.Funcion        = null;
+    this.Clave          = null;
+    this.Macaddresses   = null;
+    this.Presente       = null;
+    this.settings       = new Settings();
+    
   }
   
 } 

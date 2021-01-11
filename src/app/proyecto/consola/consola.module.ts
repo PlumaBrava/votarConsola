@@ -21,7 +21,9 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ConsolaRoutingModule }     from './consola-routing.module';
 
 
-import { ConcejalesComponent }       from './components/concejales/concejales.page';
+import { ConcejalesComponent }              from './components/concejales/concejales.page';
+import { DispositivosComponent }            from './components/dispositvos/dispositivos.page';
+import { ConcejalesDispositivosComponent }  from './components/concejales-dispositivos/concejales-dispositivos.page';
 
 
 import { DragulaModule }             from 'ng2-dragula';
@@ -29,6 +31,8 @@ import { DragulaModule }             from 'ng2-dragula';
 @NgModule({
   declarations: [
     ConcejalesComponent,
+    DispositivosComponent,
+    ConcejalesDispositivosComponent
 
   ],
   imports: [
