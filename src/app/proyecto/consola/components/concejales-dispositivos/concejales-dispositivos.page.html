@@ -18,6 +18,472 @@
     </div>
 
     <div translate>{{errorMensaje}}</div>
+
+                <!-- Tabla De Concejales -->
+                <!--  -->
+                <!--  -->
+                
+                    
+                <div widget class="card border-0 box-shadow " style="margin-top:10px; background-color: bisque;;" >
+                    <div class="card-header transparent border-0 text-muted">
+                        <h5 class="mb-0" translate>claseTabs.basic</h5>
+                        <div class="widget-controls"> 
+                            <a data-widgster="expand" href="#" class="transition"><i class="fa fa-chevron-down"></i></a>
+                            <a data-widgster="collapse" href="#" class="transition"><i class="fa fa-chevron-up"></i></a>                                     
+                        </div>        
+                    </div>
+            
+
+                    <div class="card-body pt-0 widget-body"> 
+
+                        <div  class="row" >
+                            <div class="col-5">
+                                <table class="table table-hover table-bordered" 
+                                    [ngClass]="!grilla.verFiltrosAdicionales ? 'Grilla1FilaFiltros' : 'Grilla2FilaFiltros'">
+
+                                    <thead>
+
+                                        <!--------------- Filtros -------------------->
+                                        <tr> 
+                                            <th *ngIf="tipoPerfilUsuario=='Desarrollador' && grilla.verColumnaKey">
+                                                <input [(ngModel)]="grilla.filtros['NumConcejal']" *ngIf="grilla.mostrarFiltro('NumConcejal')"
+                                                    type="text" class="form-control filtroGrilla" 
+                                                    placeholder="{{'votar.numConcejal' | translate}}">
+                                            </th>
+                                            <th *ngIf="tipoPerfilUsuario=='Desarrollador' && !grilla.verColumnaKey"
+                                                colspan="1" style="width:24px; padding-left:0px; padding-right:0px;"></th>
+
+
+                                                    
+                                            <th>
+                                                <input [(ngModel)]="grilla.filtros['Concejal']"  
+                                                    (keyup)="filtrarGrilla('Concejal')"                                    
+                                                    type="text" class="form-control filtroGrilla" style="min-width:60px;"
+                                                    placeholder="{{'votar.concejal' | translate}}">
+                                            </th>                                     
+                                                    
+                                            <!-- <th>
+                                                <input [(ngModel)]="grilla.filtros['Abreviacion']"  
+                                                    (keyup)="filtrarGrilla('Abreviacion')"                                    
+                                                    type="text" class="form-control filtroGrilla" style="min-width:60px;"
+                                                    placeholder="{{'votar.abreviacion' | translate}}">
+                                            </th>                                      -->
+                                                    
+                                            <!-- <th>
+                                                <input [(ngModel)]="grilla.filtros['Email']"  
+                                                    (keyup)="filtrarGrilla('Email')"                                    
+                                                    type="text" class="form-control filtroGrilla" style="min-width:60px;"
+                                                    placeholder="{{'votar.email' | translate}}">
+                                            </th>                                      -->
+                                                    
+                                                    
+                                            <!-- <th>
+                                                <select [(ngModel)]="grilla.filtros['Clasificacion']" *ngIf="grilla.mostrarFiltro('Clasificacion')"
+                                                        class="form-control filtroGrilla selectpicker"
+                                                        [ngClass]="grilla.filtros['Clasificacion'] ? 'filtroConValor' : 'filtroSinValor'"
+                                                        (change)="filtrarGrilla('Clasificacion')">
+                                                    <option *ngFor="let item of getListadoSiNo('Clasificacion')" [ngValue]="item.logic"> {{item.val | translate}}</option>
+                                                </select>
+                                            </th>  -->
+
+                                            <th>
+                                                <select [(ngModel)]="grilla.filtros['Estado']" *ngIf="grilla.mostrarFiltro('Estado')"
+                                                        class="form-control filtroGrilla selectpicker"
+                                                        [ngClass]="grilla.filtros['Estado'] ? 'filtroConValor' : 'filtroSinValor'"
+                                                        (change)="filtrarGrilla('Estado')">
+                                                    <option *ngFor="let item of listadoSiNoActivo" [ngValue]="item.logic"> {{item.val | translate}}</option>
+                                                </select>
+                                            </th> 
+
+                                                
+                                            <th>
+                                                <input [(ngModel)]="grilla.filtros['BancaFila']"  
+                                                    (keyup)="filtrarGrilla('BancaFila')"                                    
+                                                    type="text" class="form-control filtroGrilla" style="min-width:60px;"
+                                                    placeholder="{{'votar.bancaFila' | translate}}">
+                                            </th>      
+
+                                            <th>
+                                                <input [(ngModel)]="grilla.filtros['BancaColumna']"  
+                                                    (keyup)="filtrarGrilla('BancaColumna')"                                    
+                                                    type="text" class="form-control filtroGrilla" style="min-width:60px;"
+                                                    placeholder="{{'votar.bancaColumna' | translate}}">
+                                            </th>     
+                                               
+                                            
+
+                                        </tr>
+
+                                        <!-- Títulos de Columnas -->
+                                        <tr class="titulo-grilla"> 
+
+                                            <th *ngIf="tipoPerfilUsuario=='Desarrollador' && grilla.verColumnaKey"                                    
+                                                [class.active]="grilla.orderField === 'key'"
+                                                (click)="onChangeGrilla('order','key')" style="padding-bottom:0px;">
+
+                                                    <button class="btn btn-link btn-lg"  
+                                                        style="padding-left:0px; padding-top:0px; margin-right:30px;"
+                                                        title="{{'grilla.ocultarKey' | translate}}" 
+                                                        *ngIf="permisos.altasAutorizadas" 
+                                                        (click)="grilla.verColumnaKey=!grilla.verColumnaKey"><i class="mdi mdi-unfold-less-vertical mdi-24px text-dark"
+                                                    aria-hidden="true"></i></button>
+
+                                                    {{'votar.numConcejal' | translate}}<span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                                            </th>
+                                            <th *ngIf="tipoPerfilUsuario=='Desarrollador' && !grilla.verColumnaKey"
+                                            (click)="grilla.verColumnaKey=!grilla.verColumnaKey" title="{{'grilla.mostrarKey' | translate}}"
+                                                    colspan="1"
+                                                    style="width:10px; padding-left:0px; padding-right:0px; text-align:center;">
+                                                ...
+                                            </th>
+                                            
+                                            <th *ngIf="['Desarrollador','Supervisor','Distribuidor'].indexOf(tipoPerfilUsuario)!=-1"
+                                                translate>votar.concejal
+                                            </th> 
+
+                                            <!-- <th [class.active]="grilla.orderField === 'nombre'" [attr.colspan]="1"
+                                                class="text-left"
+                                                (click)="onChangeGrilla('order','Abreviacion')"
+                                                translate>votar.abreviacion<span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                                            </th> 
+                                             -->
+                                            <!-- <th [class.active]="grilla.orderField === 'Email'" class="text-left" colspan="1"
+                                                (click)="onChangeGrilla('order','Email')" translate>votar.email
+                                                <span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                                            </th>                                  -->
+
+                                            
+
+
+                                            <!-- <th [class.active]="grilla.orderField === 'Clasificacion'" class="text-center"
+                                                (click)="onChangeGrilla('order','Clasificacion')" translate>votar.clasificacion
+                                                <span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                                            </th>                                  -->
+
+                                                                        
+                                            <th [class.active]="grilla.orderField === 'Estado'" class="text-center"
+                                                (click)="onChangeGrilla('order','Estado')"  translate>votar.estado
+                                                <span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span> 
+                                            </th>
+
+                                            <th [class.active]="grilla.orderField === 'BancaFila'" class="text-center"
+                                                (click)="onChangeGrilla('order','BancaFila')"  translate>votar.bancaFila
+                                                <span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                                            </th>                                 
+
+                                            <th [class.active]="grilla.orderField === 'BancaColumna'" class="text-center"
+                                                (click)="onChangeGrilla('order','BancaColumna')"  translate>votar.bancaColumna
+                                                <span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>                                 
+                                            </th>                                 
+
+                                    
+
+                                        </tr>
+
+                                    </thead>
+                                    <tbody>
+
+                                        <!-- ----------------------------------------------------------------- -->
+                                        <!-- ------- Orden, Filtros y Paginado ------------------------------- -->
+                                        <!-- ----------------------------------------------------------------- -->
+
+                                        <ng-container *ngFor="let documento of this.msg.cacheColecciones['Concejales'] 
+                                                    | orderBy :grilla.orderField :grilla.orderReverse :'case-insensitive'                                        
+                                                    | searchFiltro:grilla.paginadoTipo:'NumConcejal':grilla.filtros['NumConcejal']
+                                                    | searchFiltro:grilla.paginadoTipo:'Concejal':grilla.filtros['Concejal']
+                                                    | searchFiltro:grilla.paginadoTipo:'NumPropuesto':grilla.filtros['NumPropuesto']
+                                                    | searchFiltro:grilla.paginadoTipo:'Clasificacion':grilla.filtros['Clasificacion']
+                                                    | searchFiltro:grilla.paginadoTipo:'Estado':grilla.filtros['Estado']
+                                                    | searchFiltro:grilla.paginadoTipo:'Abreviacion':grilla.filtros['Abreviacion']
+                                                    | searchFiltro:grilla.paginadoTipo:'BancaFila':grilla.filtros['BancaFila']
+                                                    | searchFiltro:grilla.paginadoTipo:'BancaColumna':grilla.filtros['BancaColumna']
+                                                    | searchFiltro:grilla.paginadoTipo:'Email':grilla.filtros['Email']
+                                                    
+                                                    | searchFiltro:grilla.paginadoTipo:'settings.borradoFisico':false:'boolean'   
+                                                    | paginate: { itemsPerPage: grilla.paginadoCantidad, 
+                                                                currentPage : pagePaginado,
+                                                                totalItems  : grilla.resultCantidad }; 
+                                                    let index = index"> 
+
+                                            <tr [ngStyle]="grilla.colorFilaSegunEstado(documento?.settings)"
+                                                (mouseover)="grilla.keyHoverActivo=documento.NumConcejal"
+                                                (mouseout)="grilla.keyHoverActivo=null"              
+                                                [ngClass]="grilla.keyHoverActivo==documento.NumConcejal ? 'trHover' : ((documento.NumConcejal == concejalSeleccionado?.NumConcejal) ? 'filaSeleccionada' :  'trNotHover')"
+                                                
+                                                >
+
+                                                <td *ngIf="tipoPerfilUsuario=='Desarrollador' && grilla.verColumnaKey"
+                                                    class="align-middle"
+                                                    (click)="seleccionarConcejal(documento)"> 
+                                                    <span class="align-left">{{documento.NumConcejal}}</span>
+                                                </td>
+                                                <td *ngIf="tipoPerfilUsuario=='Desarrollador' && !grilla.verColumnaKey"
+                                                    (click)="grilla.verColumnaKey=!grilla.verColumnaKey"
+                                                    colspan="1"
+                                                    style="width:12px; padding-left:0px; padding-right:0px;"></td>
+
+                                                <td class="align-middle" (click)="seleccionarConcejal(documento)" translate>
+                                                    {{documento.Concejal}}
+                                                </td>
+
+                                                <!-- <td class="align-middle" (click)="seleccionarConcejal(documento)" translate>
+                                                    {{documento.Abreviacion}}</td>  
+
+                                                <td class="align-middle" (click)="seleccionarConcejal(documento)" translate>
+                                                    {{documento.Email}}  </td>                                                                              
+
+                                                
+                                                <td class="align-middle text-center" (click)="seleccionarConcejal(documento)">
+                                                        <i class="fa fa-check text-secondary" *ngIf="documento.Clasificacion"></i>
+                                                </td> -->
+
+
+                                                <td class="align-middle text-center" (click)="seleccionarConcejal(documento)">
+                                                    <i class="fa fa-check text-secondary" *ngIf="documento.Estado"></i>
+                                                </td>
+
+
+                                                <td class="align-middle" (click)="seleccionarConcejal(documento)" translate>
+                                                    {{documento.BancaFila}}  </td>                                          
+
+                                                <td class="align-middle" (click)="seleccionarConcejal(documento)" translate>
+                                                    {{documento.BancaColumna}}  </td>                                          
+
+                                                    
+                                                    
+                                                
+                                            </tr>
+
+                                        </ng-container>
+
+                                    </tbody>
+                                </table>
+
+                            </div> <!--  col-5 fin -->
+
+                            <!-- Columna del medio -->
+                            <div class="col-1">
+                                <button type="button" class="btn btn-success"
+                                    (click)="enlazar()" >
+                                    <i class="fa fa-arrows-h text-secondary" ></i>
+                                </button>
+
+                            </div>
+
+                            <div class="col-6" style="background-color: indianred;">
+                                Dispositivos
+
+                                <!-- dispositivo  -->
+                                <!-- dispositivo  -->
+
+                                <div  class="row" >
+                                    <div class="col-12">
+                                        <table class="table table-hover table-bordered" 
+                                              [ngClass]="!grilla.verFiltrosAdicionales ? 'Grilla1FilaFiltros' : 'Grilla2FilaFiltros'">
+                    
+                                            <thead>
+                    
+                                                <!--------------- Filtros -------------------->
+                                                <tr> 
+                                                    <th *ngIf="tipoPerfilUsuario=='Desarrollador' && grilla.verColumnaKey">
+                                                        <input [(ngModel)]="grilla.filtros['NumDispositivo']" *ngIf="grilla.mostrarFiltro('NumDispositivo')"
+                                                               type="text" class="form-control filtroGrilla" 
+                                                               placeholder="{{'votar.NumDispositivo' | translate}}">
+                                                    </th>
+                                                    <th *ngIf="tipoPerfilUsuario=='Desarrollador' && !grilla.verColumnaKey"
+                                                        colspan="1" style="width:24px; padding-left:0px; padding-right:0px;"></th>
+                    
+                    
+                                                            
+                                                    <th>
+                                                        <input [(ngModel)]="grilla.filtros['Dispositivo']"  
+                                                               (keyup)="filtrarGrilla('Dispositivo')"                                    
+                                                               type="text" class="form-control filtroGrilla" style="min-width:60px;"
+                                                               placeholder="{{'votar.dispositivo' | translate}}">
+                                                    </th>                                     
+                                                            
+                                                    <th>
+                                                        <input [(ngModel)]="grilla.filtros['Serie']"  
+                                                               (keyup)="filtrarGrilla('Serie')"                                    
+                                                               type="text" class="form-control filtroGrilla" style="min-width:60px;"
+                                                               placeholder="{{'votar.Serie' | translate}}">
+                                                    </th>                                     
+                                                            
+                                                    <th>
+                                                        <input [(ngModel)]="grilla.filtros['Imei']"  
+                                                               (keyup)="filtrarGrilla('Imei')"                                    
+                                                               type="text" class="form-control filtroGrilla" style="min-width:60px;"
+                                                               placeholder="{{'votar.Imei' | translate}}">
+                                                    </th>                                     
+                                                    <th>
+                                                        <input [(ngModel)]="grilla.filtros['Macaddresses']"  
+                                                               (keyup)="filtrarGrilla('Macaddresses')"                                    
+                                                               type="text" class="form-control filtroGrilla" style="min-width:60px;"
+                                                               placeholder="{{'votar.Macaddresses' | translate}}">
+                                                    </th>                                     
+                    
+                    
+                    
+                                                    <th>
+                                                        <select [(ngModel)]="grilla.filtros['Estado']" *ngIf="grilla.mostrarFiltro('Estado')"
+                                                                class="form-control filtroGrilla selectpicker"
+                                                                [ngClass]="grilla.filtros['Estado'] ? 'filtroConValor' : 'filtroSinValor'"
+                                                                (change)="filtrarGrilla('Estado')">
+                                                            <option *ngFor="let item of listadoSiNoActivo" [ngValue]="item.logic"> {{item.val | translate}}</option>
+                                                        </select>
+                                                    </th> 
+                    
+                    
+                                                        
+                                                 
+                                                </tr>
+                    
+                                                <!-- Títulos de Columnas -->
+                                                <tr class="titulo-grilla"> 
+                    
+                                                    <th *ngIf="tipoPerfilUsuario=='Desarrollador' && grilla.verColumnaKey"                                    
+                                                        [class.active]="grilla.orderField === 'key'"
+                                                        (click)="onChangeGrilla('order','key')" style="padding-bottom:0px;">
+                    
+                                                            <button class="btn btn-link btn-lg"  
+                                                                style="padding-left:0px; padding-top:0px; margin-right:30px;"
+                                                                title="{{'grilla.ocultarKey' | translate}}" 
+                                                                *ngIf="permisos.altasAutorizadas" 
+                                                                (click)="grilla.verColumnaKey=!grilla.verColumnaKey"><i class="mdi mdi-unfold-less-vertical mdi-24px text-dark"
+                                                               aria-hidden="true"></i></button>
+                    
+                                                            {{'votar.NumDispositivo' | translate}}<span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                                                    </th>
+                                                    <th *ngIf="tipoPerfilUsuario=='Desarrollador' && !grilla.verColumnaKey"
+                                                     (click)="grilla.verColumnaKey=!grilla.verColumnaKey" title="{{'grilla.mostrarKey' | translate}}"
+                                                            colspan="1"
+                                                            style="width:10px; padding-left:0px; padding-right:0px; text-align:center;">
+                                                        ...
+                                                    </th>
+                                                    
+                                                    <th *ngIf="['Desarrollador','Supervisor','Distribuidor'].indexOf(tipoPerfilUsuario)!=-1"
+                                                        translate>votar.dispositivo
+                                                    </th> 
+                    
+                                                    <th [class.active]="grilla.orderField === 'nombre'" [attr.colspan]="1"
+                                                        class="text-left"
+                                                        (click)="onChangeGrilla('order','Serie')"
+                                                        translate>votar.Serie<span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                                                    </th> 
+                                                    
+                                                    <th [class.active]="grilla.orderField === 'Email'" class="text-left" colspan="1"
+                                                        (click)="onChangeGrilla('order','Imei')" translate>votar.Imei
+                                                        <span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                                                    </th>                                 
+                    
+                                                    <th [class.active]="grilla.orderField === 'Clasificacion'" class="text-center"
+                                                        (click)="onChangeGrilla('order','Macaddresses')" translate>votar.Macaddresses
+                                                        <span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                                                    </th>                                 
+                    
+                                                                                
+                                                    <th [class.active]="grilla.orderField === 'Estado'" class="text-center"
+                                                        (click)="onChangeGrilla('order','Estado')"  translate>votar.estado
+                                                        <span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span> 
+                                                    </th>
+                    
+                                                
+                                                 
+                    
+                                                </tr>
+                    
+                                            </thead>
+                                            <tbody>
+                    
+                                                <!-- ----------------------------------------------------------------- -->
+                                                <!-- ------- Orden, Filtros y Paginado ------------------------------- -->
+                                                <!-- ----------------------------------------------------------------- -->
+                    
+                                                <ng-container *ngFor="let documento of this.msg.cacheColecciones['Dispositivos'] 
+                                                            | orderBy :grilla.orderField :grilla.orderReverse :'case-insensitive'                                        
+                                                            | searchFiltro:grilla.paginadoTipo:'NumDispositivo':grilla.filtros['NumDispositivo']
+                                                            | searchFiltro:grilla.paginadoTipo:'Dispositivo':grilla.filtros['Dispositivo']
+                                                            | searchFiltro:grilla.paginadoTipo:'Serie':grilla.filtros['Serie']
+                                                            | searchFiltro:grilla.paginadoTipo:'Imei':grilla.filtros['Imei']
+                                                            | searchFiltro:grilla.paginadoTipo:'Macaddresses':grilla.filtros['Macaddresses']
+                                                            | searchFiltro:grilla.paginadoTipo:'Estado':grilla.filtros['Estado']
+                                                            
+                                                            
+                                                            | searchFiltro:grilla.paginadoTipo:'settings.borradoFisico':false:'boolean'   
+                                                            | paginate: { itemsPerPage: grilla.paginadoCantidad, 
+                                                                          currentPage : pagePaginado,
+                                                                          totalItems  : grilla.resultCantidad }; 
+                                                              let index = index"> 
+                    
+                                                     <tr [ngStyle]="grilla.colorFilaSegunEstado(documento?.settings)"
+                                                         (mouseover)="grilla.keyHoverActivo=documento.NumDispositivo"
+                                                         (mouseout)="grilla.keyHoverActivo=null"
+                                                         [ngClass]="grilla.keyHoverActivo==documento.NumDispositivo ? 'trHover' : ((documento.NumDispositivo == dispositivoSeleccionado?.NumDispositivo) ? 'filaSeleccionada' :  'trNotHover')"              
+
+                                                         >
+                    
+                                                        <td *ngIf="tipoPerfilUsuario=='Desarrollador' && grilla.verColumnaKey"
+                                                            class="align-middle"> 
+                                                            <span class="align-left">{{documento.NumDispositivo}}</span>
+                                                        </td>
+                                                        <td *ngIf="tipoPerfilUsuario=='Desarrollador' && !grilla.verColumnaKey"
+                                                            (click)="grilla.verColumnaKey=!grilla.verColumnaKey"
+                                                            colspan="1"
+                                                            style="width:12px; padding-left:0px; padding-right:0px;"></td>
+                    
+                                                        <td class="align-middle" (click)="selccionarDispositivo(documento)" translate>
+                                                            {{documento.Dispositivo}}
+                                                        </td>
+                    
+                                                        <td class="align-middle" (click)="selccionarDispositivo(documento)" translate>
+                                                            {{documento.Serie}}</td>  
+                    
+                                                        <td class="align-middle" (click)="selccionarDispositivo(documento)" translate>
+                                                            {{documento.Imei}}  </td>                                                                              
+                    
+                                                        <td class="align-middle" (click)="selccionarDispositivo(documento)" translate>
+                                                            {{documento.Macaddresses}}  </td>                                                                              
+                    
+                    
+                                                        <td class="align-middle text-center" (click)="selccionarDispositivo(documento)">
+                                                            <i class="fa fa-check text-secondary" *ngIf="documento.Estado"></i>
+                                                        </td>
+                                                         
+                    
+                                                             
+                            
+                                                    </tr>
+                    
+                                                </ng-container>
+                    
+                                            </tbody>
+                                        </table>
+                                        
+                                    </div>
+                                </div>
+
+
+
+                                <!-- dispositivo fin -->
+                                <!-- dispositivo fin -->
+
+
+
+                            </div>
+
+                        </div> <!-- row -->
+
+                    </div> <!-- FIN card-body -->
+                   
+                </div> <!-- FIN card -->
+                
+
+
+                <!--  -->
+                <!-- Fin Tabla Concejales -->
+                <!--  -->
+
+
      
     <div widget class="card border-0 box-shadow" >
         <div class="card-header transparent border-0 text-muted">
@@ -52,43 +518,45 @@
                                            (keyup)="filtrarGrilla('Concejal')"                                    
                                            type="text" class="form-control filtroGrilla" style="min-width:60px;"
                                            placeholder="{{'votar.concejal' | translate}}">
-                                </th>                                     
-                                        
+                                </th> 
+                                
                                 <th>
-                                    <input [(ngModel)]="grilla.filtros['Abreviacion']"  
-                                           (keyup)="filtrarGrilla('Abreviacion')"                                    
-                                           type="text" class="form-control filtroGrilla" style="min-width:60px;"
-                                           placeholder="{{'votar.abreviacion' | translate}}">
-                                </th>                                     
-                                        
-                                <th>
-                                    <input [(ngModel)]="grilla.filtros['Email']"  
-                                           (keyup)="filtrarGrilla('Email')"                                    
-                                           type="text" class="form-control filtroGrilla" style="min-width:60px;"
-                                           placeholder="{{'votar.email' | translate}}">
-                                </th>                                     
-                                        
-                                <!-- <th>
-                                    <input [(ngModel)]="grilla.filtros['NumPropuesto']"  
-                                           (keyup)="filtrarGrilla('NumPropuesto')"                                    
-                                           type="text" class="form-control filtroGrilla" style="min-width:60px;"
-                                           placeholder="{{'votar.numPropuesto' | translate}}">
-                                </th>                                      -->
-                                        
-                                <th>
-                                    <select [(ngModel)]="grilla.filtros['Clasificacion']" *ngIf="grilla.mostrarFiltro('Clasificacion')"
-                                            class="form-control filtroGrilla selectpicker"
-                                            [ngClass]="grilla.filtros['Clasificacion'] ? 'filtroConValor' : 'filtroSinValor'"
-                                            (change)="filtrarGrilla('Clasificacion')">
-                                        <option *ngFor="let item of getListadoSiNo('Clasificacion')" [ngValue]="item.logic"> {{item.val | translate}}</option>
+                                    <select [(ngModel)]="grilla.filtros['Funcion']" *ngIf="grilla.mostrarFiltro('Funcion')"
+                                            class="form-control filtroGrilla selectpicker" style="min-width:80px;"
+                                            [ngClass]="grilla.filtros['Funcion'] ? 'filtroConValor' : 'filtroSinValor'"
+                                            (change)="filtrarGrilla('Funcion')">
+                                        <option *ngFor="let item of getListadoSiNo('Función')" [ngValue]="item.logic"> {{item.val | translate}}</option>
                                     </select>
                                 </th> 
 
+                                        
                                 <th>
-                                    <select [(ngModel)]="grilla.filtros['Estado']" *ngIf="grilla.mostrarFiltro('Estado')"
+                                    <input [(ngModel)]="grilla.filtros['Clave']"  
+                                           (keyup)="filtrarGrilla('Clave')"                                    
+                                           type="text" class="form-control filtroGrilla" style="min-width:60px;"
+                                           placeholder="{{'votar.clave' | translate}}">
+                                </th>                                     
+                                        
+                                <th>
+                                    <input [(ngModel)]="grilla.filtros['Dispositivo']"  
+                                           (keyup)="filtrarGrilla('Dispositivo')"                                    
+                                           type="text" class="form-control filtroGrilla" style="min-width:60px;"
+                                           placeholder="{{'votar.dispositivo' | translate}}">
+                                </th>                                     
+                                <th>
+                                    <input [(ngModel)]="grilla.filtros['Macaddresses']"  
+                                           (keyup)="filtrarGrilla('Macaddresses')"                                    
+                                           type="text" class="form-control filtroGrilla" style="min-width:60px;"
+                                           placeholder="{{'votar.Macaddresses' | translate}}">
+                                </th>                                     
+                                        
+
+
+                                <th>
+                                    <select [(ngModel)]="grilla.filtros['dispositvoEstado']" *ngIf="grilla.mostrarFiltro('dispositvoEstado')"
                                             class="form-control filtroGrilla selectpicker"
-                                            [ngClass]="grilla.filtros['Estado'] ? 'filtroConValor' : 'filtroSinValor'"
-                                            (change)="filtrarGrilla('Estado')">
+                                            [ngClass]="grilla.filtros['dispositvoEstado'] ? 'filtroConValor' : 'filtroSinValor'"
+                                            (change)="filtrarGrilla('dispositvoEstado')">
                                         <option *ngFor="let item of listadoSiNoActivo" [ngValue]="item.logic"> {{item.val | translate}}</option>
                                     </select>
                                 </th> 
@@ -145,16 +613,22 @@
                                     translate>votar.concejal
                                 </th> 
 
-                                <th [class.active]="grilla.orderField === 'nombre'" [attr.colspan]="1"
+                                <th [class.active]="grilla.orderField === 'Funcion'" class="text-center"
+                                    (click)="onChangeGrilla('order','Funcion')"  translate>votar.funcion
+                                    <span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span> 
+                                </th>
+
+                                <th [class.active]="grilla.orderField === 'Clave'" [attr.colspan]="1"
                                     class="text-left"
-                                    (click)="onChangeGrilla('order','Abreviacion')"
-                                    translate>votar.abreviacion<span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                                    (click)="onChangeGrilla('order','Clave')"
+                                    translate>votar.clave<span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
                                 </th> 
                                 
-                                <th [class.active]="grilla.orderField === 'Email'" class="text-left" colspan="1"
-                                    (click)="onChangeGrilla('order','Email')" translate>votar.email
+                                <th [class.active]="grilla.orderField === 'Dispositivo'" class="text-left" colspan="1"
+                                    (click)="onChangeGrilla('order','Dispositivo')" translate>votar.dispositivo
                                     <span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
-                                </th>                                 
+                                </th> 
+
 
                                 <!-- <th [class.active]="grilla.orderField === 'NumPropuesto'" class="text-left" 
                                     (click)="onChangeGrilla('order','NumPropuesto')" translate>votar.numPropuesto
@@ -163,14 +637,14 @@
                                 
 
 
-                                <th [class.active]="grilla.orderField === 'Clasificacion'" class="text-center"
-                                    (click)="onChangeGrilla('order','Clasificacion')" translate>votar.clasificacion
+                                <th [class.active]="grilla.orderField === 'Macaddresses'" class="text-center"
+                                    (click)="onChangeGrilla('order','Macaddresses')" translate>votar.macaddresses
                                     <span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
                                 </th>                                 
 
                                                             
-                                <th [class.active]="grilla.orderField === 'Estado'" class="text-center"
-                                    (click)="onChangeGrilla('order','Estado')"  translate>votar.estado
+                                <th [class.active]="grilla.orderField === 'dispositvoEstado'" class="text-center"
+                                    (click)="onChangeGrilla('order','dispositvoEstado')"  translate>votar.estado
                                     <span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span> 
                                 </th>
 
@@ -204,14 +678,14 @@
                                         | orderBy :grilla.orderField :grilla.orderReverse :'case-insensitive'                                        
                                         | searchFiltro:grilla.paginadoTipo:'NumConcejal':grilla.filtros['NumConcejal']
                                         | searchFiltro:grilla.paginadoTipo:'Concejal':grilla.filtros['Concejal']
-                                        | searchFiltro:grilla.paginadoTipo:'NumPropuesto':grilla.filtros['NumPropuesto']
-                                        | searchFiltro:grilla.paginadoTipo:'Clasificacion':grilla.filtros['Clasificacion']
-                                        | searchFiltro:grilla.paginadoTipo:'Estado':grilla.filtros['Estado']
-                                        | searchFiltro:grilla.paginadoTipo:'Abreviacion':grilla.filtros['Abreviacion']
-                                        | searchFiltro:grilla.paginadoTipo:'Abreviacion':grilla.filtros['Abreviacion']
+                                        | searchFiltro:grilla.paginadoTipo:'Funcion':grilla.filtros['Funcion']
+                                        | searchFiltro:grilla.paginadoTipo:'Macaddresses':grilla.filtros['Macaddresses']
+                                        | searchFiltro:grilla.paginadoTipo:'dispositvoEstado':grilla.filtros['dispositvoEstado']
+                                        | searchFiltro:grilla.paginadoTipo:'Clave':grilla.filtros['Clave']
+                                    
                                         | searchFiltro:grilla.paginadoTipo:'BancaFila':grilla.filtros['BancaFila']
                                         | searchFiltro:grilla.paginadoTipo:'BancaColumna':grilla.filtros['BancaColumna']
-                                        | searchFiltro:grilla.paginadoTipo:'Email':grilla.filtros['Email']
+                                        | searchFiltro:grilla.paginadoTipo:'Dispositivo':grilla.filtros['Dispositivo']
                                         
                                         | searchFiltro:grilla.paginadoTipo:'settings.borradoFisico':false:'boolean'   
                                         | paginate: { itemsPerPage: grilla.paginadoCantidad, 
@@ -238,22 +712,25 @@
                                         {{documento.Concejal}}
                                     </td>
 
-                                    <td class="align-middle" (click)="abrirFormulario(documento)" translate>
-                                        {{documento.Abreviacion}}</td>  
-
-                                    <td class="align-middle" (click)="abrirFormulario(documento)" translate>
-                                        {{documento.Email}}  </td>                                                                              
-
-                                    <!-- <td class="align-middle" (click)="abrirFormulario(documento)" translate>
-                                        {{documento.NumPropuesto}}  </td>        -->
-                                    
                                     <td class="align-middle text-center" (click)="abrirFormulario(documento)">
-                                            <i class="fa fa-check text-secondary" *ngIf="documento.Clasificacion"></i>
+                                        <i class="fa fa-check text-secondary"     *ngIf="documento.Funcion"></i>
+                                        <i class="fa fa-circle-o  text-secondary" *ngIf="!documento.Funcion"></i>
                                     </td>
 
+                                    <td class="align-middle" (click)="abrirFormulario(documento)" translate>
+                                        {{documento.Clave}}</td>  
+
+                                    <td class="align-middle" (click)="abrirFormulario(documento)" translate>
+                                        {{documento.Dispositivo}}  </td>    
+
+                                    <td class="align-middle" (click)="abrirFormulario(documento)" translate>
+                                        {{documento.Macaddresses}}  </td>                                                                              
+
+
 
                                     <td class="align-middle text-center" (click)="abrirFormulario(documento)">
-                                        <i class="fa fa-check text-secondary" *ngIf="documento.Estado"></i>
+                                        <i class="fa fa-check text-secondary"     *ngIf="documento.dispositvoEstado"></i>
+                                        <i class="fa fa-circle-o  text-secondary" *ngIf="!documento.dispositvoEstado"></i>
                                     </td>
 
 
@@ -272,17 +749,17 @@
                                                     (click)="abrirFormulario(documento)"><i class="fa fa-search mr-3 text-primary"></i></button>
 
                                             <!-- borrado lógico -->
-                                            <button *ngIf="permisos.bajasAutorizadas &&
+                                            <!-- <button *ngIf="permisos.bajasAutorizadas &&
                                                     documento.settings.documentosAsociados==0 && documento.settings.isBorrado==false" 
                                                     title="{{'navegabilidad.eliminar' | translate}}"
                                                     class="btn btn-link btn-lg"  style="padding-left:0px; padding-right:0px;"
-                                                    (click)="deleteDocumento('borradoFisico', documento)"><i class="fa fa-trash mr-3 text-danger"></i></button>
+                                                    (click)="deleteDocumento('borradoFisico', documento)"><i class="fa fa-trash mr-3 text-danger"></i></button> -->
 
-                                            <button *ngIf="permisos.bajasAutorizadas &&
+                                            <!-- <button *ngIf="permisos.bajasAutorizadas &&
                                                     documento.settings.documentosAsociados>0 && documento.settings.isBorrado==false" 
                                                     title="{{fn.titleMensaje('claseValidaciones.documentosAsociados',documento.settings.documentosAsociados)}}"
                                                     class="btn btn-link btn-lg"  style="padding-left:0px; padding-right:0px;"
-                                                    (click)="fn.alertMensaje('claseValidaciones.documentosAsociados',documento.settings.documentosAsociados)"><i class="fa fa-trash mr-3 text-deshabilitado"></i></button>
+                                                    (click)="fn.alertMensaje('claseValidaciones.documentosAsociados',documento.settings.documentosAsociados)"><i class="fa fa-trash mr-3 text-deshabilitado"></i></button> -->
 
                                             <!-- borrado físico -->
                                             <!-- <button *ngIf="permisos.bajasAutorizadas && documento.settings.isBorrado &&
@@ -416,7 +893,14 @@
                 </ul>
             </div>
             <div class="tab-content top" >
-                <!-- style="background-color: red;" -->
+
+               
+                
+
+
+
+
+
                 <div class="tab-pane active" id="panelFicha" style="padding-top:0px; padding-bottom:0px; ">
                     
                         <div class="row" style="margin-bottom:0px;">
@@ -431,7 +915,7 @@
                                                           (onSubmitComponent)="onSubmit(form.value)"></lib-shared-form-buttons>
 
                                         <!-- ********* datos generales ********** -->
-                                        <div widget class="card border-0 box-shadow" style="margin-top:10px;">
+                                        <div widget class="card border-0 box-shadow" style="margin-top:10px; " >
                                             <div class="card-header transparent border-0 text-muted">
                                                 <h5 class="mb-0" translate>claseTabs.basic</h5>
                                                 <div class="widget-controls"> 
@@ -439,6 +923,25 @@
                                                     <a data-widgster="collapse" href="#" class="transition"><i class="fa fa-chevron-up"></i></a>                                     
                                                 </div>        
                                             </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                                             <div class="card-body pt-0 widget-body"> 
                                                 
                                                 <div class="row">

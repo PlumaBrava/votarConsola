@@ -2,6 +2,7 @@ import { log, logIf, logTable, values } from '@maq-console';
 
 import { FormGroup, FormControl, FormBuilder, Validators, FormsModule } from '@angular/forms';
 import {ConcejalesDispositivos, ConcejalesDispositivosInterface}   from '@proyecto/models/concejales/concejales.model';
+import {getListadoCacheModel2 }                                    from '@maq-models/mensajes/mensajes.model';
 
 export class ConfigComponente {
 
@@ -9,18 +10,22 @@ export class ConfigComponente {
    public nombreColeccion              : string;
    public campoClave                   : string;
    public columnasAdicionalesLogTable  : any[];
-   public configListadosCache          : any[];
+   public configListadosCache          : getListadoCacheModel2[];
    public arrayFiles                   : any[]; 
    public form                         : any;
    public t                            : any;// variable para comparar el modelo con el formulario
    public mostrarDiferenciaModeloFomulario : boolean=true;// muestra las diferencas entre el modelo y el formulario
+   
+   // Listado de campos no desados, se ponen en el formulario
+   //  para que formen parte del listado principal pero no los queremos grabar.
+   public listadoCamposNoDeseados : string[]=[];
    
    constructor(public argumentos:any,
                public fb:any,
                public fn:any) {
 
       // Colección Principal
-      this.nombreColeccion ='concejales';
+      this.nombreColeccion ='concejalesDispositivosQry';
       this.campoClave      ='NumConcejal';
       this.t               = new ConcejalesDispositivos(); //Construir una clase con todos los campos. 
       this.mostrarDiferenciaModeloFomulario=true;
@@ -36,8 +41,8 @@ export class ConfigComponente {
          whereArray            : argumentos['grillaWhereArray'],
          campoKeywords         : false,
          filtroNombre          : 'NumConcejal',
-         filtrosServer         : ['NumConcejal', 'Concejal','NumPropuesto','Clasificacion','Estado',
-                                  'Abreviacion','BancaFila','BancaColumna','Email'],
+         filtrosServer         : ['NumConcejal', 'Concejal','Funcion','Macaddresses','dispositvoEstado',
+                                  'Abreviacion','BancaFila','BancaColumna','Dispositivo'],
          camposDecimal         : [],
          paginadoCantidad      : 20,
          paginadoAutoHide      : false,
@@ -47,51 +52,63 @@ export class ConfigComponente {
       // Colecciones Auxiliares
       this.configListadosCache=[];
 
-      // this.configListadosCache.push({ 
-      //    nombreListado   : 'listadoDistribuidoresCompleta',
-      //    nombreColeccion : 'Distribuidores',
-      //    orderBy         : [{ key:'nombre', ascDesc:'asc'}]
-      // });     
-      
-      // this.configListadosCache.push({ 
-      //    nombreListado   : 'listadoAuxVehiculos',
-      //    nombreColeccion : 'AuxVehiculos',
-      //    orderBy         : [{ key:'nombre', ascDesc:'asc'}]
-      // });     
-      
-      // this.configListadosCache.push({ 
-      //    nombreListado   : 'listadoAuxEstadosRutas',
-      //    nombreColeccion : 'AuxEstadosRutas',
-      //    orderBy         : [{ key:'nombre', ascDesc:'asc'}]
-      // });     
+      this.configListadosCache.push({ 
+         nombreListado        : 'listadoConcejales',
+         nombreColeccion      : 'concejales',
+         campoClave           : 'NumConcejal',
+         // orderBy              : [{ key:'nombre', ascDesc:'asc'}],
+         grabaLocalStorage    : false,
+         ignoraValoresMemoria : true
+      });     
 
-      // let fecha= this.fn.getFechaActual('AAAAMMDD');
-      // this.configListadosCache.push({ 
-      //    nombreListado   : 'listadoRutasActivasDiarias',
-      //    nombreColeccion : 'RutasActivasDiarias',
-      //    orderBy         : [{ fecha:fecha, ascDesc:'asc'}]
-      // });
-      // Configuro FILES gestionados por el formulario   
+      this.configListadosCache.push({ 
+         nombreListado        : 'listadoDispositivos',
+         nombreColeccion      : 'dispositivos',
+         campoClave           : 'NumDispositivo',
+         // orderBy              : [{ key:'nombre', ascDesc:'asc'}],
+         grabaLocalStorage    : false,
+         ignoraValoresMemoria : true
+      });     
+      
+
       this.arrayFiles=[]; 
 
       // Formulario
       this.form = this.fb.group({
 
+         // Campos de la tabla
+         NumConcejal        : null,
+         NumDispositivo     : null,
+         Funcion            : null,
+         Clave              : null,
+         Macaddresses       : null,
+         Presente           : null,
+         settings           : this.fb.group( this.fn.getSettings() ),
 
-         NumConcejal    : null,
-         Concejal       : [null, Validators.compose([Validators.required])],
-         NumPropuesto   : [1],
-         Clasificacion  : null,
-         Estado         : null,
-         Abreviacion    : [null, Validators.compose([Validators.required, Validators.maxLength(6)])],
-         BancaFila      : [null, Validators.compose([Validators.required])],
-         BancaColumna   : [null, Validators.compose([Validators.required])],
-         Email          : [null, Validators.compose([Validators.required,Validators.email])],
-         settings       : this.fb.group( this.fn.getSettings() ),      
-         
+         // Campos de Concejales
+         Concejal           : [null, Validators.compose([Validators.required])],
+         NumPropuesto       : [1],
+         Clasificacion      : null,
+         concejalEstado     : null,
+         Abreviacion        : [null, Validators.compose([Validators.required, Validators.maxLength(6)])],
+         BancaFila          : [null, Validators.compose([Validators.required])],
+         BancaColumna       : [null, Validators.compose([Validators.required])],
+         Email              : [null, Validators.compose([Validators.required,Validators.email])],
+
+         // Campos Dispositivos
+         dispositvoEstado   : null,
+         Dispositivo   : null,
+         Imei               : null,
+         Serie              : null,
+
          
       });
-         
+     
+      this.listadoCamposNoDeseados=[
+         'Concejal','NumPropuesto','Clasificacion','concejalEstado','Abreviacion','BancaFila','BancaColumna',
+         'Email','dispositvoEstado','Dispositivo','Imei','Serie'
+      ]
+      
    } 
 
 }

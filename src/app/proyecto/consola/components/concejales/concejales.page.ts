@@ -199,15 +199,7 @@ export class ConcejalesComponent extends PageGenerica2<Concejales<ConcejalesInte
     super.onSubmit(documento);
 
   }  
-  
-  submitPermitido(documento:any):void {
 
-        // Agregar acá, modificaciones adicionales al this.form
-  
-        
-        super.onSubmit(documento);
-
-  }
 
 
 

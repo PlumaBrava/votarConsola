@@ -200,14 +200,6 @@ export class DispositivosComponent extends PageGenerica2<Dispositivos<Dispositiv
 
   }  
   
-  submitPermitido(documento:any):void {
-
-        // Agregar acá, modificaciones adicionales al this.form
-  
-        
-        super.onSubmit(documento);
-
-  }
 
 
 

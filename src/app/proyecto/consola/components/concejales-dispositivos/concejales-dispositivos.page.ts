@@ -8,7 +8,10 @@ import { PageGenerica2 }        from '@maq-modules/page-generica/page-generica2.
 import { ConfigComponente }     from './concejales-dispositivos.config';
 
 
-import {ConcejalesDispositivos, ConcejalesDispositivosInterface}   from '@proyecto/models/concejales/concejales.model';
+import {ConcejalesDispositivos, ConcejalesDispositivosInterface,
+        Concejales, ConcejalesInterface}       from '@proyecto/models/concejales/concejales.model';
+import {Dispositivos, DispositivosInterface}   from '@proyecto/models/dispositivos/dispositivos.model';
+
 
 
 import firebase from 'firebase/app';
@@ -33,11 +36,11 @@ declare var H: any;
 
 export class ConcejalesDispositivosComponent extends PageGenerica2<ConcejalesDispositivos<ConcejalesDispositivosInterface> > implements OnInit, OnDestroy {
 
+  concejalSeleccionado:ConcejalesInterface=null;
+  dispositivoSeleccionado:DispositivosInterface=null;
 
 
-  constructor (protected changeDetectorRef    : ChangeDetectorRef,
-          
-               ) {    
+  constructor (protected changeDetectorRef    : ChangeDetectorRef)  {    
       super(changeDetectorRef);    
   }  
 
@@ -172,19 +175,20 @@ export class ConcejalesDispositivosComponent extends PageGenerica2<ConcejalesDis
     log(...values('funcionComponente','Rutas.onSubmit'));
     console.log("onSubmit",documento);
 
+        // Agregar acá, modificaciones adicionales al this.form
+    
 
+        this.form.get('NumConcejal').setValue(this.concejalSeleccionado.NumConcejal)
+        this.form.get('NumDispositivo').setValue()
+        this.form.get('Funcion').setValue()
+        this.form.get('Clave').setValue()
+        this.form.get('Macaddresses').setValue()
+        this.form.get('Presente').setValue()
     super.onSubmit(documento);
 
   }  
   
-  submitPermitido(documento:any):void {
 
-        // Agregar acá, modificaciones adicionales al this.form
-  
-        
-        super.onSubmit(documento);
-
-  }
 
 
 
@@ -283,8 +287,29 @@ export class ConcejalesDispositivosComponent extends PageGenerica2<ConcejalesDis
       
   }
 
+  seleccionarConcejal(documento:ConcejalesInterface){
+    this.concejalSeleccionado=documento;
+    console.log('concejalSeleccionado',this.concejalSeleccionado);
+  }
   
+  selccionarDispositivo(documneto:DispositivosInterface){
+    this.dispositivoSeleccionado=documneto;
+    console.log('dispositivoSeleccionado',this.dispositivoSeleccionado);
+  }
+  
+  enlazar(){
+    if(this.selccionarDispositivo==null || this.seleccionarConcejal ==null){
+      console.log('dispositivoSeleccionado',this.dispositivoSeleccionado);
+      console.log('concejalSeleccionado',this.concejalSeleccionado);
 
-  
+    } else{
+      
+      this.alertService.confirm({ 
+        title:   this.translate.instant('Enlazar Concejal y Dispositivo'), 
+        message: 'Seleccione un Concejal y un dispositivo'
+     
+      }).then(data=>{});
+    }
+  }
 
 }
