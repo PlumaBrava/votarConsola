@@ -36,8 +36,10 @@ declare var H: any;
 
 export class ConcejalesDispositivosComponent extends PageGenerica2<ConcejalesDispositivos<ConcejalesDispositivosInterface> > implements OnInit, OnDestroy {
 
-  concejalSeleccionado:ConcejalesInterface=null;
-  dispositivoSeleccionado:DispositivosInterface=null;
+  concejalSeleccionado    : ConcejalesInterface=null;
+  dispositivoSeleccionado : DispositivosInterface=null;
+  listadoDispositivos     : DispositivosInterface[]=[];
+  listadoConcejales       : ConcejalesInterface[]=[];
 
 
   constructor (protected changeDetectorRef    : ChangeDetectorRef)  {    
@@ -110,12 +112,42 @@ export class ConcejalesDispositivosComponent extends PageGenerica2<ConcejalesDis
   }  
   
   onResultGetSubscripcionSecundarias() {
-    log(...values('funcionComponente','pageGenerica.nResultGetSubscripcionSecundarias'));
-    
+    log(...values('funcionComponente','pageGenerica.onResultGetSubscripcionSecundarias'));
     super.onResultGetSubscripcionSecundarias();    
   }    
   
-  
+  onResultGetSubscripcionPrincipalYSecundarias(){
+    log(...values('funcionComponente','pageGenerica.onResultGetSubscripcionPrincipalYSecundarias'));
+
+    this.listadoDispositivos    = this.msg.cacheColecciones['Dispositivos'];
+    this.listadoConcejales      = this.msg.cacheColecciones['Concejales'];
+
+    for (let index = 0; index < this.listadoPrincipal.length; index++) {
+      const concDisp:ConcejalesDispositivosInterface = this.listadoPrincipal[index];
+      let posDisp=this.listadoDispositivos.findIndex((disp:DispositivosInterface)=>disp.NumDispositivo==concDisp.NumDispositivo);
+      let posConcejal=this.listadoConcejales.findIndex((disp:ConcejalesInterface)=>disp.NumConcejal==concDisp.NumConcejal);
+      if(posDisp==-1){
+      // no hago nada
+      }else{
+        this.listadoDispositivos.splice(posDisp, 1)//elimina a partir de la posicion (pos) 1 elemento
+      }
+      if(posConcejal==-1){
+        continue; // puedo hacer el continue porque ya procesé al dispositivo
+      }else{
+        this.listadoConcejales.splice(posConcejal, 1)//elimina a partir de la posicion (pos) 1 elemento
+      }
+    }  
+
+    console.log('this.listadoConcejales',this.listadoConcejales);
+    console.log('this.listadoDispositivos',this.listadoDispositivos);
+    console.log('this.listadoDispositivos cache',this.msg.cacheColecciones['Dispositivos']);
+
+    if (!this.changeDetectorRef['destroyed']) {
+      this.changeDetectorRef.detectChanges();
+    }   
+
+    super.onResultGetSubscripcionPrincipalYSecundarias();
+  }
   
   abrirFormulario(documento) {
     log(...values('funcionComponente','abrirFormulario Componente', documento));
@@ -141,14 +173,10 @@ export class ConcejalesDispositivosComponent extends PageGenerica2<ConcejalesDis
     
     // Agregar acá, modificaciones adicionales al this.form
     if(this.accionForm=='agregar') {
+
+     
         
-        if(this.organizacionKNAI) {
-            // this.form.get('distribuidorKN').setValue( this.distribuidorKN );
-            // this.form.get('organizacionKNAI').setValue( this.organizacionKNAI );
-        }
         
-        // this.form.get('fechaHoraCarga').setValue( new Date() );        
-        // this.form.get('formaCarga').setValue('calculaHorarios');
         
     }  
     
@@ -172,19 +200,15 @@ export class ConcejalesDispositivosComponent extends PageGenerica2<ConcejalesDis
   }  
   
   onSubmit(documento:any):void {
-    log(...values('funcionComponente','Rutas.onSubmit'));
+    log(...values('funcionComponente','ConcejalesDispositivos.onSubmit'));
     console.log("onSubmit",documento);
 
         // Agregar acá, modificaciones adicionales al this.form
     
 
-        this.form.get('NumConcejal').setValue(this.concejalSeleccionado.NumConcejal)
-        this.form.get('NumDispositivo').setValue()
-        this.form.get('Funcion').setValue()
-        this.form.get('Clave').setValue()
-        this.form.get('Macaddresses').setValue()
-        this.form.get('Presente').setValue()
-    super.onSubmit(documento);
+      
+
+    super.onSubmit(document);
 
   }  
   
@@ -288,28 +312,105 @@ export class ConcejalesDispositivosComponent extends PageGenerica2<ConcejalesDis
   }
 
   seleccionarConcejal(documento:ConcejalesInterface){
-    this.concejalSeleccionado=documento;
+
+    if(this.concejalSeleccionado==null || this.concejalSeleccionado.NumConcejal!=documento.NumConcejal){
+      this.concejalSeleccionado=documento;
+    }else {
+      this.concejalSeleccionado=null;
+    }
+    
+
     console.log('concejalSeleccionado',this.concejalSeleccionado);
   }
   
-  selccionarDispositivo(documneto:DispositivosInterface){
-    this.dispositivoSeleccionado=documneto;
+  selccionarDispositivo(documento:DispositivosInterface){
+
+    if(this.dispositivoSeleccionado==null || this.dispositivoSeleccionado.NumDispositivo!=documento.NumDispositivo){
+      this.dispositivoSeleccionado=documento;
+    }else {
+      this.dispositivoSeleccionado=null;
+    }
+    
     console.log('dispositivoSeleccionado',this.dispositivoSeleccionado);
   }
   
   enlazar(){
-    if(this.selccionarDispositivo==null || this.seleccionarConcejal ==null){
-      console.log('dispositivoSeleccionado',this.dispositivoSeleccionado);
-      console.log('concejalSeleccionado',this.concejalSeleccionado);
+    console.log('dispositivoSeleccionado',this.dispositivoSeleccionado);
+    console.log('concejalSeleccionado',this.concejalSeleccionado);
+    console.log('concejalSeleccionado',this.concejalSeleccionado);
 
-    } else{
-      
+    if(this.dispositivoSeleccionado === null || this.concejalSeleccionado === null){
       this.alertService.confirm({ 
         title:   this.translate.instant('Enlazar Concejal y Dispositivo'), 
         message: 'Seleccione un Concejal y un dispositivo'
      
       }).then(data=>{});
+      
+
+    } else{
+      
+      console.log('dispositivoSeleccionado',this.dispositivoSeleccionado);
+      console.log('concejalSeleccionado',this.concejalSeleccionado);
+      
+      this.form.get('NumConcejal').setValue(this.concejalSeleccionado.NumConcejal)
+      this.form.get('NumDispositivo').setValue(this.dispositivoSeleccionado.NumDispositivo)
+      this.form.get('Funcion').setValue(false);
+      this.form.get('Clave').setValue('1234')
+      this.form.get('Macaddresses').setValue(this.dispositivoSeleccionado.Macaddresses)
+      this.form.get('Presente').setValue(false);
+
+      let d:ConcejalesDispositivosInterface={ 
+        NumConcejal:this.concejalSeleccionado.NumConcejal,
+        NumDispositivo:this.dispositivoSeleccionado.NumDispositivo,
+        Funcion:false,
+        Clave:'1234',
+        Macaddresses: this.dispositivoSeleccionado.Macaddresses,
+        Presente:false,
+      }
+      // this.accionForm='agregar';
+      // this.grabar_coleccion(d);
+      this.grabarDatos(d)
     }
   }
 
+  grabarDatos(documento:any){
+    this.bdService.updateColeccion2({
+        operacion        : 'agregar',
+        campoClave       : 'NumConcejalsss',
+        nombreColeccion  : this.nombreColeccion,
+        documento        : documento,
+        distribuidorKN   : null,
+        organizacionKNAI : null,                           
+        usuarioKANE      : this.usuarioKANE
+    }).then(respuesta=>{
+      console.log('respuesta',respuesta);
+      this.concejalSeleccionado=null;
+      this.dispositivoSeleccionado=null;
+      this.getSubscripcionPrincipal();
+      this.getSubscripcionSecundarias();
+    }).catch(error=>{
+      console.log('error',error);
+    });
+  }
+
+  BorradoDatos(documento:any){
+    let doc:any={};
+    let funcion=documento['Funcion']==true?'1':'0'; 
+    doc['camposConcatenados']=documento['NumConcejal']+'_'+documento['NumDispositivo']+'_'+ funcion;
+    this.bdService.updateColeccion2({
+        operacion        : 'borradoFisico',
+        campoClave       : 'camposConcatenados',
+        nombreColeccion  : this.nombreColeccion,
+        documento        : doc,
+        distribuidorKN   : null,
+        organizacionKNAI : null,                           
+        usuarioKANE      : this.usuarioKANE
+    }).then(respuesta=>{
+      console.log('respuesta',respuesta);
+      this.getSubscripcionPrincipal();
+      this.getSubscripcionSecundarias();
+    }).catch(error=>{
+      console.log('error',error);
+    });
+  }
 }

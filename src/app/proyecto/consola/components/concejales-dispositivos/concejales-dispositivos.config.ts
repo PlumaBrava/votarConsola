@@ -86,18 +86,18 @@ export class ConfigComponente {
          settings           : this.fb.group( this.fn.getSettings() ),
 
          // Campos de Concejales
-         Concejal           : [null, Validators.compose([Validators.required])],
-         NumPropuesto       : [1],
+         Concejal           : null,
+         NumPropuesto       : null,
          Clasificacion      : null,
          concejalEstado     : null,
-         Abreviacion        : [null, Validators.compose([Validators.required, Validators.maxLength(6)])],
-         BancaFila          : [null, Validators.compose([Validators.required])],
-         BancaColumna       : [null, Validators.compose([Validators.required])],
-         Email              : [null, Validators.compose([Validators.required,Validators.email])],
+         Abreviacion        : null,
+         BancaFila          : null,
+         BancaColumna       : null,
+         Email              : null,
 
          // Campos Dispositivos
          dispositvoEstado   : null,
-         Dispositivo   : null,
+         Dispositivo        : null,
          Imei               : null,
          Serie              : null,
 

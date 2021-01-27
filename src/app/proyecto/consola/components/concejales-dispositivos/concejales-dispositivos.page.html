@@ -187,7 +187,7 @@
                                         <!-- ------- Orden, Filtros y Paginado ------------------------------- -->
                                         <!-- ----------------------------------------------------------------- -->
 
-                                        <ng-container *ngFor="let documento of this.msg.cacheColecciones['Concejales'] 
+                                        <ng-container *ngFor="let documento of listadoConcejales 
                                                     | orderBy :grilla.orderField :grilla.orderReverse :'case-insensitive'                                        
                                                     | searchFiltro:grilla.paginadoTipo:'NumConcejal':grilla.filtros['NumConcejal']
                                                     | searchFiltro:grilla.paginadoTipo:'Concejal':grilla.filtros['Concejal']
@@ -399,7 +399,7 @@
                                                 <!-- ------- Orden, Filtros y Paginado ------------------------------- -->
                                                 <!-- ----------------------------------------------------------------- -->
                     
-                                                <ng-container *ngFor="let documento of this.msg.cacheColecciones['Dispositivos'] 
+                                                <ng-container *ngFor="let documento of listadoDispositivos
                                                             | orderBy :grilla.orderField :grilla.orderReverse :'case-insensitive'                                        
                                                             | searchFiltro:grilla.paginadoTipo:'NumDispositivo':grilla.filtros['NumDispositivo']
                                                             | searchFiltro:grilla.paginadoTipo:'Dispositivo':grilla.filtros['Dispositivo']
@@ -744,9 +744,9 @@
                                          
                                     <td class="align-middle">
                                         <div class="btn-group" role="group">
-                                            <button class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px;"
+                                            <!-- <button class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px;"
                                                     title="{{'navegabilidad.consultar' | translate}}"
-                                                    (click)="abrirFormulario(documento)"><i class="fa fa-search mr-3 text-primary"></i></button>
+                                                    (click)="abrirFormulario(documento)"><i class="fa fa-search mr-3 text-primary"></i></button> -->
 
                                             <!-- borrado lógico -->
                                             <!-- <button *ngIf="permisos.bajasAutorizadas &&
@@ -767,6 +767,15 @@
                                                     title="{{'navegabilidad.eliminarFisicamente' | translate}}"
                                                     class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px;"
                                                     (click)="deleteDocumento('borradoFisico',documento)"><i class="fa fa-remove mr-3 text-danger"></i></button> -->
+                                          
+                                           <!-- Borrar campos concatenados -->
+                                           <button *ngIf="permisos.bajasAutorizadas && 
+                                                    ['Desarrollador','Supervisor','Distribuidor'].indexOf(tipoPerfilUsuario)!=-1"
+                                              title="{{'navegabilidad.eliminarFisicamente' | translate}}"
+                                              class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px;"
+                                              (click)="BorradoDatos(documento)"><i class="fa fa-remove mr-3 text-danger"></i></button>
+
+
 
                                         </div>
                                     </td>
