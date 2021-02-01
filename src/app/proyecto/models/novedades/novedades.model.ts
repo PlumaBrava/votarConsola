@@ -5,7 +5,7 @@ import { Settings }         from '@maq-models/settings/settings.model';
 
 export class Novedades<NovedadesInterface> {
 
-  NumOrdenDiaNovedad2        : number; // NumOrdenDiaNovedad	int	Unchecked
+  NumOrdenDiaNovedad        : number; // NumOrdenDiaNovedad	int	Unchecked
   NumOrdenDiaCaratula       : number; // NumOrdenDiaCaratula	int	Unchecked
   NumOrdenDiaSubCaratula    : number; // NumOrdenDiaCaratula	int	Unchecked
   Fecha                     : Date;   // Fecha	datetime	Unchecked
@@ -32,7 +32,7 @@ export class Novedades<NovedadesInterface> {
 export interface NovedadesInterface {
 
  
-  NumOrdenDiaNovedad2    : number, // NumOrdenDiaNovedad	int	Unchecked
+  NumOrdenDiaNovedad    : number, // NumOrdenDiaNovedad	int	Unchecked
   NumOrdenDiaCaratula   : number, // NumOrdenDiaCaratula	int	Unchecked
   NumOrdenDiaSubCaratula: number, // NumOrdenDiaSubCaratula	int	Unchecked
   Fecha                 : Date,   // Fecha	datetime	Unchecked

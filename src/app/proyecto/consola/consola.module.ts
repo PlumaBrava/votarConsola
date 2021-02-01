@@ -28,7 +28,7 @@ import { NovedadesComponent }               from './components/novedades/novedad
 import { PanelSesionComponent }              from './components/panelSesion/panelSesion.page';
 
 import { DragulaModule }             from 'ng2-dragula';
-
+import { NgxChartsModule } from '@swimlane/ngx-charts'
 @NgModule({
   declarations: [
     ConcejalesComponent,
@@ -51,7 +51,7 @@ import { DragulaModule }             from 'ng2-dragula';
     NgxPaginationModule,
     ConsolaRoutingModule,
     DragulaModule.forRoot(),
-    // HttpClientModule
+    NgxChartsModule
   ],
   
 })

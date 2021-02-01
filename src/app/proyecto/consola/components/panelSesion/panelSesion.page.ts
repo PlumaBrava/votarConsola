@@ -53,7 +53,8 @@ export class PanelSesionComponent extends PageGenerica2<Novedades<NovedadesInter
   public ESTADO_RESULTADOS            = 7;
   public ESTADO_USO_DE_PALABRA        = 8;
 
-  public estado                       = this.ESTADO_ESPERANDO_NOVEDADES;
+  // public estado                       = this.ESTADO_ESPERANDO_NOVEDADES;
+  public estado                       = this.ESTADO_VOTANDO;
 
   public sesion                       = "primer Sesion";
   public titulo                       = '';//Titulo que se expone en TV se usa en sesion HTML
@@ -72,7 +73,7 @@ export class PanelSesionComponent extends PageGenerica2<Novedades<NovedadesInter
   public tratamentoTema               = 'Individual';//Agrupada/Individual/Particular';
 
   public selected                     = null;
-  public tickVotacion                 = null;
+
   public recSesionActiva              = {};
   public recParametros                = {};
   public bancas:Bancas[][]            = [];
@@ -140,60 +141,60 @@ export class PanelSesionComponent extends PageGenerica2<Novedades<NovedadesInter
 
     if(this.CONCEJO==="hcdZarate"){
       this.bancas=[[
-                      {nombreBanca:'Banca00',clase:'bancaLibre',partido:'p1'},
-                      {nombreBanca:'Banca01',clase:'bancaLibre',partido:'p1'},
-                      {nombreBanca:'Banca02',clase:'bancaLibre',partido:'p1'},
-                      {nombreBanca:'Banca03',clase:'bancaLibre',partido:'p1'},
-                      {nombreBanca:'Banca04',clase:'bancaLibre',partido:'p1'},
-                      {nombreBanca:'Banca05',clase:'bancaLibre',partido:'p1'},
-                      {nombreBanca:'Banca06',clase:'bancaLibre',partido:'p1'},
-                      {nombreBanca:'Banca07',clase:'bancaLibre',partido:'p1'},
-                      {nombreBanca:'Banca08',clase:'bancaLibre',partido:'p1'},
-                      {nombreBanca:'Banca09',clase:'bancaLibre',partido:'p1'},
+                      {nombreBanca:'Banca00',clase:'bancaOcupada',partido:'p1'},
+                      {nombreBanca:'Banca01',clase:'bancaOcupada',partido:'p1'},
+                      {nombreBanca:'Banca02',clase:'bancaOcupada',partido:'p1'},
+                      {nombreBanca:'Banca03',clase:'bancaOcupada',partido:'p1'},
+                      {nombreBanca:'Banca04',clase:'bancaOcupada',partido:'p1'},
+                      {nombreBanca:'Banca05',clase:'bancaOcupada',partido:'p1'},
+                      {nombreBanca:'Banca06',clase:'bancaOcupada',partido:'p1'},
+                      {nombreBanca:'Banca07',clase:'bancaOcupada',partido:'p1'},
+                      {nombreBanca:'Banca08',clase:'bancaOcupada',partido:'p1'},
+                      {nombreBanca:'Banca09',clase:'bancaOcupada',partido:'p1'},
                   ],
                   [
-                      {nombreBanca:'Banca10',clase:'bancaLibre',partido:'p2'},
-                      {nombreBanca:'Banca11',clase:'bancaLibre',partido:'p2'},
-                      {nombreBanca:'Banca12',clase:'bancaLibre',partido:'p2'},
-                      {nombreBanca:'Banca13',clase:'bancaLibre',partido:'p2'},
-                      {nombreBanca:'Banca14',clase:'bancaLibre',partido:'p2'},
-                      {nombreBanca:'Banca15',clase:'bancaLibre',partido:'p2'},
-                      {nombreBanca:'Banca16',clase:'bancaLibre',partido:'p2'},
-                      {nombreBanca:'Banca17',clase:'bancaLibre',partido:'p2'},
-                      {nombreBanca:'Banca18',clase:'bancaLibre',partido:'p2'},
-                      {nombreBanca:'Banca19',clase:'bancaLibre',partido:'p2'},
+                      {nombreBanca:'Banca10',clase:'bancaOcupada',partido:'p2'},
+                      {nombreBanca:'Banca11',clase:'bancaOcupada',partido:'p2'},
+                      {nombreBanca:'Banca12',clase:'bancaOcupada',partido:'p2'},
+                      {nombreBanca:'Banca13',clase:'bancaOcupada',partido:'p2'},
+                      {nombreBanca:'Banca14',clase:'bancaOcupada',partido:'p2'},
+                      {nombreBanca:'Banca15',clase:'bancaOcupada',partido:'p2'},
+                      {nombreBanca:'Banca16',clase:'bancaOcupada',partido:'p2'},
+                      {nombreBanca:'Banca17',clase:'bancaOcupada',partido:'p2'},
+                      {nombreBanca:'Banca18',clase:'bancaOcupada',partido:'p2'},
+                      {nombreBanca:'Banca19',clase:'bancaOcupada',partido:'p2'},
           
                   ],
                   [
-                      {nombreBanca:'Banca21',clase:'bancaLibre',partido:'p3'},
+                      {nombreBanca:'Banca21',clase:'bancaOcupada',partido:'p3'},
                   ]
                 ];
       console.log('bancas zarate', this.bancas);
     } else {  // default concejo de 18 consejales como   CONCEJO: 'hcdTrenqueLauquen'
       this.bancas=[ [
-                    {nombreBanca:'Banca00',clase:'bancaLibre',partido:'p1'},
-                    {nombreBanca:'Banca01',clase:'bancaLibre',partido:'p1'},
-                    {nombreBanca:'Banca02',clase:'bancaLibre',partido:'p1'},
-                    {nombreBanca:'Banca03',clase:'bancaLibre',partido:'p1'},
-                    {nombreBanca:'Banca04',clase:'bancaLibre',partido:'p1'},
-                    {nombreBanca:'Banca05',clase:'bancaLibre',partido:'p1'},
-                    {nombreBanca:'Banca06',clase:'bancaLibre',partido:'p1'},
-                    {nombreBanca:'Banca07',clase:'bancaLibre',partido:'p1'},
-                    {nombreBanca:'Banca08',clase:'bancaLibre',partido:'p1'},
+                    {nombreBanca:'Banca00',clase:'bancaOcupada',partido:'p1'},
+                    {nombreBanca:'Banca01',clase:'bancaOcupada',partido:'p1'},
+                    {nombreBanca:'Banca02',clase:'bancaOcupada',partido:'p1'},
+                    {nombreBanca:'Banca03',clase:'bancaOcupada',partido:'p1'},
+                    {nombreBanca:'Banca04',clase:'bancaOcupada',partido:'p1'},
+                    {nombreBanca:'Banca05',clase:'bancaOcupada',partido:'p1'},
+                    {nombreBanca:'Banca06',clase:'bancaOcupada',partido:'p1'},
+                    {nombreBanca:'Banca07',clase:'bancaOcupada',partido:'p1'},
+                    {nombreBanca:'Banca08',clase:'bancaOcupada',partido:'p1'},
                   ],
                   [
-                    {nombreBanca:'Banca10',clase:'bancaLibre',partido:'p2'},
-                    {nombreBanca:'Banca11',clase:'bancaLibre',partido:'p2'},
-                    {nombreBanca:'Banca12',clase:'bancaLibre',partido:'p2'},
-                    {nombreBanca:'Banca13',clase:'bancaLibre',partido:'p2'},
-                    {nombreBanca:'Banca14',clase:'bancaLibre',partido:'p2'},
-                    {nombreBanca:'Banca15',clase:'bancaLibre',partido:'p2'},
-                    {nombreBanca:'Banca16',clase:'bancaLibre',partido:'p2'},
-                    {nombreBanca:'Banca17',clase:'bancaLibre',partido:'p2'},
-                    {nombreBanca:'Banca18',clase:'bancaLibre',partido:'p2'},
+                    {nombreBanca:'Banca10',clase:'bancaOcupada',partido:'p2'},
+                    {nombreBanca:'Banca11',clase:'bancaOcupada',partido:'p2'},
+                    {nombreBanca:'Banca12',clase:'bancaOcupada',partido:'p2'},
+                    {nombreBanca:'Banca13',clase:'bancaOcupada',partido:'p2'},
+                    {nombreBanca:'Banca14',clase:'bancaOcupada',partido:'p2'},
+                    {nombreBanca:'Banca15',clase:'bancaOcupada',partido:'p2'},
+                    {nombreBanca:'Banca16',clase:'bancaOcupada',partido:'p2'},
+                    {nombreBanca:'Banca17',clase:'bancaOcupada',partido:'p2'},
+                    {nombreBanca:'Banca18',clase:'bancaOcupada',partido:'p2'},
                   ],
                   [
-                    {nombreBanca:'Banca21',clase:'bancaLibre',partido:'p3'},
+                    {nombreBanca:'Banca21',clase:'bancaOcupada',partido:'p3'},
                   ]
                 ];
       console.log("bancas TRENQUE", this.bancas);
@@ -213,7 +214,7 @@ export class PanelSesionComponent extends PageGenerica2<Novedades<NovedadesInter
     this.textoEspera =this.Parametros[0].Sesiones_Espera_Texto;
     this.tituloEspera =this.Parametros[0].Sesiones_Espera_Titulo;
     this.tituloReloj =this.Parametros[0].Sesiones_Reloj_Titulo;
-    this.texto=this.textoEspera;
+    this.texto=this.textoEspera?this.textoEspera:"<p> Texto Default </p>" ;
     this.titulo=this.tituloEspera;
     this.muestroVotosAlVotar =this.Parametros[0].Sesiones_ResultadoVoto;// muestro los votos al votar o espero a terminar el tiempo
     this.Sesiones_Reloj_Orden =this.Parametros[0].Sesiones_Reloj_Orden;// orden en el reloj de uso de la palabra
@@ -477,298 +478,134 @@ export class PanelSesionComponent extends PageGenerica2<Novedades<NovedadesInter
   }
 
   
-  onProcesarArchivo(evt: any, fileInput1: any) {
-    console.log("onProcesarArchivo", evt, fileInput1);
-
-
-    this.excel.procesarArchivo(evt, fileInput1)
-      .then((respuesta: any) => {
-        this.fileInput1.nativeElement.value = "";
-        console.log("onProcesarArchivo novedades", respuesta);
-        var str2=respuesta.replace("json_response:", "");
-        var novedades = JSON.parse(str2);
-        
-        console.log("Archivo leido");
-        // console.log(str1);
-        // console.log(str2);
-        console.log(novedades);
-        // console.log(novedades);
-
-        // res.json( novedades['tipos_sesiones']);
-        // res.json( novedades['expedientes']);
-        // res.json( novedades['apartados_orden_del_dia']);
-        // res.json( novedades['orden_del_dia']);
-        // console.log(novedades['expedientes'][0].titulo);
-        console.log(novedades['orden_del_dia']);
-
-        var mensajeErrorOrdenDelDia = '';
-
-        var news = [];  
-        var index = 0;
-
-        var caratula = 0; 
-        var subcaratula = 0;
-
-        
-        
-        for (const orden of novedades['orden_del_dia']) {
-            
-          
-
-          console.log("Traduciendo Expediente: " + orden.id_expediente);
-          novedades['apartados_orden_del_dia'].forEach(function (apartado) {
-
-            var subcaratula = 0;
-
-            if (orden.id_apartado == apartado.id_apartado) {
-              switch (orden.id_apartado) {
-                case "1":    //"Asuntos Entrados - Comunicaciones Oficiales"
-                  caratula = 4;
-                  subcaratula = 4;
-                  break;
-                case "2":    //"Despacho Comisi&oacute;n"
-                  caratula = 5;
-                  subcaratula = 5;
-                  break;
-
-                case "3":    //"Proyectos Entrados"
-                  caratula = 6;
-                  subcaratula = 6;
-                  break;
-                case "4":    //"Fuera del Orden del D&iacute;a"
-                  caratula = 7;
-                  subcaratula = 7;
-                  break;
-                case "5":    //"Peticiones o Asuntos Particulares"
-                  caratula = 8;
-                  subcaratula = 8;
-                  break;
-                case "6":    //Expedientes solicitados por Art 23"
-                  return;     //Este caso no se traduce porque no se vota
-                // caratula=12;
-                // subcaratula=12;
-                // break;
-                case "7":    //Despacho a comisiones (d)
-                  caratula = 9;
-                  subcaratula = 9;
-                  break;
-                case "99":    //"Actas de Sesi&oacute;n"
-                  caratula = 10;
-                  subcaratula = 10;
-                  break;
-
-                default:
-                  mensajeErrorOrdenDelDia = mensajeErrorOrdenDelDia + "No se puede traducir apartado : " + orden.id_apartado + "-" + apartado.nombre + "expediente: " + orden.id_expediente + "----------";
-                // code block
-              }
-
-
-
-              novedades['expedientes'].forEach(function (expediente) {
-                var nombreBloque = "";
-                var siglaBloque = "";
-                novedades['bloques'].forEach(function (bloque) {
-
-                  // console.log("bloque",bloque);
-
-                  if (bloque.id_bloque == expediente.id_bloque) {
-
-                    //         "bloques": [
-                    //   {
-                    //       "id_bloque": "32",
-                    //       "nombre": "NUEVO Z&Aacute;RATE",
-                    //       "sigla": "N.Z."
-                    //   },
-                    nombreBloque = bloque.nombre;
-                    siglaBloque = bloque.sigla;
-                  }
-                })
-
-
-
-                if (orden.id_expediente == expediente.id_expediente) {
-                  // console.log(expediente.titulo);
-
-                  news[index] = {
-                    'caratula': caratula, 'subcaratula': subcaratula, 'apartado': apartado.nombre, 'rotulo': "General - " + expediente.nro_expediente
-                      + " - " + siglaBloque + " - " + expediente.titulo, 'novedad': expediente.texto
-                  };
-                  index++;
-
-                  if (expediente.capitulos.length > 0) {
-                    expediente.capitulos.forEach(function (capitulo, i) {
-
-
-
-                      if (i == 0) {
-                        news[index] = {
-                          'caratula': caratula, 'subcaratula': subcaratula, 'apartado': apartado.nombre,
-                          'rotulo': expediente.nro_expediente + " - Art: " + capitulo.nro_capitulo
-                            + " - " + siglaBloque + " - " + expediente.titulo + " :" + capitulo.texto, 'novedad': expediente.titulo + " - " + capitulo.texto
-                        };
-
-
-                      } else {
-                        news[index] = {
-                          'caratula': caratula, 'subcaratula': subcaratula, 'apartado': apartado.nombre,
-                          'rotulo': expediente.nro_expediente + " - Art: " + capitulo.nro_capitulo
-                            + " - " + siglaBloque + " :" + capitulo.texto, 'novedad': expediente.titulo + " - " + capitulo.texto
-                        };
-                      }
-
-
-                      index++;
-                    });
-                  } else {
-
-                    // si el expediente no tiene artidulos no se desglosa.
-
-                    // news[index]={'caratula':caratula,'subcaratula':subcaratula,'apartado':apartado.nombre,'rotulo':"-"+ expediente.nro_expediente
-                    //   +"-"+  siglaBloque   +"-"+ expediente.titulo,'novedad':expediente.titulo};
-
-                    // console.log({'caratula':caratula,'subcaratula':subcaratula,'apartado':apartado.nombre,'rotulo':"-"+ expediente.nro_expediente
-                    // +"-"+ expediente.titulo,'novedad':expediente.titulo});
-
-
-
-                  }
-                }
-
-              });
-
-              if (orden.id_expediente == "" && orden.id_apartado == "99") {
-                console.log("Actas expediente /apartado:" + orden.id_expediente + " - " + orden.id_apartado);
-                news[index] = {
-                  'caratula': caratula, 'subcaratula': subcaratula, 'apartado': apartado.nombre,
-                  'rotulo': "Consideración del acta de sesión Nro: " + orden.nro_sesion
-                  , 'novedad': "Consideración del acta de sesión Nro: " + orden.nro_sesion
-                };
-
-
-
-                index++;
-
-              }
-            }
-          })
-          index++;
-        };
-
-
-
-
-        if (!mensajeErrorOrdenDelDia) {
-          console.log("Sin errores");
-
-          this.bdService.deleteColeccion2(this.nombreColeccion)
-          .then(data=>{
-
-            console.log('data',data);
-            console.log('news',news);
-            
-            let NumOrdenDiaNovedad=1;
-            for (const novedad of news) {
-
-              console.log('novedad',novedad);
-              if(!novedad){
-                continue;
-              }
-                
-              NumOrdenDiaNovedad++;
-              console.log('novedad.caratula',novedad.caratula);
-              console.log('novedad.subcaratula',novedad.subcaratula);
-              console.log('novedad.rotulo',novedad.rotulo);
-              let Rotulo:String=novedad.rotulo.length<100?novedad.rotulo:novedad.rotulo.substring(0, 99);
-              console.log('novedad.Rotulo .lenght',Rotulo.length);
-              console.log('novedad.rotulo .lenght',novedad.rotulo.length);
-             
-              let Novedad:String=novedad.novedad.length<4000? novedad.novedad:novedad.novedad.substring(0, 3999);
-              console.log('novedad.novedad lenght',novedad.novedad.lenght);
-              console.log('novedad.Novedad .lenght',Novedad.length);
-
-              // setNovedadOrdenDelDia(index+1,novedad.caratula, novedad.subcaratula,novedad.rotulo,novedad.novedad).then(function(datos){
-              let documento:NovedadesInterface={
-                NumOrdenDiaNovedad    : NumOrdenDiaNovedad,
-                NumOrdenDiaCaratula   : novedad.caratula,
-                NumOrdenDiaSubCaratula:novedad.subcaratula,
-                Fecha                 : new Date(),   
-                Rotulo                : Rotulo.toString(),
-                Novedad               : Novedad.toString(),
-                Estado                : false 
-
-              }
-
-              this.bdService.updateColeccion2({
-                operacion        : 'agregar',
-                campoClave       : this.campoClave,
-                nombreColeccion  : this.nombreColeccion,
-                documento        : documento,
-                distribuidorKN   : this.distribuidorKN,
-                organizacionKNAI : null,                           
-                usuarioKANE      : this.usuarioKANE,
-                usaSettings      : this.usaSettings
-              })
-              .then(respuesta=>{     
-                console.log('resupuesta Agregar',respuesta);
-              })
-              .catch(error=>{
-                console.log('error error',error);
-              });  
-              
-            };  
-              
-         
-
-          })
-          .catch(error=>{
-            this.fileInput1.nativeElement.value = "";
-            console.log('error',error)})
-
-      
-
-
-          // // Copia los datos almacenados en news en la tabla OrdenesDia_Novedades
-          // // Utilizando la función setNovedadOrdenDelDía
-          // news.forEach(function (novedad, index) {
-          //   setNovedadOrdenDelDia(index + 1, novedad.caratula, novedad.subcaratula, novedad.rotulo, novedad.novedad).then(function (datos) {
-          //     // console.log("se copio novedad "+novedad.rotulo);
-          //     console.log("se copio novedad " + (index + 1));
-
-          //   }, function (error) {
-          //     console.log("error al copiar novedad");
-          //     console.log(error);
-          //     mensajeErrorOrdenDelDia = "Error al incertar Novedades " + error;
-          //   });
-
-          //         });
-
-          // }, function (error) {
-          //   console.log("error al borrar novedades");
-          //   console.log(error);
-          //   mensajeErrorOrdenDelDia = "Error al borrar la tabla de Novedades: " + error;
-          // });
-
-
-        }
-
-
-        if (mensajeErrorOrdenDelDia) {
-          // res.json(mensajeErrorOrdenDelDia);
-          console.log('mensajeErrorOrdenDelDia', mensajeErrorOrdenDelDia);
-        } else {
-          // res.json("Se han copiado  " + news.length + " novedades.");
-          console.log("Se han copiado  " + news.length + " novedades.");
-        }
-      });
-  }
+  
 
   checkSesiones(){
 
     this.dia=  new Date();
-    console.log('checkSesiones',this.dia);
-  
+    // console.log('checkSesiones',this.dia);
   }
 
+
+  pasoTimer                   : number = 1000;
+  timerVotacion               : any    = null;
+  duracionVotacion            : number = 0;
+  tiempoTranscurrido          : number = 0;
+  tiempoVotacion_porcentaje   : number = 100;
+  tiempoVotacion_circulo      : number = 0;
+  tiempoDisplay               : number = 0;
+
+  startTimerVotacion(duracion:number){
+                  
+    console.log("startTimerVotacion "+duracion);
+
+    if(duracion){
+
+      //inicializo las variables del timer de votacion
+      this.duracionVotacion             = duracion;
+      this.tiempoTranscurrido           = 0;
+      this.tiempoVotacion_porcentaje    = 100;
+      this.tiempoVotacion_circulo       = 0;
+      
+      if(!this.timerVotacion){
+        this.timerVotacion=setInterval(() => {
+          console.log(this.tiempoTranscurrido);
+          this.displayTimerVotacion();
+        }, this.pasoTimer);   
+      } 
+    }
+ 
+  };
+
+
+stopTimerVotacion(){
+  console.log("stopTimerVotacion",this.timerVotacion);
+
+  if (this.timerVotacion ) {
+    console.log("stopTimerVotacion-timer existe");
+    clearInterval(this.timerVotacion);
+    this.timerVotacion=null;
+  } else {
+    console.log("stopTimerVotacion-timer NO existe");
+  }
+
+  
+    //TODO: set en false inicioVoto en el panel.
+          //   $http(self.recPanelSetTimeOut).then(function (response) {
+          //   console.log("stopVotarTimer recPanelSetTimeOut "+response);
+          //   $scope.estado=$scope.ESTADO_CALCULANDO_RESULTADOS;
+          //   }).catch(function(error){
+          //     $scope.error='stopVotarTimer: '+error;
+          //   console.log("stopVotarTimer error ",error);
+          //   console.log(error);
+          // });
+  
+};
+
+displayTimerVotacion(){
+ console.log("displayTimerVotacion: ");
+    if(this.estado!==this.ESTADO_VOTANDO){
+        this.stopTimerVotacion();
+    }
+    else{
+
+      this.tiempoTranscurrido= this.tiempoTranscurrido+this.pasoTimer;
+      this.datosTimerVotacion=[
+        {
+          name: 'tiempoTranscurrido',
+          value: this.tiempoTranscurrido
+        },
+        {
+          name: 'tiempoRestante',
+          value: this.duracionVotacion-this.tiempoTranscurrido 
+        },
+        
+      ];
+      
+      this.tiempoDisplay= Math.round((this.duracionVotacion-this.tiempoTranscurrido )/1000);
+      this.tiempoVotacion_porcentaje= this.tiempoTranscurrido/ this.duracionVotacion*100;
+        
+      if(this.tiempoTranscurrido/ this.duracionVotacion<0.25){
+        this.colorScheme = {
+        domain: ['#2F3E9E', '#D22E2E', '#378D3B', '#0096A6', '#F47B00', '#606060']
+      }; 
+     }
+  
+     console.log("displayTimerVotacion: "+  this.tiempoTranscurrido+" - "+this.tiempoVotacion_porcentaje);
+    if(this.tiempoTranscurrido>this.duracionVotacion){
+      console.log("this.tiempoTranscurrido>this.duracionVotacion: "+  this.tiempoTranscurrido+" - "+this.duracionVotacion+" - "+(this.tiempoTranscurrido>this.duracionVotacion));
+      this.stopTimerVotacion();
+    }
+
+    }
+  };
+
+
+public multi: any[];
+public view: any[] = [300, 300];
+public showLegend = false;
+public gradient = true;
+public colorScheme = {
+  domain: ['#2F3E9E', '#D22E2E', '#378D3B', '#0096A6', '#F47B00', '#606060']
+}; 
+public showLabels = false;
+public explodeSlices = false;
+public doughnut = false;
+public datosTimerVotacion: any[] = [
+  {
+    name: 'tiempoTranscurrido',
+    value: 0
+  },
+  {
+    name: 'tiempoRestante',
+    value: 100
+  },
+  
+];
+
+  onSelect(d){
+    console.log(d);
+}
 
 }
 

@@ -66,7 +66,7 @@ export class ConfigComponente {
          NumOrdenDiaSubCaratula   : null,
          NumOrdenDiaCaratula      : null,
          Fecha                    : null,
-         Rotulo1                   : null,
+         Rotulo                   : null,
          Novedad                  : null,
          Estado                   : null,
        
