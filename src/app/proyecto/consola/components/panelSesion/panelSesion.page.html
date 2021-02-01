@@ -19,6 +19,15 @@
                 <b>{{'votar.novedades' | translate}}</b>
             </span>                
         </div>
+
+        <button class="btn btn-primary" (click)="startTimerVotacion(15000)">
+            Timer On
+        </button>
+
+        <button class="btn btn-danger" (click)="stopTimerVotacion()">
+            Timer On
+        </button>
+
     </div>
         
 
@@ -100,26 +109,88 @@
                    
                     <!-- Inicio Bancas -->
                     <div class="recuadrobancas">
-                        <div class="filabancas" *ngFor="row in bancas">
-                            <div    class="Banca" 
-                                    [ngclass]="banca.clase"
-                                    *ngFor="banca in row">
+                       
+                        <div  class="filabancas" *ngFor="let row of bancas">
+                          
+                            <div    class="Banca {{banca.clase}}" 
+                                    *ngFor="let banca of row">
+                             
                                 <div class='badge badge-secondary badge-pill PidelaPalabra ' 
                                      *ngIf='banca.PidePalabra'>{{banca.PidePalabraIndice}}
                                 </div>
                                 <p>{{banca.nombreBanca}}</p>
                     
                                 <div class="Partido"><p  >{{banca.partido}}</p> </div>
-                    
+                                
                             </div>
                       </div>
                     </div>
                     <!-- Fin de Bancas  -->
                    
-                    <div ng-include="'views/bancas.html'" ></div>
+                 
                    <div class="cuerpoColDerecha">
-                      <div ng-include="'views/sesion.html'" ></div>
-                      <div ng-include="'views/envotacion.html'"  ng-show="estado==ESTADO_VOTANDO"></div>
+ 
+                    <!-- Inicio Sesiones -->
+                        <div class="sesiones">
+                            <!-- <div class="tituloSesion" ng-bind-html="renderHtml(titulo)"></div> -->
+                            <div class="tituloSesion" ><h1>{{titulo}}</h1></div>
+                            <div class="mensajeError" *ngIf="error" >Estado:{{estado}} - Error:{{error}}</div>
+                          
+                            <div class="textoSesion" [innerHTML]="texto"  *ngIf="estado==ESTADO_TEXTOS"></div>
+                            
+                        </div>
+                    <!-- Fin Sesiones -->
+                       
+                    
+                    <!-- Inicio EnVotacion -->
+                    {{estado}}
+                    <div class="cajaEnVotacion"  *ngIf="estado==ESTADO_VOTANDO">
+                        <div>
+                          <p class="enVotacionTitulo">Votando {{votosEmitidos}} </p>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                              <p class="enVotacionMensaje text-Left">{{tipoVotacion}} </p>
+                              <p class="enVotacionMensaje text-Left">{{tipoAprobacion}}</p>
+                              <p class="enVotacionPaddingInferior "></p>
+                            </div>
+                             <div class="col-md-6">
+                                  <div class="reloj1" >{{tiempoDisplay}}</div>
+                      
+                        
+
+                                  <div class="card-body widget-body" style="background-color: red;">
+                                          
+                                
+                            
+                                        <ngx-charts-pie-chart 
+                                            [view]="view" 
+                                            [scheme]="colorScheme" 
+                                            [results]="datosTimerVotacion" 
+                                            [gradient]="gradient"
+                                            [legend]="showLegend" 
+                                            [legendPosition]="legendPosition" 
+                                            [labels]="showLabels" 
+                                            [doughnut]="true" 
+                                            [arcWidth]=".3"
+                                            (select)="onSelect($event)" >
+                                        </ngx-charts-pie-chart>   
+
+                                        <!-- <ngx-charts-advanced-pie-chart
+                                            [scheme]="colorScheme"
+                                            [legend]="showLegend"
+                                            [labels]="showLabels"
+                                            [results]="single"
+                                            [gradient]="gradient"
+                                            (select)="onSelect($event)">
+                                        </ngx-charts-advanced-pie-chart>        -->
+                                
+                                </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- FIN EnVotacion -->
+                    
                       <div ng-include="'views/resultado.html'"  ng-show="estado==ESTADO_RESULTADOS || estado==ESTADO_EMPATE"></div>
                       <div ng-include="'views/usodelapalabra.html'"  ng-show="estado==ESTADO_USO_DE_PALABRA"></div>
                   </div>
