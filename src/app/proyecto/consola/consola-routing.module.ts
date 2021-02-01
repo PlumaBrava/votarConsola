@@ -4,6 +4,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { ConcejalesComponent }               from './components/concejales/concejales.page';
 import { DispositivosComponent }             from './components/dispositvos/dispositivos.page';
 import { ConcejalesDispositivosComponent }   from './components/concejales-dispositivos/concejales-dispositivos.page';
+import { NovedadesComponent }                from './components/novedades/novedades.page';
+import { PanelSesionComponent }              from './components/panelSesion/panelSesion.page';
 
 const routes: Routes = [
   
@@ -11,6 +13,8 @@ const routes: Routes = [
   { path: 'concejales',               component: ConcejalesComponent, data: { breadcrumb: 'Concejales' } },
   { path: 'dispositivos',             component: DispositivosComponent, data: { breadcrumb: 'Dispositivos' } },
   { path: 'concejales-dispositivos',  component: ConcejalesDispositivosComponent, data: { breadcrumb: 'Concejales-Dispositivos' } },
+  { path: 'novedades',                component: NovedadesComponent, data: { breadcrumb: 'Novedades' } },
+  { path: 'panelSesion',              component: PanelSesionComponent, data: { breadcrumb: 'PanelSesion' } },
 
 ];
 

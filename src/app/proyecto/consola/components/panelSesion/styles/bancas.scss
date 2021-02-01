@@ -1,0 +1,277 @@
+
+:root {
+  --colorBancaLAusente: transparent;
+  --colorBancaAusenteTexto: #1D345D;
+  --colorBordeBancaAusente: #00A887;
+
+    --colorBancaLibre: white;
+  --colorBancaLiberTexto: transparent;
+  --colorBordeBancaLibre: transparent;
+
+  --colorBancaOcupada: #00A887;
+  --colorBancaOcupadaTexto: white;
+  --colorBordeBancaOcupada: #00A887;
+
+  --colorBordeBancaVotando: yellow;
+  --colorBordeBancaVotoPositivo: rgba(63, 163, 14, 1);
+  --colorBordeBancaVotoNegativo: rgba(235, 26, 29, 0.8);
+
+
+
+  --colorBancaExcusada: #CA8D34FF;
+  --colorBordeBancaExcusada:  #CA8D34FF;
+
+
+
+
+   --azulLogoDeliberante: #1D345D;
+   --celesteLogoDeliberante: #00A887;
+   --azulLetraiberante:#203459;
+   --grisLetraiberante: #4D6476;
+}
+
+
+
+
+
+
+.recuadrobancas{
+  /*border: 1px solid black;*/
+  width: 32%;
+height: 100%;
+  /*background-color: orange;*/
+  /*border-radius: 20px;*/
+
+/*margin-left: 20px;*/
+margin-right: 0px;
+
+display: table;
+ float:left;
+
+
+/*-webkit-box-shadow: 10px 10px 10px 0px rgba(51,66,232,0.2);
+-moz-box-shadow: 10px 10px 10px 0px rgba(51,66,232,0.2);
+box-shadow: 10px 10px 10px 0px rgba(51,66,232,0.2);*/
+
+    -webkit-box-shadow: 0px 8px 27px -2px rgba(29,53,93,1);
+-moz-box-shadow: 0px 8px 27px -2px rgba(29,53,93,1);
+box-shadow: 0px 8px 27px -2px rgba(29,53,93,1);
+
+
+background: rgba(239,244,252,1);
+background: -moz-linear-gradient(top, rgba(239,244,252,1) 0%, rgba(95,133,199,1) 100%);
+background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(239,244,252,1)), color-stop(100%, rgba(95,133,199,1)));
+background: -webkit-linear-gradient(top, rgba(239,244,252,1) 0%, rgba(95,133,199,1) 100%);
+background: -o-linear-gradient(top, rgba(239,244,252,1) 0%, rgba(95,133,199,1) 100%);
+background: -ms-linear-gradient(top, rgba(239,244,252,1) 0%, rgba(95,133,199,1) 100%);
+background: linear-gradient(to bottom, rgba(239,244,252,1) 0%, rgba(95,133,199,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eff4fc', endColorstr='#5f85c7', GradientType=0 );
+
+}
+
+
+
+.filabancas{  /*padre*/
+
+  margin:auto;
+  padding-bottom: 2px;
+  /*border: 1px solid red;*/
+
+
+  display: table-cell;
+    vertical-align: middle;
+}
+
+
+
+.Banca{
+  width:  125px;
+height: 50px;
+ /* height: 50px;
+    width:  107px;*/
+    border-radius: 20px;
+    border: 6px solid black;
+    padding: 4px ;
+    display: table;
+ transition:1s linear all;
+  -webkit-transition:all linear 1s;
+  background-color:var(--colorBancaLibre);
+/*background-color:pink;*/
+color:var(--colorBancaLiberTexto);
+border-color: var(--colorBordeBancaLibre);
+-webkit-box-shadow: 0px 8px 27px -2px rgba(29,53,93,1);
+-moz-box-shadow: 0px 8px 27px -2px rgba(29,53,93,1);
+box-shadow: 0px 8px 27px -2px rgba(29,53,93,1);
+ position: relative;
+}
+
+
+ .Banca p {
+   height: 10px;
+   width: 100px;
+  margin-top: 2px;
+  margin-bottom: 02px;
+   text-align: center;
+    /*display: table-cell;*/
+vertical-align: middle;
+   font-family: sans-serif;
+    font-weight: bold;
+     text-transform: uppercase;
+   /*background-color: red;*/
+
+}
+
+.Partido p {
+   /*height: 15px;
+   width: 100px;*/
+
+ margin-top: 8px;
+  margin-bottom: 0px;
+   text-align: center;
+    /*display: table-cell;*/
+vertical-align: middle;
+   font-family: sans-serif;
+     text-transform: none;
+  color:black;
+  /*background-color:yellow;*/
+   font-size: 75%;
+}
+.Banca.bancaLibre .Partido p{
+  color:var(--colorBancaLiberTexto);
+ /*background-color:var(--colorBancaLiber);*/
+}
+
+.filabancas .Banca{
+
+  margin: auto;
+  margin-top : 2px;
+  margin-bottom:   8px;
+
+}
+
+.Banca.bancaLibre{
+background-color:var(--colorBancaLibre);
+/*background-color:pink;*/
+color:var(--colorBancaLiberTexto);
+border-color: var(--colorBordeBancaLibre);
+/*border: 1px solid;*/
+/*border-color: red;*/
+/*-webkit-animation: saleConsejal 3s  ;
+    animation: saleConsejal 3s ;*/
+}
+
+
+ .Banca.bancaAusente{
+/*background-color:var(--colorBancaAusente);*/
+/*background-color:pink;*/
+text-decoration-style: solid;
+color:var(--colorBancaAusenteTexto);
+border-color: var(--colorBordeBancaAusente);
+/*border: 1px solid;*/
+/*-webkit-animation: saleConsejal 3s  ;
+    animation: saleConsejal 3s ;*/
+}
+
+
+.Banca.bancaOcupada {
+background-color: var(--colorBancaOcupada);
+color:var(--colorBancaOcupadaTexto);
+border-color:var(--colorBordeBancaOcupada);
+}
+
+
+/*.Banca.bancaOcupada-add {
+
+ border-color: var(--colorBancaAusente);
+        background-color: var(--colorBancaAusente);
+}*/
+
+@-webkit-keyframes borderBlink {
+    from, to {
+        border-color: transparent
+    }
+    50% {
+        border-color: var(--colorBordeBancaVotando);
+        -webkit-box-shadow: 0px 8px 27px -2px  rgba(241,231,103,1);
+-moz-box-shadow: 0px 8px 27px -2px  rgba(241,231,103,1);
+box-shadow: 0px 8px 27px -2px  rgba(241,231,103,1);
+    }
+}
+@keyframes borderBlink {
+    from, to {
+        border-color: transparent
+    }
+    50% {
+        border-color: var(--colorBordeBancaVotando);
+         -webkit-box-shadow: 0px 8px 27px -2px  rgba(241,231,103,1);
+-moz-box-shadow: 0px 8px 27px -2px  rgba(241,231,103,1);
+box-shadow: 0px 8px 27px -2px  rgba(241,231,103,1);
+    }
+}
+
+
+
+.Banca.bancaVotando{
+background-color:var(--colorBancaOcupada);
+/*border-width: 8px;*/
+/*width:  115px;
+height: 58px;*/
+color:white;
+border-color:var(--colorBordeBancaVotando);
+ -webkit-animation: borderBlink 1s step-end infinite;
+    animation: borderBlink 1s step-end infinite;
+}
+
+.Banca.bancaVotoPositivo{
+background-color:var(--colorBancaOcupada);
+/*border-width: 8px;*/
+/*width:  115px;
+height: 58px;*/
+color:white;
+border-color:var(--colorBordeBancaVotoPositivo);
+        -webkit-box-shadow: 0px 8px 27px -2px    rgba(47, 207, 58, 1);
+-moz-box-shadow: 0px 8px 27px -2px   rgba(47, 207, 58, 1);
+box-shadow: 0px 8px 27px -2px rgba(47, 207, 58, 1);
+}
+
+
+
+
+
+.Banca .bancaVotoNegativo2{
+background-color:var(--colorBancaOcupada);
+/*border-width: 8px;*/
+/*width:  115px;
+height: 58px;*/
+color:red;
+/*border-color:var(--colorBordeBancaVotoNegativo);*/
+border-color:red;
+}
+
+
+.Banca.bancaExcusada{
+background-color:var(--colorBancaExcusada);
+/*border-width: 8px;*/
+/*width:  115px;
+height: 58px;*/
+color:white;
+border-color:var(--colorBordeBancaExcusada);
+}
+
+
+.Banca.bancaVotoNegativo{
+background-color:var(--colorBancaOcupada);
+/*border-width: 8px;*/
+/*width:  115px;
+height: 58px;*/
+color:white;
+border-color:var(--colorBordeBancaVotoNegativo);
+}
+.PidelaPalabra{
+background-color:red;
+color:white;
+position: absolute;
+   top: -12px;
+   right: -8px;
+}
+

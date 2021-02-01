@@ -381,7 +381,8 @@ export class ConcejalesDispositivosComponent extends PageGenerica2<ConcejalesDis
         documento        : documento,
         distribuidorKN   : null,
         organizacionKNAI : null,                           
-        usuarioKANE      : this.usuarioKANE
+        usuarioKANE      : this.usuarioKANE,
+        usaSettings      : this.usaSettings
     }).then(respuesta=>{
       console.log('respuesta',respuesta);
       this.concejalSeleccionado=null;
@@ -404,7 +405,8 @@ export class ConcejalesDispositivosComponent extends PageGenerica2<ConcejalesDis
         documento        : doc,
         distribuidorKN   : null,
         organizacionKNAI : null,                           
-        usuarioKANE      : this.usuarioKANE
+        usuarioKANE      : this.usuarioKANE,
+        usaSettings      : this.usaSettings 
     }).then(respuesta=>{
       console.log('respuesta',respuesta);
       this.getSubscripcionPrincipal();

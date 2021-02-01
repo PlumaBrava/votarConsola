@@ -16,10 +16,10 @@ export const SETTINGS_DATA = {
        },
 
        app: {
-          name                    : 'PKMOVIL',
-          title                   : 'PKMOVIL',
-          descripcion             : 'Sistema de Trackeo de Rutas',
-          keywords                : 'planifi-k, trackeo, logistica, rutas',
+          name                    : 'Voto Electrónico',
+          title                   : 'Voto Electrónico',
+          descripcion             : 'Sistema de Voto Electrónico',
+          keywords                : 'voto, electronico, concejo, deliberante',
           author                  : 'CP SISTEMAS',                       
           manejaDistribuidores    : true,
           manejaOrganizaciones    : true,
@@ -97,7 +97,7 @@ export const SETTINGS_DATA = {
        },
        
        appCelular: {
-         aplicacionKey    : 'pkMobilityApp',   // Key definido en Aux Aplicaciones
+         aplicacionKey    : 'VotoMovil',   // Key definido en Aux Aplicaciones
       },
        
        webSite: {
@@ -106,20 +106,20 @@ export const SETTINGS_DATA = {
        },
        
        cliente: {
-         nombre                   : 'Planifi-K SRL',// 'NutralMix SRL',
+         nombre                   : 'HCD Zarate',//'Planifi-K SRL',// 'NutralMix SRL',
          web                      : 'https://pktest-ad982.web.app', //http://www.lanacion.com.ar',
          email                    : 'perez.juan.jose@gmail.com',
          email2                   : null,
          copyrightYear            : '2020',
          favicon                  : '../assets/favicon/favicon.png',  
-         logo                     : '../assets/imagenes/cliente/KipBip_logo_header_ver2_blanco.png',          // Logo Cliente. Se muestra en la cabecera del menu
+         logo                     : '../assets/imagenes/cliente/logo_zarate2.png',          // Logo Cliente. Se muestra en la cabecera del menu
          logoMetatags             : 'https://pktest-ad982.web.app/assets/imagenes/cliente/KipBip_logo_header_ver2_blanco.png',  
          logos: {
-            landing       : '../assets/imagenes/cliente/kipbip_landing.gif',
-            panelHeader   : '../assets/imagenes/cliente/KipBip_logo_header_ver3_transparente.png',
+            landing       : '../assets/imagenes/cliente/logo_zarate2.png',
+            panelHeader   : '../assets/imagenes/cliente/logo_zarate2.png',
             celularHeader : '../assets/imagenes/cliente/KipBip_logo_header_ver2_blanco.png',
-            login         : '../assets/imagenes/cliente/KipBip_logo_login.png',
-            loading       : '../assets/imagenes/cliente/kipbip_loading.gif',
+            login         : '../assets/imagenes/cliente/logo_zarate2.png',
+            loading       : '../assets/imagenes/cliente/logo_zarate2.png',
             metatags      : 'https://pktest-ad982.web.app/assets/imagenes/cliente/KipBip_logo_header_ver2_blanco.png'  // tiene que ser la ruta completa con http
          },         
             

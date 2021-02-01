@@ -1,0 +1,373 @@
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#ccc"
+  type="ball-spin">
+  <p style="font-size: 16px; color: #ccc" translate>componente-ngx-spinner.grabando</p>
+</ngx-spinner>
+
+
+
+
+ 
+<!-- *************** LISTADO ************************************ -->
+<div *ngIf="accionForm=='listado' && grilla!==undefined">
+
+    <div class="row tituloRow">
+        <div class="col-lg-12 col-12">        
+            <span class="tituloTexto">
+                <b>{{'votar.novedades' | translate}}</b>
+            </span>                
+        </div>
+    </div>
+        
+
+    <div translate>{{errorMensaje}}</div>
+     
+    <div widget class="card border-0 box-shadow" >
+        <div class="card-header transparent border-0 text-muted">
+            <!-- <h5 class="mb-0" translate>moduloRutas.rutas</h5> -->
+            <div class="widget-controls"> 
+                <a data-widgster="expand" href="#" class="transition"><i class="fa fa-chevron-down"></i></a>
+            </div>        
+        </div>
+        <div class="card-body pt-0 widget-body"> 
+
+            <div class="container" ng-controller="MainCtrl" >
+                <div class="encabezadoh" ng-hide="MuestraPDFFInal">
+                    <!-- Encabezado -->
+                    <ng-container  >
+                        <div class="encabezadoh">
+                            <img src="./assets/imagenes/cliente/hcd2.png"          *ngIf="CONCEJO=='hcdTrenqueLauquen'">
+                            <img src="./assets/imagenes/cliente/logo_zarate2.png"  *ngIf="CONCEJO=='hcdZarate'">
+                         
+                             <div class="fechayhora">
+                                 <h2><p class="titulosesiones text-center">Sesión </p> </h2>
+                                 <div class="marginQuorumSinExcusados" *ngIf="nroExcusados!=0"></div>
+                                 <h4><p class="titulosesiones text-center">{{sesionTituloPanel}}</p> </h4>
+                                 <!-- <h3><p class="dia text-center">{{dia}}</p> </h3> -->
+                                 <!-- <h3><p >dia2 {{dia |  date:'EEEE d MMMM':'es' }}</p> </h3> -->
+                                 <h3><p class="hora text-center">{{dia |  date:'HH:MM hs':'es' }}</p> </h3>
+                                 <h3><p class="dia text-center">{{dia |  date:'DD/MM/AAAA':'es' }}</p> </h3>
+                            
+                                 <!-- <h3><p class="dia text-center">{{dia | date}}</p> </h3> -->
+                                 <!-- <h3><p class="hora text-center">{{dia | date:'shortTime'}} </p></h3> -->
+                         
+                             </div>
+                             <div class="quorum">
+                                    <!-- [ngclass]="{'tituloQuorum_SinQuorum': textoQuorumClase=='tituloQuorum_SinQuorum', -->
+                                    <!-- 'tituloQuorum_ConQuorum': textoQuorumClase=='tituloQuorum_ConQuorum'}" -->
+                                <h2>
+                                 
+                                    <p class="text-center"   >
+                                        {{textoQuorum}}
+                                    </p> 
+                                </h2>
+                                 <div class="marginQuorumSinExcusados" ng-show="nroExcusados==0"></div>
+                                   <div class="quorumPresente">
+                                 <p class="quorumPresenteTitulo" ng-click="refrescarPagina()" >Presentes:  </p>
+                         
+                                 <p class="quorumPresenteNumero "  > {{nroPresetes}}</p>
+                               </div>
+                         
+                               <div class="quorumAusentes">
+                                 <p class="quorumAusentesTitulo">Ausentes:</p>
+                                 <p class="quorumAusentesNumero">{{nroAusentes}}</p>
+                               </div>
+                         
+                               <div class="quorumExcusados" ng-show="nroExcusados!=0">
+                                 <p class="quorumExcusadosTitulo">Excusados:</p>
+                                 <p class="quorumExcusadosNumero">{{nroExcusados}}</p>
+                               </div>
+                         
+                             </div>
+                           <div class="votarEncabezado">
+                                 <h2><p class="text-center votarTitulo">Votación</p> </h2>
+                                     <div class="marginQuorumSinExcusados" ng-show="nroExcusados!=0"></div>
+                                  <p class="VotarDatos text-Left">{{tratamentoTema}}</p>
+                                 <p class="VotarDatos text-Left">{{tipoVotacion}} </p>
+                                 <p class="VotarDatos text-Left">{{tipoAprobacion}}</p>
+                         
+                             </div>
+                         
+                          </div>
+                         
+                         
+                
+                    </ng-container>
+                </div>
+                <div class="cuerpoh" ng-hide="MuestraPDFFInal">
+                   
+                    <!-- Inicio Bancas -->
+                    <div class="recuadrobancas">
+                        <div class="filabancas" *ngFor="row in bancas">
+                            <div    class="Banca" 
+                                    [ngclass]="banca.clase"
+                                    *ngFor="banca in row">
+                                <div class='badge badge-secondary badge-pill PidelaPalabra ' 
+                                     *ngIf='banca.PidePalabra'>{{banca.PidePalabraIndice}}
+                                </div>
+                                <p>{{banca.nombreBanca}}</p>
+                    
+                                <div class="Partido"><p  >{{banca.partido}}</p> </div>
+                    
+                            </div>
+                      </div>
+                    </div>
+                    <!-- Fin de Bancas  -->
+                   
+                    <div ng-include="'views/bancas.html'" ></div>
+                   <div class="cuerpoColDerecha">
+                      <div ng-include="'views/sesion.html'" ></div>
+                      <div ng-include="'views/envotacion.html'"  ng-show="estado==ESTADO_VOTANDO"></div>
+                      <div ng-include="'views/resultado.html'"  ng-show="estado==ESTADO_RESULTADOS || estado==ESTADO_EMPATE"></div>
+                      <div ng-include="'views/usodelapalabra.html'"  ng-show="estado==ESTADO_USO_DE_PALABRA"></div>
+                  </div>
+            
+                </div>
+            </div>
+
+           
+        </div> <!-- FIN card-body -->
+    </div> <!-- FIN widget -->
+
+</div>
+
+<!-- *************** FORMULARIO ************************************ -->
+<div *ngIf="['agregar','modificar','consultar'].indexOf(accionForm)!=-1 && form.value">
+    
+    <div class="row tituloRow">
+        <div class="col-lg-12 col-12">        
+            <span class="tituloTexto">
+                <b>{{'votar.dispositivos' | translate}}: </b>
+                {{form.value.NumDispositivo}} <span *ngIf="form.value.NumConcejal"></span>
+            </span>                
+            <button type="button" 
+                *ngIf="['modificar','agregar'].indexOf(accionForm)==-1 &&
+                       router.url!='/usuarios/fichaOrganizacion'"
+                class="btn btn-warning tituloButton" 
+                (click)="setAccionForm('listado')" translate>navegabilidad.salir</button>
+
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-lg-12 col-12">
+
+            <div class="clearfix">            
+                <ul class="nav nav-tabs">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" 
+                           href="#panelFicha" id="tabFicha" 
+                           translate>claseTabs.ficha</a>
+                    </li>
+
+                    <!-- Solapas Activas cuando no estoy editando Ficha -->
+                    <li class="nav-item" *ngIf="form.value.key && ['modificar','agregar'].indexOf(accionForm)==-1">
+                        <a class="nav-link" data-toggle="tab" 
+                           href="#panelVehiculos" id="tabVehiculos" 
+                           (click)="clickSolapa('#tabVehiculos')" 
+                           translate>moduloRutas.vehiculos</a>
+                    </li>
+                    <li class="nav-item" *ngIf="form.value.key && ['modificar','agregar'].indexOf(accionForm)==-1">
+                        <a class="nav-link" data-toggle="tab" 
+                           href="#panelIntegrantes" id="tabIntegrantes"
+                           (click)="clickSolapa('#tabIntegrantes')"  
+                           translate>moduloRutas.integrantes</a>
+                    </li>
+                    <li class="nav-item" *ngIf="form.value.key && ['modificar','agregar'].indexOf(accionForm)==-1">
+                        <a class="nav-link" data-toggle="tab" 
+                           href="#panelParadas" id="tabParadas" 
+                           (click)="clickSolapa('#tabParadas')" 
+                           translate>moduloRutas.paradas</a>
+                    </li>
+                    <li class="nav-item" *ngIf="form.value.key && ['modificar','agregar'].indexOf(accionForm)==-1 && listadoRutaParadas.length>1">
+                        <a class="nav-link" data-toggle="tab" 
+                           href="#panelRecorrido" id="tabRecorrido" 
+                           (click)="clickSolapa('#tabRecorrido')" 
+                           translate>moduloRutas.recorrido</a>
+                    </li>
+
+                    <!-- Solapas Deshabilitadas -->
+                    <li class="nav-item" *ngIf="form.value.key && ['modificar','agregar'].indexOf(accionForm)!=-1">
+                        <a class="nav-link" 
+                           href="javascript:;" translate>moduloRutas.vehiculos</a>
+                    </li>
+                    <li class="nav-item" *ngIf="form.value.key && ['modificar','agregar'].indexOf(accionForm)!=-1">
+                        <a class="nav-link" 
+                           href="javascript:;" translate>moduloRutas.integrantes</a>
+                    </li>
+                    <li class="nav-item" *ngIf="form.value.key && ['modificar','agregar'].indexOf(accionForm)!=-1">
+                        <a class="nav-link" 
+                           href="javascript:;" translate>moduloRutas.rutas</a>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="tab-content top" >
+                <!-- style="background-color: red;" -->
+                <div class="tab-pane active" id="panelFicha" style="padding-top:0px; padding-bottom:0px; ">
+                    
+                        <div class="row" style="margin-bottom:0px;">
+                                                               
+                                    <!-- ******************** FICHA ********************* -->    
+                                    <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" style="padding:10px; width: 100%; ">
+
+                                        <lib-shared-form-buttons 
+                                                          [accionForm]='accionForm'
+                                                          [permisos]='permisos' 
+                                                          (setAccion)="setAccionForm($event)"
+                                                          (onSubmitComponent)="onSubmit(form.value)"></lib-shared-form-buttons>
+
+                                        <!-- ********* datos generales ********** -->
+                                        <div widget class="card border-0 box-shadow" style="margin-top:10px;">
+                                            <div class="card-header transparent border-0 text-muted">
+                                                <h5 class="mb-0" translate>claseTabs.basic</h5>
+                                                <div class="widget-controls"> 
+                                                     <a data-widgster="expand" href="#" class="transition"><i class="fa fa-chevron-down"></i></a>
+                                                    <a data-widgster="collapse" href="#" class="transition"><i class="fa fa-chevron-up"></i></a>                                     
+                                                </div>        
+                                            </div>
+                                            <div class="card-body pt-0 widget-body"> 
+                                                
+                                                <div class="row">
+                                                    <!-- NumDispositivo -->
+                                                    <div class="form-group col-4">
+                                                        <label class="text-gray" translate>votar.NumDispositivo
+                                                            <span class="required">*</span></label>
+                                                        <input formControlName="NumDispositivo" class="form-control validation-field" type="text">
+                                                        <small class="text-danger" *ngIf="form.controls.NumDispositivo.touched && form.controls.NumDispositivo.errors?.required"><span translate>votar.NumDispositivo</span>&nbsp;<span translate>claseValidaciones.esRequerido</span></small>                              
+                                                    </div>                                                                        
+    
+                                                    <!-- Dispositivo -->
+                                                    <div class="form-group col-4">
+                                                        <label class="text-gray" translate>votar.dispositivo<span class="required">*</span></label>
+                                                        <input formControlName="Dispositivo" class="form-control validation-field" type="text">
+                                                        <small class="text-danger" *ngIf="form.controls.Dispositivo.touched && form.controls.Dispositivo.errors?.required"><span translate>votar.Dispositivo</span>&nbsp;<span translate>claseValidaciones.esRequerido</span></small>                              
+                                                    </div>
+
+                                                    <!-- Serie -->
+                                                    <div class="form-group col-4">
+                                                        <label class="text-gray" translate>votar.Serie<span class="required">*</span></label>
+                                                        <input formControlName="Serie" class="form-control validation-field" type="text">
+                                                        <small class="text-danger" *ngIf="form.controls.Serie.touched && form.controls.Serie.errors?.required"><span translate>votar.Serie</span>&nbsp;<span translate>claseValidaciones.esRequerido</span></small>                              
+                                                        
+                                                    </div>
+                                                </div>        
+
+                                                <div class="row">
+                                                    <!-- Imei -->
+                                                    <div class="form-group col-4">
+                                                        <label class="text-gray" translate>votar.Imei<span class="required">*</span></label>
+                                                        <input formControlName="Imei" class="form-control validation-field" type="text">
+                                                        <small class="text-danger" *ngIf="form.controls.Imei.touched && form.controls.Imei.errors?.required"><span translate>votar.Imei</span>&nbsp;<span translate>claseValidaciones.esRequerido</span></small>                              
+                                                      
+                                                    </div>                                                                        
+    
+                                                    <!-- Macaddresses -->
+                                                    <div class="form-group col-4">
+                                                        <label class="text-gray" translate>votar.Macaddresses<span class="required">*</span></label>
+                                                        <input formControlName="Macaddresses" class="form-control validation-field" type="text">
+                                                        <small class="text-danger" *ngIf="form.controls.Macaddresses.touched && form.controls.Macaddresses.errors?.required"><span translate>votar.Macaddresses</span>&nbsp;<span translate>claseValidaciones.esRequerido</span></small>                              
+                                                    </div>
+
+                                             
+                                                </div>        
+                                                    
+                                                    
+                                                <div class="row">
+                                                                       
+
+                                                    <!-- Estado -->
+                                                    <div class="col-6">
+                                                        <div class="form-group float-left" >
+                                                            <div class="check">
+                                                                <label class="container-small checkbox-label " style="padding-right:10px;">{{'votar.estado' | translate}}</label>
+                                                                <input type="checkbox" formControlName="Estado">
+                                                            </div>      
+                                                        </div>                                                                                     
+                                                    </div>
+                                                        
+                                                </div>        
+                                                
+                                            </div> <!-- FIN card-body -->
+                                        </div> <!-- FIN widget -->
+
+
+
+                                                                        
+                                        
+                                     
+                                        <!-- settings   -->
+                                        <br>
+                                        <lib-shared-form-settings *ngIf="accionForm!='agregar'"
+                                            [nameField]="'settings'" 
+                                            [controlsField]="form.controls.settings"
+                                            [value]="form.value.settings"
+                                            [accionForm]="accionForm" 
+                                            [formInvalid]="formInvalid" 
+                                            [tipoPerfilUsuario]="tipoPerfilUsuario" 
+                                            (cargoSubEstructura)="emitCargoSubEstructura($event)"></lib-shared-form-settings>
+                                        
+                                        <br>
+
+                                        <lib-shared-form-buttons [accionForm]='accionForm' 
+                                                          [permisos]='permisos' 
+                                                          (setAccion)="setAccionForm($event)"
+                                                          (onSubmitComponent)="onSubmit(form.value)"></lib-shared-form-buttons>
+
+                                </form>    
+
+                
+                        
+
+                            
+                    </div> <!-- fin row division-->
+                    
+                </div> <!-- FIN tab-pane id="ta" -->
+
+                <div class="tab-pane" id="panelVehiculos">
+                    <!-- <app-rutas-vehiculos 
+                        [ruta]="formatearDocumentoconForm(this.form.value,'vehiculos')"
+                        [permisos]="permisos"
+                        [accionInicial]="componenteVehiculosAccionInicial"
+                        [documentoInicial]="componenteVehiculosDocumentoInicial"
+                        (actualizarRutaconComponente)="actualizarRutaconComponente($event)">                        
+                    </app-rutas-vehiculos> -->
+                </div>
+
+                <div class="tab-pane" id="panelIntegrantes">
+                    <!-- <app-rutas-integrantes
+                        [ruta]="formatearDocumentoconForm(this.form.value,'integrantes')"
+                        [permisos]="permisos"
+                        [accionInicial]="componenteIntegrantesAccionInicial"
+                        [documentoInicial]="componenteIntegrantesDocumentoInicial"
+                        (actualizarRutaconComponente)="actualizarRutaconComponente($event)">                        
+                    </app-rutas-integrantes> -->
+                </div>
+
+                <div class="tab-pane" id="panelParadas">
+                    <!-- <app-rutas-paradas                    
+                        [ruta]="formatearDocumentoconForm(this.form.value,'paradas')"
+                        [permisos]="permisos"
+                        [accionInicial]="componenteParadasAccionInicial"
+                        [documentoInicial]="componenteParadasDocumentoInicial"
+                        (actualizarRutaconComponente)="actualizarRutaconComponente($event)">                        
+                    </app-rutas-paradas> -->
+                </div>
+
+                <div class="tab-pane" id="panelRecorrido">
+                    
+                        <!-- Dibujo de la Ruta en Mapa -->
+                        <div id="mapRuta{{dif}}" 
+                             style="width:100%;" 
+                             [ngStyle]="{height: heightMapa}"></div>                                                               
+
+                </div>
+                
+            </div>                   
+
+        </div>
+    </div>
+
+</div>
