@@ -1,0 +1,37 @@
+.sesiones{
+  margin-left: 0px;
+  /*background: red;*/
+  width: 100%;
+  height: 100%;
+}
+.tituloSesion{
+    /*border:2px   solid  var(--azulLetraiberante);*/
+    border-radius: 20px;
+  /*  padding-top:  0px;*/
+    padding-left:  20px;
+    /*text-align: center;*/
+  /*background: green;*/
+    -webkit-box-shadow: 0px 8px 27px -2px rgba(29,53,93,1);
+-moz-box-shadow: 0px 8px 27px -2px rgba(29,53,93,1);
+box-shadow: 0px 8px 27px -2px rgba(29,53,93,1);
+}
+ .tituloSesion h1 {
+  margin-top:  0px;
+  padding-top: 0px;
+}
+.textoSesion{
+     width: 100%;
+  height: 100%;
+  padding-top:  0px;
+  padding-left: 15px;
+}
+
+.mensajeError{
+  padding-top: 5px;
+  margin-top: 15px;
+  color:red;
+  border-radius: 20px;
+  /*padding-top:  0px;*/
+  padding-left:  20px;
+  border:1px   solid  red;
+}

@@ -8,6 +8,7 @@ export class ConfigComponente {
    public grilla                       : any;
    public nombreColeccion              : string;
    public campoClave                   : string;
+   public usaSettings                  : boolean;
    public columnasAdicionalesLogTable  : any[];
    public configListadosCache          : any[];
    public arrayFiles                   : any[]; 
@@ -22,6 +23,7 @@ export class ConfigComponente {
       // Colección Principal
       this.nombreColeccion ='concejales';
       this.campoClave      ='NumConcejal';
+      this.usaSettings     =true;
       this.t               = new Concejales(); //Construir una clase con todos los campos. 
       this.mostrarDiferenciaModeloFomulario=true;
 

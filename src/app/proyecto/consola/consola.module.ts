@@ -24,7 +24,8 @@ import { ConsolaRoutingModule }     from './consola-routing.module';
 import { ConcejalesComponent }              from './components/concejales/concejales.page';
 import { DispositivosComponent }            from './components/dispositvos/dispositivos.page';
 import { ConcejalesDispositivosComponent }  from './components/concejales-dispositivos/concejales-dispositivos.page';
-
+import { NovedadesComponent }               from './components/novedades/novedades.page';
+import { PanelSesionComponent }              from './components/panelSesion/panelSesion.page';
 
 import { DragulaModule }             from 'ng2-dragula';
 
@@ -32,14 +33,16 @@ import { DragulaModule }             from 'ng2-dragula';
   declarations: [
     ConcejalesComponent,
     DispositivosComponent,
-    ConcejalesDispositivosComponent
+    ConcejalesDispositivosComponent,
+    NovedadesComponent,
+    PanelSesionComponent
 
   ],
   imports: [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    TranslateModule,
+    TranslateModule, 
     MultiselectDropdownModule,
     NgbModule,
     PerfectScrollbarModule,
