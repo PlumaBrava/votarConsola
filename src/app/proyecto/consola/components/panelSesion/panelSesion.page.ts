@@ -487,26 +487,41 @@ export class PanelSesionComponent extends PageGenerica2<Novedades<NovedadesInter
   }
 
 
-  pasoTimer                   : number = 1000;
-  timerVotacion               : any    = null;
-  duracionVotacion            : number = 0;
-  tiempoTranscurrido          : number = 0;
-  tiempoVotacion_porcentaje   : number = 100;
-  tiempoVotacion_circulo      : number = 0;
-  tiempoDisplay               : number = 0;
+// ********************************************************************************************
+// ********************************************************************************************
+// ***********************    Timer Votación   ************************************************
+// ********************************************************************************************
+// ********************************************************************************************
+
+
+
+  pasoTimer                   : number = 200; //Paso con el que se activa el timer 
+  timerVotacion               : any    = null; //Timer. con esta variabel se para y elmina el timer
+  duracionVotacion            : number = 0; // Duracion de la votacin
+  tiempoTranscurrido          : number = 0; // Tiempo trascorrido desde que arranca el timer
+  tiempoVotacion_porcentaje   : number = 0; // % de Avance de la votación (tiempo)
+  tiempoDisplay               : number = null; //Numero que se muestra en pantalla
+  public viewTimer: any[] = [300, 300]; // Posicionamiento del circulo del timer
+  // colores iniciales timer votacion
+  public colorSchemeVotacion = { domain: ['transparent', 'transparent', '#378D3B', '#0096A6', '#F47B00', '#606060']};
+  // datos iniciales timer votacion
+  public datosTimerVotacion: any[] = [ {name: 'tiempoTranscurrido', value: 0 },
+                                     {name: 'tiempoRestante'    , value: 100 }
+                                    ];
+
 
   startTimerVotacion(duracion:number){
                   
     console.log("startTimerVotacion "+duracion);
+    this.estado=this.ESTADO_VOTANDO;
 
     if(duracion){
 
       //inicializo las variables del timer de votacion
       this.duracionVotacion             = duracion;
       this.tiempoTranscurrido           = 0;
-      this.tiempoVotacion_porcentaje    = 100;
-      this.tiempoVotacion_circulo       = 0;
-      
+      this.tiempoVotacion_porcentaje    = 0;
+     
       if(!this.timerVotacion){
         this.timerVotacion=setInterval(() => {
           console.log(this.tiempoTranscurrido);
@@ -563,17 +578,35 @@ displayTimerVotacion(){
       ];
       
       this.tiempoDisplay= Math.round((this.duracionVotacion-this.tiempoTranscurrido )/1000);
-      this.tiempoVotacion_porcentaje= this.tiempoTranscurrido/ this.duracionVotacion*100;
-        
-      if(this.tiempoTranscurrido/ this.duracionVotacion<0.25){
-        this.colorScheme = {
-        domain: ['#2F3E9E', '#D22E2E', '#378D3B', '#0096A6', '#F47B00', '#606060']
-      }; 
-     }
+      this.tiempoVotacion_porcentaje= this.tiempoTranscurrido/ this.duracionVotacion;
+      
+      let azul    = '#2F3E9E';
+      let rojo    = '#D22E2E';
+      let naranja = '#F47B00';
+      let gris    = '#606060';
+      let verde   = "#378D3B";
+      let celeste = "#0096A6";
+
+   
+      if(this.tiempoVotacion_porcentaje>0.8){
+        // Colores Alerta Final
+        this.colorSchemeVotacion = {
+        domain: [rojo, gris,'#2F3E9E', '#D22E2E',  '#F47B00', '#606060']};
+      }else if(this.tiempoVotacion_porcentaje>=0.6 && this.tiempoVotacion_porcentaje<=.8){
+        // Colores Alerta Intermedia
+        this.colorSchemeVotacion = {
+        domain: [naranja, gris,'#2F3E9E', '#D22E2E', '#378D3B', '#0096A6']};
+      
+      } else  if(this.tiempoVotacion_porcentaje<0.6){
+        // Colores inicio
+        this.colorSchemeVotacion = {
+        domain: [verde, gris, '#378D3B', '#0096A6', '#F47B00', '#606060']};
+      }
   
-     console.log("displayTimerVotacion: "+  this.tiempoTranscurrido+" - "+this.tiempoVotacion_porcentaje);
+    console.log("displayTimerVotacion: "+  this.tiempoTranscurrido+" - "+this.tiempoVotacion_porcentaje);
     if(this.tiempoTranscurrido>this.duracionVotacion){
       console.log("this.tiempoTranscurrido>this.duracionVotacion: "+  this.tiempoTranscurrido+" - "+this.duracionVotacion+" - "+(this.tiempoTranscurrido>this.duracionVotacion));
+      this.tiempoDisplay=0;
       this.stopTimerVotacion();
     }
 
@@ -581,31 +614,119 @@ displayTimerVotacion(){
   };
 
 
-public multi: any[];
-public view: any[] = [300, 300];
-public showLegend = false;
-public gradient = true;
-public colorScheme = {
-  domain: ['#2F3E9E', '#D22E2E', '#378D3B', '#0096A6', '#F47B00', '#606060']
-}; 
-public showLabels = false;
-public explodeSlices = false;
-public doughnut = false;
-public datosTimerVotacion: any[] = [
-  {
-    name: 'tiempoTranscurrido',
-    value: 0
-  },
-  {
-    name: 'tiempoRestante',
-    value: 100
-  },
-  
-];
+
+
+
+
+
+
+  // ********************************************************************************************
+  // ********************************************************************************************
+  // *********************** Uso de la Palabra   ************************************************
+  // ********************************************************************************************
+  // ********************************************************************************************
+
+  public inicioUsoDeLaPalabra   : number=null;  // Date de inicio del timer
+  public updateUsoDeLaPalabra   : number=null;  // Date de actualizado del timer
+  public tiempoUsoDeLaPalabra   : number=null;  // Tiempo transcurrido, Diferencia entre los dos anteriores
+  public displaytiempoUsoDeLaPalabra   : string=null;  // Variable que se muestra en pantalla
+  public timerUsoDeLaPalabra    : any=null;     // Timer de uso de la plabra
+  public pasoTimerUsoDeLaPalabra: number=1000;  // Actualiza cada un segundo
+
+  startTimerUsoDeLaPalabra(){
+    this.estado=this.ESTADO_USO_DE_PALABRA;
+    console.log("startTimerUsoDeLaPalabra "+this.estado);
+    this.inicioUsoDeLaPalabra=new Date().getTime();
+    console.log("startTimerUsoDeLaPalabra "+this.inicioUsoDeLaPalabra);
+
+    if(!this.timerUsoDeLaPalabra){
+      this.timerUsoDeLaPalabra=setInterval(() => {
+      
+        this.displayTimerUsodeLaPalabra();
+      }, this.pasoTimerUsoDeLaPalabra);   
+    } 
+  };
+
+
+  stopTimerUsoDeLaPalabra(){
+    console.log("stopTimerUsoDeLaPalabra "+this.estado);
+    this.estado=this.ESTADO_ESPERANDO_NOVEDADES;
+
+    if (this.timerUsoDeLaPalabra ) {
+      console.log("stopTimerUsoDeLaPalabra-timer existe");
+      clearInterval(this.timerUsoDeLaPalabra);
+      this.timerUsoDeLaPalabra=null;
+    } else {
+      console.log("stopTimerUsoDeLaPalabra-timer NO existe");
+    }
+
+  };
+
+  displayTimerUsodeLaPalabra(){
+  console.log("displayTimerUsodeLaPalabra: ");
+  this.updateUsoDeLaPalabra=new Date().getTime();
+  if(this.Sesiones_Reloj_Orden){ //ascendente
+    this.tiempoUsoDeLaPalabra= this.updateUsoDeLaPalabra-this.inicioUsoDeLaPalabra;
+  }else{
+    this.tiempoUsoDeLaPalabra=this.Sesiones_Reloj_Tiempo-( this.updateUsoDeLaPalabra-this.inicioUsoDeLaPalabra);
+  }
+
+  console.log("updateUsoDeLaPalabra  dif "+this.tiempoUsoDeLaPalabra);
+
+  if(this.Sesiones_Reloj_Tiempo-( this.updateUsoDeLaPalabra-this.inicioUsoDeLaPalabra)<=0){
+    this.displaytiempoUsoDeLaPalabra="Tiempo concluido";
+    }else {
+
+      var msec = this.tiempoUsoDeLaPalabra;
+      var hh = Math.trunc(msec / 1000 / 60 / 60);
+      msec -= hh * 1000 * 60 * 60;
+      var mm =Math.trunc(msec / 1000 / 60);
+      msec -= mm * 1000 * 60;
+      var ss = Math.trunc(msec / 1000);
+      msec -= ss * 1000;
+      this.displaytiempoUsoDeLaPalabra=  (hh<10?'0'+hh :hh)+ 
+                                        ' : '+ (mm<10?'0'+mm :mm)+
+                                        ' : '+ (ss<10?'0'+ss :ss);
+    }
+
+  };
+
+
+  /* *********************************************************************************** */
+  /* *********************************************************************************** */
+  /* *****************************Resultados Votacion ********************************** */
+  /* *********************************************************************************** */
+  /* *********************************************************************************** */
+  /* *********************************************************************************** */
+
+  // let azul    = '#2F3E9E';
+  // let rojo    = '#D22E2E';
+  // let naranja = '#F47B00';
+  // let gris    = '#606060';
+  // let verde   = "#378D3B";
+  // let celeste = "#0096A6";
+  public viewResultado: any[] = [900, 400]; // Posicionamiento del Resultado
+  public colorSchemeResultadosVotacion = { domain: ['#378D3B', '#D22E2E', '#606060', '#0096A6', '#F47B00', '#606060']};
+  public datosResultadoVotacion=[
+    { name: 'Positivos', value: 10  },
+    { name: 'Negativos', value: 5   },
+    { name: 'Abstenciones', value: 3   },
+    
+  ];
+  public mostrarGrafico:boolean=false;  // Se pone en verdadero cuando está listo el resultado
+  public resultadoVotacion: string =''; // tiene el resultado de la votación
+
+  mostrarResultadosVotacion(){
+    this.estado=this.ESTADO_RESULTADOS;
+    this.mostrarGrafico=true;
+    this.resultadoVotacion ='Aprobado';
+    
+  }
+
 
   onSelect(d){
     console.log(d);
-}
+  }
 
 }
 
