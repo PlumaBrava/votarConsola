@@ -22,20 +22,28 @@ import { ConsolaRoutingModule }     from './consola-routing.module';
 
 
 import { ConcejalesComponent }              from './components/concejales/concejales.page';
-import { DispositivosComponent }            from './components/dispositvos/dispositivos.page';
+import { DispositivosComponent }            from './components/dispositivos/dispositivos.page';
 import { ConcejalesDispositivosComponent }  from './components/concejales-dispositivos/concejales-dispositivos.page';
 import { NovedadesComponent }               from './components/novedades/novedades.page';
-import { PanelSesionComponent }              from './components/panelSesion/panelSesion.page';
+import { PanelSesionComponent }             from './components/panelSesion/panelSesion.page';
+import { ConsolaSesionComponent }           from './components/consolaSesion/consolaSesion.page';
+import { OrdenDelDiaComponent }             from './components/ordenDelDia/ordenDelDia.page';
+import { PartidosComponent }                from './components/partidos/partidos.page';
+
 
 import { DragulaModule }             from 'ng2-dragula';
 import { NgxChartsModule } from '@swimlane/ngx-charts'
+import { Partidos } from '../models/partidos/partidos.model';
 @NgModule({
   declarations: [
     ConcejalesComponent,
     DispositivosComponent,
     ConcejalesDispositivosComponent,
     NovedadesComponent,
-    PanelSesionComponent
+    PanelSesionComponent,
+    ConsolaSesionComponent,
+    OrdenDelDiaComponent,
+    PartidosComponent
 
   ],
   imports: [

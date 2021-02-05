@@ -1,8 +1,7 @@
 import { log, logIf, logTable, values } from '@maq-console';
 
 import { FormGroup, FormControl, FormBuilder, Validators, FormsModule } from '@angular/forms';
-import { Novedades, NovedadesInterface }              from '@proyecto/models/novedades/novedades.model';
-
+import { Dispositivos, DispositivosInterface }   from '@proyecto/models/dispositivos/dispositivos.model';
 
 export class ConfigComponente {
 
@@ -22,10 +21,10 @@ export class ConfigComponente {
                public fn:any) {
 
       // Colección Principal
-      this.nombreColeccion ='';
-      this.campoClave      ='';
-      // this.t               = new Novedades(); //Construir una clase con todos los campos. 
-      this.t               = {}; //Construir una clase con todos los campos. 
+      this.nombreColeccion ='dispositivos';
+      this.campoClave      ='NumDispositivo';
+      this.usaSettings     = false;
+      this.t               = new Dispositivos(); //Construir una clase con todos los campos. 
       this.mostrarDiferenciaModeloFomulario=true;
 
       this.columnasAdicionalesLogTable = [];
@@ -33,18 +32,19 @@ export class ConfigComponente {
       // Seteo Grilla
       this.grilla = {
          paginadoTipo          : 'local',    // local / servidor
-         orderField            : 'NumOrdenDiaNovedad',
+         orderField            : 'NumDispositivo',
          orderReverse          : false,
-         orderServer           : ['NumOrdenDiaNovedad'],
+         orderServer           : ['NumDispositivo'],
          whereArray            : argumentos['grillaWhereArray'],
          campoKeywords         : false,
-         filtroNombre          : 'NumOrdenDiaNovedad',
-         filtrosServer         : ['NumOrdenDiaNovedad', 'NumOrdenDiaCaratula','Fecha','Rotulo','Novedad','Estado'],
+         filtroNombre          : 'NumDispositivo',
+         filtrosServer         : ['NumDispositivo', 'Dispositivo','Serie','Imei','Macaddresses','Estado'],
          camposDecimal         : [],
          paginadoCantidad      : 20,
          paginadoAutoHide      : false,
          verColumnaKey         : false,
       }
+      
     
       // Colecciones Auxiliares
       this.configListadosCache=[];
@@ -55,17 +55,15 @@ export class ConfigComponente {
       // Formulario
       this.form = this.fb.group({
 
-       
 
-         // NumOrdenDiaNovedad       : null,
-         // NumOrdenDiaSubCaratula   : null,
-         // NumOrdenDiaCaratula      : null,
-         // Fecha                    : null,
-         // Rotulo                   : null,
-         // Novedad                  : null,
-         // Estado                   : null,
+         NumDispositivo    : null,
+         Dispositivo       : [null, Validators.compose([Validators.required])],
+         Serie             : [1],
+         Imei              : null,
+         Macaddresses      : null,
+         Estado            : null,
        
-         // // settings       : this.fb.group( this.fn.getSettings() ),      
+         // settings       : this.fb.group( this.fn.getSettings() ),      
 
              
          

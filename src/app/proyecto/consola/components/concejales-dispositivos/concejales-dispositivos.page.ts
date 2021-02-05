@@ -40,6 +40,9 @@ export class ConcejalesDispositivosComponent extends PageGenerica2<ConcejalesDis
   dispositivoSeleccionado : DispositivosInterface=null;
   listadoDispositivos     : DispositivosInterface[]=[];
   listadoConcejales       : ConcejalesInterface[]=[];
+  esPresidente            : boolean=false;
+  yaExisteUnPresidente    : boolean=false;
+  public CLAVE_DEFAULT    : string='123abc';
 
 
   constructor (protected changeDetectorRef    : ChangeDetectorRef)  {    
@@ -121,9 +124,14 @@ export class ConcejalesDispositivosComponent extends PageGenerica2<ConcejalesDis
 
     this.listadoDispositivos    = this.msg.cacheColecciones['Dispositivos'];
     this.listadoConcejales      = this.msg.cacheColecciones['Concejales'];
-
+    this.yaExisteUnPresidente   = false;
+    this.esPresidente           = false;
+    
     for (let index = 0; index < this.listadoPrincipal.length; index++) {
       const concDisp:ConcejalesDispositivosInterface = this.listadoPrincipal[index];
+      if(concDisp.Funcion){
+        this.yaExisteUnPresidente=true;
+      }
       let posDisp=this.listadoDispositivos.findIndex((disp:DispositivosInterface)=>disp.NumDispositivo==concDisp.NumDispositivo);
       let posConcejal=this.listadoConcejales.findIndex((disp:ConcejalesInterface)=>disp.NumConcejal==concDisp.NumConcejal);
       if(posDisp==-1){
@@ -311,17 +319,19 @@ export class ConcejalesDispositivosComponent extends PageGenerica2<ConcejalesDis
       
   }
 
-  seleccionarConcejal(documento:ConcejalesInterface){
 
-    if(this.concejalSeleccionado==null || this.concejalSeleccionado.NumConcejal!=documento.NumConcejal){
-      this.concejalSeleccionado=documento;
-    }else {
-      this.concejalSeleccionado=null;
-    }
+  // seleccionarConcejal(documento:ConcejalesInterface){
+
+  //   if(this.concejalSeleccionado==null || this.concejalSeleccionado.NumConcejal!=documento.NumConcejal){
+  //     this.concejalSeleccionado=documento;
+  //   }else {
+  //     this.concejalSeleccionado=null;
+  //   }
     
-
-    console.log('concejalSeleccionado',this.concejalSeleccionado);
-  }
+   
+   
+  //   console.log('concejalSeleccionado',this.concejalSeleccionado);
+  // }
   
   selccionarDispositivo(documento:DispositivosInterface){
 
@@ -331,14 +341,17 @@ export class ConcejalesDispositivosComponent extends PageGenerica2<ConcejalesDis
       this.dispositivoSeleccionado=null;
     }
     
+  
     console.log('dispositivoSeleccionado',this.dispositivoSeleccionado);
   }
   
   enlazar(){
+    console.log('esPresidente',this.esPresidente);
     console.log('dispositivoSeleccionado',this.dispositivoSeleccionado);
     console.log('concejalSeleccionado',this.concejalSeleccionado);
     console.log('concejalSeleccionado',this.concejalSeleccionado);
-
+  
+    
     if(this.dispositivoSeleccionado === null || this.concejalSeleccionado === null){
       this.alertService.confirm({ 
         title:   this.translate.instant('Enlazar Concejal y Dispositivo'), 
@@ -355,7 +368,7 @@ export class ConcejalesDispositivosComponent extends PageGenerica2<ConcejalesDis
       this.form.get('NumConcejal').setValue(this.concejalSeleccionado.NumConcejal)
       this.form.get('NumDispositivo').setValue(this.dispositivoSeleccionado.NumDispositivo)
       this.form.get('Funcion').setValue(false);
-      this.form.get('Clave').setValue('1234')
+      this.form.get('Clave').setValue(this.CLAVE_DEFAULT);
       this.form.get('Macaddresses').setValue(this.dispositivoSeleccionado.Macaddresses)
       this.form.get('Presente').setValue(false);
 
@@ -363,26 +376,66 @@ export class ConcejalesDispositivosComponent extends PageGenerica2<ConcejalesDis
         NumConcejal:this.concejalSeleccionado.NumConcejal,
         NumDispositivo:this.dispositivoSeleccionado.NumDispositivo,
         Funcion:false,
-        Clave:'1234',
+        Clave:this.CLAVE_DEFAULT,
         Macaddresses: this.dispositivoSeleccionado.Macaddresses,
         Presente:false,
-      }
-      // this.accionForm='agregar';
-      // this.grabar_coleccion(d);
+      };
       this.grabarDatos(d)
+
+      if(this.esPresidente){
+        let docPresidente:ConcejalesDispositivosInterface={ 
+        NumConcejal:this.concejalSeleccionado.NumConcejal,
+        NumDispositivo:this.dispositivoSeleccionado.NumDispositivo,
+        Funcion:true,
+        Clave:this.CLAVE_DEFAULT,
+        Macaddresses: this.dispositivoSeleccionado.Macaddresses,
+        Presente:false
+        };
+        this.grabarDatos(docPresidente);
+      }
+      
+    
     }
   }
 
   grabarDatos(documento:any){
+    // no pongo el campo clave porque al ser un autoincrement se borra.
+    // Si lo pongo se borra del documento y necesito el campo en el documento.
     this.bdService.updateColeccion2({
         operacion        : 'agregar',
-        campoClave       : 'NumConcejalsss',
+        campoClave       : 'seBorraPorqueUsaAutoincrement',
         nombreColeccion  : this.nombreColeccion,
         documento        : documento,
         distribuidorKN   : null,
         organizacionKNAI : null,                           
         usuarioKANE      : this.usuarioKANE,
         usaSettings      : this.usaSettings
+    }).then(respuesta=>{
+      console.log('respuesta',respuesta);
+      this.concejalSeleccionado=null;
+      this.dispositivoSeleccionado=null;
+      this.getSubscripcionPrincipal();
+      this.getSubscripcionSecundarias();
+    }).catch(error=>{
+      console.log('error',error);
+    });
+  }
+
+  resetClave(documento:ConcejalesDispositivosInterface){
+    let doc={}
+    doc['Clave']=this.CLAVE_DEFAULT;
+    let funcion=documento['Funcion']==true?'1':'0'; 
+    doc['camposConcatenados']=documento['NumConcejal']+'_'+documento['NumDispositivo']+'_'+ funcion;
+
+    this.bdService.updateColeccion2({
+      operacion        : 'modificar',
+      campoClave       : 'camposConcatenados',
+      nombreColeccion  : this.nombreColeccion,
+      documento        : doc,
+      distribuidorKN   : null,
+      organizacionKNAI : null,                           
+      usuarioKANE      : this.usuarioKANE,
+      usaSettings      : this.usaSettings
     }).then(respuesta=>{
       console.log('respuesta',respuesta);
       this.concejalSeleccionado=null;
@@ -414,5 +467,11 @@ export class ConcejalesDispositivosComponent extends PageGenerica2<ConcejalesDis
     }).catch(error=>{
       console.log('error',error);
     });
+  }
+
+  compareConcejales(c1: ConcejalesInterface, c2:ConcejalesInterface): boolean {     
+    // console.log("compareFn c1", c1);
+    // console.log("compareFn c2", c2);
+      return c1 && c2 ? c1.NumConcejal === c2.NumConcejal : c1 === c2; 
   }
 }

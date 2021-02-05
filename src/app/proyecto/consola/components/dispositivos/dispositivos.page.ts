@@ -119,7 +119,13 @@ export class DispositivosComponent extends PageGenerica2<Dispositivos<Dispositiv
       // log(...values("valores","this.translate.store.currentLang:",this.translate.store.currentLang));  
   }
   
-  
+  mensajeagregarDesdeConfigTablet(){
+    this.alertService.confirm({ 
+      title:   this.translate.instant('votar.agregarDesdeConfigTablet'), 
+      message: 'Ingresar a la tablet con passWord de configuracion y registrarla'
+   
+    }).then(data=>{});
+  }
   
   onResultGetSubscripcionPrincipal() {
      log(...values('funcionComponente','componente.onResultGetSubscripcionPrincipal'));

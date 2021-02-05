@@ -151,8 +151,8 @@
                                 <th class="align-middle" style="padding-top:0px; padding-bottom:0px;">
                                     <!-- Agregar -->
                                     <button class="btn btn-link btn-lg"  
-                                    title="{{'navegabilidad.agregar' | translate}}" 
-                                    *ngIf="permisos.altasAutorizadas" (click)="abrirFormulario(null)"><i class="fa fa-plus ml-3 text-success"></i></button>
+                                    title="{{'votar.agregarDesdeConfigTablet' | translate}}" 
+                                    *ngIf="permisos.altasAutorizadas" (click)="mensajeagregarDesdeConfigTablet()"><i class="fa fa-plus ml-3 text-success"></i></button>
                                 </th>    
 
                             </tr>
@@ -235,11 +235,11 @@
                                                     (click)="fn.alertMensaje('claseValidaciones.documentosAsociados',documento.settings.documentosAsociados)"><i class="fa fa-trash mr-3 text-deshabilitado"></i></button> -->
 
                                             <!-- borrado físico -->
-                                            <!-- <button *ngIf="permisos.bajasAutorizadas && documento.settings.isBorrado &&
-                                                          ['Desarrollador','Supervisor','Distribuidor'].indexOf(tipoPerfilUsuario)!=-1"
+                                            <button *ngIf="!usaSettings || (usaSettings && permisos.bajasAutorizadas && documento?.settings?.isBorrado &&
+                                                          ['Desarrollador','Supervisor','Distribuidor'].indexOf(tipoPerfilUsuario)!=-1) "
                                                     title="{{'navegabilidad.eliminarFisicamente' | translate}}"
                                                     class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px;"
-                                                    (click)="deleteDocumento('borradoFisico',documento)"><i class="fa fa-remove mr-3 text-danger"></i></button> -->
+                                                    (click)="deleteDocumento('borradoFisico',documento)"><i class="fa fa-remove mr-3 text-danger"></i></button>
 
                                         </div>
                                     </td>
@@ -323,45 +323,8 @@
                            translate>claseTabs.ficha</a>
                     </li>
 
-                    <!-- Solapas Activas cuando no estoy editando Ficha -->
-                    <li class="nav-item" *ngIf="form.value.key && ['modificar','agregar'].indexOf(accionForm)==-1">
-                        <a class="nav-link" data-toggle="tab" 
-                           href="#panelVehiculos" id="tabVehiculos" 
-                           (click)="clickSolapa('#tabVehiculos')" 
-                           translate>moduloRutas.vehiculos</a>
-                    </li>
-                    <li class="nav-item" *ngIf="form.value.key && ['modificar','agregar'].indexOf(accionForm)==-1">
-                        <a class="nav-link" data-toggle="tab" 
-                           href="#panelIntegrantes" id="tabIntegrantes"
-                           (click)="clickSolapa('#tabIntegrantes')"  
-                           translate>moduloRutas.integrantes</a>
-                    </li>
-                    <li class="nav-item" *ngIf="form.value.key && ['modificar','agregar'].indexOf(accionForm)==-1">
-                        <a class="nav-link" data-toggle="tab" 
-                           href="#panelParadas" id="tabParadas" 
-                           (click)="clickSolapa('#tabParadas')" 
-                           translate>moduloRutas.paradas</a>
-                    </li>
-                    <li class="nav-item" *ngIf="form.value.key && ['modificar','agregar'].indexOf(accionForm)==-1 && listadoRutaParadas.length>1">
-                        <a class="nav-link" data-toggle="tab" 
-                           href="#panelRecorrido" id="tabRecorrido" 
-                           (click)="clickSolapa('#tabRecorrido')" 
-                           translate>moduloRutas.recorrido</a>
-                    </li>
 
-                    <!-- Solapas Deshabilitadas -->
-                    <li class="nav-item" *ngIf="form.value.key && ['modificar','agregar'].indexOf(accionForm)!=-1">
-                        <a class="nav-link" 
-                           href="javascript:;" translate>moduloRutas.vehiculos</a>
-                    </li>
-                    <li class="nav-item" *ngIf="form.value.key && ['modificar','agregar'].indexOf(accionForm)!=-1">
-                        <a class="nav-link" 
-                           href="javascript:;" translate>moduloRutas.integrantes</a>
-                    </li>
-                    <li class="nav-item" *ngIf="form.value.key && ['modificar','agregar'].indexOf(accionForm)!=-1">
-                        <a class="nav-link" 
-                           href="javascript:;" translate>moduloRutas.rutas</a>
-                    </li>
+                 
 
                 </ul>
             </div>
@@ -396,7 +359,7 @@
                                                     <div class="form-group col-4">
                                                         <label class="text-gray" translate>votar.NumDispositivo
                                                             <span class="required">*</span></label>
-                                                        <input formControlName="NumDispositivo" class="form-control validation-field" type="text">
+                                                        <input formControlName="NumDispositivo" disabled class="form-control validation-field" type="text">
                                                         <small class="text-danger" *ngIf="form.controls.NumDispositivo.touched && form.controls.NumDispositivo.errors?.required"><span translate>votar.NumDispositivo</span>&nbsp;<span translate>claseValidaciones.esRequerido</span></small>                              
                                                     </div>                                                                        
     
@@ -460,7 +423,7 @@
                                         
                                      
                                         <!-- settings   -->
-                                        <br>
+                                        <!-- <br>
                                         <lib-shared-form-settings *ngIf="accionForm!='agregar'"
                                             [nameField]="'settings'" 
                                             [controlsField]="form.controls.settings"
@@ -468,11 +431,12 @@
                                             [accionForm]="accionForm" 
                                             [formInvalid]="formInvalid" 
                                             [tipoPerfilUsuario]="tipoPerfilUsuario" 
-                                            (cargoSubEstructura)="emitCargoSubEstructura($event)"></lib-shared-form-settings>
+                                            (cargoSubEstructura)="emitCargoSubEstructura($event)"></lib-shared-form-settings> -->
                                         
                                         <br>
 
-                                        <lib-shared-form-buttons [accionForm]='accionForm' 
+                                        <lib-shared-form-buttons 
+                                                          [accionForm]='accionForm' 
                                                           [permisos]='permisos' 
                                                           (setAccion)="setAccionForm($event)"
                                                           (onSubmitComponent)="onSubmit(form.value)"></lib-shared-form-buttons>
@@ -487,44 +451,8 @@
                     
                 </div> <!-- FIN tab-pane id="ta" -->
 
-                <div class="tab-pane" id="panelVehiculos">
-                    <!-- <app-rutas-vehiculos 
-                        [ruta]="formatearDocumentoconForm(this.form.value,'vehiculos')"
-                        [permisos]="permisos"
-                        [accionInicial]="componenteVehiculosAccionInicial"
-                        [documentoInicial]="componenteVehiculosDocumentoInicial"
-                        (actualizarRutaconComponente)="actualizarRutaconComponente($event)">                        
-                    </app-rutas-vehiculos> -->
-                </div>
 
-                <div class="tab-pane" id="panelIntegrantes">
-                    <!-- <app-rutas-integrantes
-                        [ruta]="formatearDocumentoconForm(this.form.value,'integrantes')"
-                        [permisos]="permisos"
-                        [accionInicial]="componenteIntegrantesAccionInicial"
-                        [documentoInicial]="componenteIntegrantesDocumentoInicial"
-                        (actualizarRutaconComponente)="actualizarRutaconComponente($event)">                        
-                    </app-rutas-integrantes> -->
-                </div>
 
-                <div class="tab-pane" id="panelParadas">
-                    <!-- <app-rutas-paradas                    
-                        [ruta]="formatearDocumentoconForm(this.form.value,'paradas')"
-                        [permisos]="permisos"
-                        [accionInicial]="componenteParadasAccionInicial"
-                        [documentoInicial]="componenteParadasDocumentoInicial"
-                        (actualizarRutaconComponente)="actualizarRutaconComponente($event)">                        
-                    </app-rutas-paradas> -->
-                </div>
-
-                <div class="tab-pane" id="panelRecorrido">
-                    
-                        <!-- Dibujo de la Ruta en Mapa -->
-                        <div id="mapRuta{{dif}}" 
-                             style="width:100%;" 
-                             [ngStyle]="{height: heightMapa}"></div>                                                               
-
-                </div>
                 
             </div>                   
 

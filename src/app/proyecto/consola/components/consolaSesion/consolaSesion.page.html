@@ -1,0 +1,145 @@
+<ngx-spinner
+  bdColor="rgba(51,51,51,0.8)"
+  size="medium"
+  color="#ccc"
+  type="ball-spin">
+  <p style="font-size: 16px; color: #ccc" translate>componente-ngx-spinner.grabando</p>
+</ngx-spinner>
+
+
+
+
+ 
+<!-- *************** LISTADO ************************************ -->
+<div *ngIf="accionForm=='listado' && grilla!==undefined">
+
+    <div class="row tituloRow">
+        <div class="col-lg-12 col-12">        
+            <span class="tituloTexto">
+                <b>{{'votar.novedades' | translate}}</b>
+            </span>                
+
+
+            <button class="btn btn-danger float-right" (click)="stopTimerVotacion()">
+                Timer off
+            </button>
+
+            <button class="btn btn-primary float-right" (click)="startTimerVotacion(15000)">
+                Timer On
+            </button>
+    
+    
+            <button class="btn btn-secondary float-right" (click)="startTimerUsoDeLaPalabra()">
+                Uso de la Palabra ON
+            </button>
+    
+            <button class="btn btn-warning float-right" (click)="stopTimerUsoDeLaPalabra()">
+                Uso de la Palabra OFF
+            </button>
+    
+            <button class="btn btn-info float-right" (click)="mostrarResultadosVotacion()">
+               Resultados
+            </button>
+            <button class="btn btn-info float-right" (click)="apagar()">
+               Apagar
+            </button>
+            <button class="btn btn-info float-right" (click)="limpiar()">
+               Limpiar
+            </button>
+            <button class="btn btn-info float-right" (click)="inicioVoto()">
+                inicioVoto
+            </button>
+            <button class="btn btn-info float-right" (click)="cargaInicial()">
+               Carga Inicial
+            </button>
+    
+    
+        </div>
+
+    </div>
+        
+
+    <div translate>{{errorMensaje}}</div>
+     
+    <div widget class="card border-1 box-shadow" >
+        <div class="card-header transparent border-0 text-muted">
+            <!-- <h5 class="mb-0" translate>moduloRutas.rutas</h5> -->
+            <div class="widget-controls"> 
+                <a data-widgster="expand" href="#" class="transition"><i class="fa fa-chevron-down"></i></a>
+            </div>        
+        </div>
+        <div class="card-body pt-0 widget-body"> 
+
+            <div class="container" >
+                <!-- Encabezado -->
+                <div class="encabezadoh" ng-hide="MuestraPDFFInal">
+                    <ng-container  >
+                        <div class="encabezadoh">
+                            <img src="./assets/imagenes/cliente/hcd2.png"          *ngIf="CONCEJO=='hcdTrenqueLauquen'">
+                            <img src="./assets/imagenes/cliente/logo_zarate2.png"  *ngIf="CONCEJO=='hcdZarate'">
+                           
+                          </div>
+                         
+                         
+                
+                    </ng-container>
+                </div>  <!-- fin encabezado -->
+
+                <div class="row">
+                    
+                    <div class="col-5">
+                        Columna Izquirda
+                        <table class="table table-hover table-bordered" >
+
+                            <thead>
+                                <tr> 
+                                    <th translate>votar.concejal</th>
+                                    <th translate>Habilidado</th>
+                                    <th translate>PidePalabra</th>
+                                    <th translate>votar.abreviacion</th>
+                                </tr>
+                            </thead>
+                        
+                            <tbody>
+
+                                <ng-container  *ngFor="let concejal of concejalesSesion">
+                                
+                                    <tr >
+                                        <td class="align-middle" > 
+                                            <span class="align-left">{{concejal?.Concejal}}</span>
+                                        </td>
+                                        <td class="align-middle" > 
+                                            <i class="fa fa-check text-secondary" *ngIf="concejal?.Habilitado"></i>
+                                        </td>
+                                        <td class="align-middle" > 
+                                            <span class="align-left">{{concejal?.PidePalabra}}</span>
+                                        </td>
+                                        <td class="align-middle" > 
+                                            <span class="align-left">{{concejal?.abreviacion}}</span>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </tbody>
+                        </table>    
+                    </div>   
+
+                    <div class="col-5">
+                        Columna central
+                    </div>   
+                    <div class="col-">
+                        Columna derecha
+                    </div>   
+
+                </div>   
+                      
+                      
+     
+            
+     
+            </div>
+
+           
+        </div> <!-- FIN card-body -->
+    </div> <!-- FIN widget -->
+
+</div>

@@ -107,14 +107,7 @@
                                            (keyup)="filtrarGrilla('BancaColumna')"                                    
                                            type="text" class="form-control filtroGrilla" style="min-width:60px;"
                                            placeholder="{{'votar.bancaColumna' | translate}}">
-                                </th>
-                                
-                                <th>
-                                    <input [(ngModel)]="grilla.filtros['Partido']"  
-                                           (keyup)="filtrarGrilla('Partido')"                                    
-                                           type="text" class="form-control filtroGrilla" style="min-width:60px;"
-                                           placeholder="{{'votar.partido' | translate}}">
-                                </th>  
+                                </th>     
                                 
                                 
                                 <th class="align-middle" style="padding-top:0px; padding-bottom:0px;">
@@ -189,12 +182,7 @@
                                 <th [class.active]="grilla.orderField === 'BancaColumna'" class="text-center"
                                     (click)="onChangeGrilla('order','BancaColumna')"  translate>votar.bancaColumna
                                     <span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>                                 
-                                </th> 
-                                
-                                <th [class.active]="grilla.orderField === 'Partido'" class="text-center"
-                                    (click)="onChangeGrilla('order','Partido')"  translate>votar.partido
-                                    <span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>                                 
-                                </th> 
+                                </th>                                 
 
                                 <th class="align-middle" style="padding-top:0px; padding-bottom:0px;">
                                     <!-- Agregar -->
@@ -223,7 +211,6 @@
                                         | searchFiltro:grilla.paginadoTipo:'BancaFila':grilla.filtros['BancaFila']
                                         | searchFiltro:grilla.paginadoTipo:'BancaColumna':grilla.filtros['BancaColumna']
                                         | searchFiltro:grilla.paginadoTipo:'Email':grilla.filtros['Email']
-                                        | searchFiltro:grilla.paginadoTipo:'Partido':grilla.filtros['Partido']
                                         
                                         | searchFiltro:grilla.paginadoTipo:'settings.borradoFisico':false:'boolean'   
                                         | paginate: { itemsPerPage: grilla.paginadoCantidad, 
@@ -274,9 +261,7 @@
 
                                     <td class="align-middle" (click)="abrirFormulario(documento)" translate>
                                         {{documento.BancaColumna}}  </td>                                          
-                                    
-                                    <td class="align-middle" (click)="abrirFormulario(documento)" translate>
-                                            {{documento.Partido}}  </td>  
+
                                          
                                          
                                     <td class="align-middle">
@@ -285,13 +270,26 @@
                                                     title="{{'navegabilidad.consultar' | translate}}"
                                                     (click)="abrirFormulario(documento)"><i class="fa fa-search mr-3 text-primary"></i></button>
 
-                                            
+                                            <!-- borrado lógico -->
+                                            <button *ngIf="permisos.bajasAutorizadas &&
+                                                    documento.settings.documentosAsociados==0 && documento.settings.isBorrado==false" 
+                                                    title="{{'navegabilidad.eliminar' | translate}}"
+                                                    class="btn btn-link btn-lg"  style="padding-left:0px; padding-right:0px;"
+                                                    (click)="deleteDocumento('borradoFisico', documento)"><i class="fa fa-trash mr-3 text-danger"></i></button>
+
+                                            <button *ngIf="permisos.bajasAutorizadas &&
+                                                    documento.settings.documentosAsociados>0 && documento.settings.isBorrado==false" 
+                                                    title="{{fn.titleMensaje('claseValidaciones.documentosAsociados',documento.settings.documentosAsociados)}}"
+                                                    class="btn btn-link btn-lg"  style="padding-left:0px; padding-right:0px;"
+                                                    (click)="fn.alertMensaje('claseValidaciones.documentosAsociados',documento.settings.documentosAsociados)"><i class="fa fa-trash mr-3 text-deshabilitado"></i></button>
+
                                             <!-- borrado físico -->
-                                            <button *ngIf="!usaSettings || (usaSettings && permisos.bajasAutorizadas && documento?.settings?.isBorrado &&
-                                                          ['Desarrollador','Supervisor','Distribuidor'].indexOf(tipoPerfilUsuario)!=-1) "
+                                            <!-- <button *ngIf="permisos.bajasAutorizadas && documento.settings.isBorrado &&
+                                                          ['Desarrollador','Supervisor','Distribuidor'].indexOf(tipoPerfilUsuario)!=-1"
                                                     title="{{'navegabilidad.eliminarFisicamente' | translate}}"
                                                     class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px;"
-                                                    (click)="deleteDocumento('borradoFisico',documento)"><i class="fa fa-remove mr-3 text-danger"></i></button>
+                                                    (click)="deleteDocumento('borradoFisico',documento)"><i class="fa fa-remove mr-3 text-danger"></i></button> -->
+
                                         </div>
                                     </td>
                                 </tr>
@@ -374,7 +372,46 @@
                            translate>claseTabs.ficha</a>
                     </li>
 
-                   
+                    <!-- Solapas Activas cuando no estoy editando Ficha -->
+                    <li class="nav-item" *ngIf="form.value.key && ['modificar','agregar'].indexOf(accionForm)==-1">
+                        <a class="nav-link" data-toggle="tab" 
+                           href="#panelVehiculos" id="tabVehiculos" 
+                           (click)="clickSolapa('#tabVehiculos')" 
+                           translate>moduloRutas.vehiculos</a>
+                    </li>
+                    <li class="nav-item" *ngIf="form.value.key && ['modificar','agregar'].indexOf(accionForm)==-1">
+                        <a class="nav-link" data-toggle="tab" 
+                           href="#panelIntegrantes" id="tabIntegrantes"
+                           (click)="clickSolapa('#tabIntegrantes')"  
+                           translate>moduloRutas.integrantes</a>
+                    </li>
+                    <li class="nav-item" *ngIf="form.value.key && ['modificar','agregar'].indexOf(accionForm)==-1">
+                        <a class="nav-link" data-toggle="tab" 
+                           href="#panelParadas" id="tabParadas" 
+                           (click)="clickSolapa('#tabParadas')" 
+                           translate>moduloRutas.paradas</a>
+                    </li>
+                    <li class="nav-item" *ngIf="form.value.key && ['modificar','agregar'].indexOf(accionForm)==-1 && listadoRutaParadas.length>1">
+                        <a class="nav-link" data-toggle="tab" 
+                           href="#panelRecorrido" id="tabRecorrido" 
+                           (click)="clickSolapa('#tabRecorrido')" 
+                           translate>moduloRutas.recorrido</a>
+                    </li>
+
+                    <!-- Solapas Deshabilitadas -->
+                    <li class="nav-item" *ngIf="form.value.key && ['modificar','agregar'].indexOf(accionForm)!=-1">
+                        <a class="nav-link" 
+                           href="javascript:;" translate>moduloRutas.vehiculos</a>
+                    </li>
+                    <li class="nav-item" *ngIf="form.value.key && ['modificar','agregar'].indexOf(accionForm)!=-1">
+                        <a class="nav-link" 
+                           href="javascript:;" translate>moduloRutas.integrantes</a>
+                    </li>
+                    <li class="nav-item" *ngIf="form.value.key && ['modificar','agregar'].indexOf(accionForm)!=-1">
+                        <a class="nav-link" 
+                           href="javascript:;" translate>moduloRutas.rutas</a>
+                    </li>
+
                 </ul>
             </div>
             <div class="tab-content top" >
@@ -405,9 +442,9 @@
                                                 
                                                 <div class="row">
                                                     <!-- NumConcejal -->
-                                                    <div class="form-group col-4" >
+                                                    <div class="form-group col-4">
                                                         <label class="text-gray" translate>votar.numConcejal<span class="required">*</span></label>
-                                                        <input formControlName="NumConcejal" class="form-control validation-field" type="text" disabled>
+                                                        <input formControlName="NumConcejal" class="form-control validation-field" type="text">
                                                         <small class="text-danger" *ngIf="form.controls.NumConcejal.touched && form.controls.NumConcejal.errors?.required"><span translate>votar.NumConcejal</span>&nbsp;<span translate>claseValidaciones.esRequerido</span></small>                              
                                                     </div>                                                                        
     
@@ -422,8 +459,8 @@
                                                     <div class="form-group col-4">
                                                         <label class="text-gray" translate>votar.abreviacion<span class="required">*</span></label>
                                                         <input formControlName="Abreviacion" class="form-control validation-field" type="text">
-                                                        <small class="text-danger" *ngIf=" form.controls.Abreviacion.errors?.required"><span translate>votar.concejal</span>&nbsp;<span translate>claseValidaciones.esRequerido</span></small>                              
-                                                        <small class="text-danger" *ngIf=" form.controls.Abreviacion.errors?.maxlength"><span translate>votar.concejal</span>&nbsp;<span translate>Excedio cantidad de caracteres</span></small>        
+                                                        <small class="text-danger" *ngIf="form.controls.Abreviacion.touched && form.controls.Abreviacion.errors?.required"><span translate>votar.concejal</span>&nbsp;<span translate>claseValidaciones.esRequerido</span></small>                              
+                                                        <small class="text-danger" *ngIf="form.controls.Abreviacion.touched && form.controls.Abreviacion.errors?.maxLength"><span translate>votar.concejal</span>&nbsp;<span translate>Excedio cantidad de caracteres</span></small>        
                                                     </div>
                                                 </div>        
 
@@ -454,7 +491,7 @@
                                                     
                                                 <div class="row">
                                                     <!-- Clasificacion -->
-                                                    <div class="col-4">
+                                                    <div class="col-6">
                                                         
                                                         <div class="form-group" >
                                                             <div class="check">
@@ -466,7 +503,7 @@
                                                     </div>                                
 
                                                     <!-- Estado -->
-                                                    <div class="col-4">
+                                                    <div class="col-6">
                                                         <div class="form-group float-left" >
                                                             <div class="check">
                                                                 <label class="container-small checkbox-label " style="padding-right:10px;">{{'votar.estado' | translate}}</label>
@@ -474,25 +511,6 @@
                                                             </div>      
                                                         </div>                                                                                     
                                                     </div>
-
-
-                                                    <!-- Partido -->
-                                                    <!-- {{msg.cacheColecciones['Partidos']|json}} -->
-                                                    <div class="col-4">
-                                                        <div class="form-group float-left" >
-                                                            <label class="container-small checkbox-label " style="padding-right:10px;">{{'votar.partido' | translate}}</label>
-                                                            <select class="form-control selectpicker validation-field" 
-                                                                    id="numPartido" formControlName="NumPartido" >
-                                                                <option [ngValue]="null">{{'votar.partido' | translate}}</option>                 
-                                                                <ng-container *ngFor="let partido of msg.cacheColecciones['Partidos']">    
-                                                                    <option [ngValue]="partido.NumPartido">{{partido.Partido}}</option>
-                                                                </ng-container>            
-                                                            </select>
-                                                        </div>                                                                                     
-                                                    </div>
-                                                    
-                     
-                                            <!-- (change)='onPerfilUsuarioChange(form.value.perfilUsuario)' [compareWith]="compareFn" -->
                                                         
                                                 </div>        
                                                 
@@ -500,7 +518,21 @@
                                         </div> <!-- FIN widget -->
 
 
-           
+
+                                                                        
+                                        
+                                     
+                                        <!-- settings   -->
+                                        <br>
+                                        <lib-shared-form-settings *ngIf="accionForm!='agregar'"
+                                            [nameField]="'settings'" 
+                                            [controlsField]="form.controls.settings"
+                                            [value]="form.value.settings"
+                                            [accionForm]="accionForm" 
+                                            [formInvalid]="formInvalid" 
+                                            [tipoPerfilUsuario]="tipoPerfilUsuario" 
+                                            (cargoSubEstructura)="emitCargoSubEstructura($event)"></lib-shared-form-settings>
+                                        
                                         <br>
 
                                         <lib-shared-form-buttons [accionForm]='accionForm' 
@@ -518,6 +550,44 @@
                     
                 </div> <!-- FIN tab-pane id="ta" -->
 
+                <div class="tab-pane" id="panelVehiculos">
+                    <!-- <app-rutas-vehiculos 
+                        [ruta]="formatearDocumentoconForm(this.form.value,'vehiculos')"
+                        [permisos]="permisos"
+                        [accionInicial]="componenteVehiculosAccionInicial"
+                        [documentoInicial]="componenteVehiculosDocumentoInicial"
+                        (actualizarRutaconComponente)="actualizarRutaconComponente($event)">                        
+                    </app-rutas-vehiculos> -->
+                </div>
+
+                <div class="tab-pane" id="panelIntegrantes">
+                    <!-- <app-rutas-integrantes
+                        [ruta]="formatearDocumentoconForm(this.form.value,'integrantes')"
+                        [permisos]="permisos"
+                        [accionInicial]="componenteIntegrantesAccionInicial"
+                        [documentoInicial]="componenteIntegrantesDocumentoInicial"
+                        (actualizarRutaconComponente)="actualizarRutaconComponente($event)">                        
+                    </app-rutas-integrantes> -->
+                </div>
+
+                <div class="tab-pane" id="panelParadas">
+                    <!-- <app-rutas-paradas                    
+                        [ruta]="formatearDocumentoconForm(this.form.value,'paradas')"
+                        [permisos]="permisos"
+                        [accionInicial]="componenteParadasAccionInicial"
+                        [documentoInicial]="componenteParadasDocumentoInicial"
+                        (actualizarRutaconComponente)="actualizarRutaconComponente($event)">                        
+                    </app-rutas-paradas> -->
+                </div>
+
+                <div class="tab-pane" id="panelRecorrido">
+                    
+                        <!-- Dibujo de la Ruta en Mapa -->
+                        <div id="mapRuta{{dif}}" 
+                             style="width:100%;" 
+                             [ngStyle]="{height: heightMapa}"></div>                                                               
+
+                </div>
                 
             </div>                   
 

@@ -23,7 +23,7 @@ export class ConfigComponente {
       // Colección Principal
       this.nombreColeccion ='concejales';
       this.campoClave      ='NumConcejal';
-      this.usaSettings     = false;
+      this.usaSettings     =true;
       this.t               = new Concejales(); //Construir una clase con todos los campos. 
       this.mostrarDiferenciaModeloFomulario=true;
 
@@ -39,7 +39,7 @@ export class ConfigComponente {
          campoKeywords         : false,
          filtroNombre          : 'NumConcejal',
          filtrosServer         : ['NumConcejal', 'Concejal','NumPropuesto','Clasificacion','Estado',
-                                  'Abreviacion','BancaFila','BancaColumna','Email','NumPartido'],
+                                  'Abreviacion','BancaFila','BancaColumna','Email'],
          camposDecimal         : [],
          paginadoCantidad      : 20,
          paginadoAutoHide      : false,
@@ -49,11 +49,11 @@ export class ConfigComponente {
       // Colecciones Auxiliares
       this.configListadosCache=[];
 
-      this.configListadosCache.push({ 
-         nombreListado   : 'listadoPartidos',
-         nombreColeccion : 'Partidos',
-         // orderBy         : [{ key:'nombre', ascDesc:'asc'} ]
-      });     
+      // this.configListadosCache.push({ 
+      //    nombreListado   : 'listadoDistribuidoresCompleta',
+      //    nombreColeccion : 'Distribuidores',
+      //    orderBy         : [{ key:'nombre', ascDesc:'asc'}]
+      // });     
       
       // this.configListadosCache.push({ 
       //    nombreListado   : 'listadoAuxVehiculos',
@@ -80,17 +80,16 @@ export class ConfigComponente {
       this.form = this.fb.group({
 
 
-         NumConcejal    : [1],
+         NumConcejal    : null,
          Concejal       : [null, Validators.compose([Validators.required])],
          NumPropuesto   : [1],
-         NumPartido     : [null, Validators.compose([Validators.required])],
-         Clasificacion  : [true],
-         Estado         : [true],
-         Abreviacion    : [null, Validators.compose([Validators.required, Validators.maxLength(8)])],
+         Clasificacion  : null,
+         Estado         : null,
+         Abreviacion    : [null, Validators.compose([Validators.required, Validators.maxLength(6)])],
          BancaFila      : [null, Validators.compose([Validators.required])],
          BancaColumna   : [null, Validators.compose([Validators.required])],
          Email          : [null, Validators.compose([Validators.required,Validators.email])],
-         // settings       : this.fb.group( this.fn.getSettings() ),      
+         settings       : this.fb.group( this.fn.getSettings() ),      
          
          
       });

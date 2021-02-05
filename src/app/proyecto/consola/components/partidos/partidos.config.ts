@@ -1,8 +1,7 @@
 import { log, logIf, logTable, values } from '@maq-console';
 
 import { FormGroup, FormControl, FormBuilder, Validators, FormsModule } from '@angular/forms';
-import { Novedades, NovedadesInterface }              from '@proyecto/models/novedades/novedades.model';
-
+import { Partidos, PartidoInterface }   from '@proyecto/models/partidos/partidos.model';
 
 export class ConfigComponente {
 
@@ -22,10 +21,10 @@ export class ConfigComponente {
                public fn:any) {
 
       // Colección Principal
-      this.nombreColeccion ='';
-      this.campoClave      ='';
-      // this.t               = new Novedades(); //Construir una clase con todos los campos. 
-      this.t               = {}; //Construir una clase con todos los campos. 
+      this.nombreColeccion ='partidos';
+      this.campoClave      ='NumPartido';
+      this.usaSettings     = false;
+      this.t               = new Partidos(); //Construir una clase con todos los campos. 
       this.mostrarDiferenciaModeloFomulario=true;
 
       this.columnasAdicionalesLogTable = [];
@@ -33,19 +32,19 @@ export class ConfigComponente {
       // Seteo Grilla
       this.grilla = {
          paginadoTipo          : 'local',    // local / servidor
-         orderField            : 'NumOrdenDiaNovedad',
+         orderField            : 'NumPartido',
          orderReverse          : false,
-         orderServer           : ['NumOrdenDiaNovedad'],
+         orderServer           : ['NumPartido'],
          whereArray            : argumentos['grillaWhereArray'],
          campoKeywords         : false,
-         filtroNombre          : 'NumOrdenDiaNovedad',
-         filtrosServer         : ['NumOrdenDiaNovedad', 'NumOrdenDiaCaratula','Fecha','Rotulo','Novedad','Estado'],
+         filtroNombre          : 'NumConcejal',
+         filtrosServer         : ['NumPartido', 'Partido', 'PartidoAbreviado' ],
          camposDecimal         : [],
          paginadoCantidad      : 20,
          paginadoAutoHide      : false,
          verColumnaKey         : false,
       }
-    
+      
       // Colecciones Auxiliares
       this.configListadosCache=[];
 
@@ -55,19 +54,12 @@ export class ConfigComponente {
       // Formulario
       this.form = this.fb.group({
 
-       
 
-         // NumOrdenDiaNovedad       : null,
-         // NumOrdenDiaSubCaratula   : null,
-         // NumOrdenDiaCaratula      : null,
-         // Fecha                    : null,
-         // Rotulo                   : null,
-         // Novedad                  : null,
-         // Estado                   : null,
-       
-         // // settings       : this.fb.group( this.fn.getSettings() ),      
-
-             
+         NumPartido         : null,
+         Partido            : [null, Validators.compose([Validators.required])],
+         PartidoAbreviado   : [null, Validators.compose([Validators.required, Validators.maxLength(8)])],
+         // settings           : this.fb.group( this.fn.getSettings() ),
+         
          
       });
          

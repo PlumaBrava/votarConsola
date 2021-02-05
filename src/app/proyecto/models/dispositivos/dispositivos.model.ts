@@ -10,7 +10,7 @@ export class Dispositivos<DispositivosInterface> {
   Imei              : string;
   Macaddresses      : string;
   Estado            : boolean;
-  settings          : Settings;
+
 
   constructor() {
     this.NumDispositivo   = null;
@@ -19,7 +19,7 @@ export class Dispositivos<DispositivosInterface> {
     this.Imei             = null;
     this.Macaddresses     = null;
     this.Estado           = null;
-    this.settings         = new Settings();
+
   }
  
 }

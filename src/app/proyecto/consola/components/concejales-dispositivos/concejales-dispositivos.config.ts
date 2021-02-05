@@ -28,7 +28,7 @@ export class ConfigComponente {
       // Colección Principal
       this.nombreColeccion ='concejalesDispositivosQry';
       this.campoClave      ='NumConcejal';
-      this.usaSettings     =true;
+      this.usaSettings     = false;
       this.t               = new ConcejalesDispositivos(); //Construir una clase con todos los campos. 
       this.mostrarDiferenciaModeloFomulario=true;
 
@@ -85,7 +85,7 @@ export class ConfigComponente {
          Clave              : null,
          Macaddresses       : null,
          Presente           : null,
-         settings           : this.fb.group( this.fn.getSettings() ),
+         // settings           : this.fb.group( this.fn.getSettings() ),
 
          // Campos de Concejales
          Concejal           : null,
