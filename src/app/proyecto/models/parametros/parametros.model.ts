@@ -30,6 +30,7 @@ export class Parametros {
   Sesiones_Espera_Texto                     : string;   //	Por favor espere...
   Sesiones_Quorum                           : number;   //	18
   Sesiones_ResultadoVoto                    : boolean;  //	0
+  Sesiones_TipoSesion                       : string;  //	0
   Sesiones_Ordinarias                       : number;   //17
   Sesiones_Extraordinaria                   : number;   //	0
   Sesiones_AgrupacionOrdenDia               : number;   //	102
@@ -55,5 +56,58 @@ export class Parametros {
   Sesiones_PDFFinalSesion                   : string;   //	Reporte
   CaminoNode                                : string;   //	HCD\NODE\DIST\
   
+  constructor(){
+    this.NumParametro                              =null;
+    this.CaminoAplicacion                          =null;
+    this.CaminoTransaccion                         =null;
+    this.CaminoReportes                            =null;
+    this.CaminoImagenes                            =null;
+    this.CaminoWallpaper                           =null;
+    this.Wallpaper                                 =null;
+    this.Archivo                                   =null;
+    this.CaminoDecretos                            =null;
+    this.CaminoOrdenanzas                          =null;
+    this.CaminoComunicaciones                      =null;
+    this.Logo                                      =null;
+    this.Logo_Imagen                               =null;
+    this.UnidadDecretos                            =null;
+    this.UnidadOrdenanzas                          =null;
+    this.UnidadComunicaciones                      =null;
+    this.EntradasUtilizacion                       =null;
+    this.EntradasIndiceBuscador                    =null;
+    this.InstrumentosIndiceBuscador                =null;
+    this.Dispositivo_Clave                         =null;
+    this.Sesiones_TiempoVotacion                   =null;
+    this.Sesiones_SinVoto                          =null;
+    this.Sesiones_Token                            =null;
+    this.Sesiones_Espera_Titulo                    =null;
+    this.Sesiones_Espera_Texto                     =null;
+    this.Sesiones_Quorum                           =null;
+    this.Sesiones_ResultadoVoto                    =null;
+    this.Sesiones_Ordinarias                       =null;
+    this.Sesiones_Extraordinaria                   =null;
+    this.Sesiones_AgrupacionOrdenDia               =null;
+    this.Sesiones_Reloj_Titulo                     =null;
+    this.Sesiones_Prorroga                         =null;
+    this.Sesiones_Especial                         =null;
+    this.Sesiones_Reloj_Orden                      =null;
+    this.Sesiones_Reloj_Tiempo                     =null;
+    this.Sesiones_FinalizaTiempoVotacion           =null;
+    this.Sesiones_MuestraQuorumPanel               =null;
+    this.Sesiones_ModalidadQuorum                  =null;
+    this.Sesiones_SensorSillaQuorum                =null;
+    this.Sesiones_EnviaMailConcejales              =null;
+    this.Sesiones_TextoAgrupadoPanel               =null;
+    this.Sesiones_ExcusacionSobreTablas            =null;
+    this.Sesiones_ExcusacionSobreTablas_Caratula   =null;
+    this.Sesiones_Inicio_TipoVoto                  =null;
+    this.Sesiones_Inicio_TipoAprobacion            =null;
+    this.Sesiones_Inicio_TipoVotacion              =null;
+    this.Sesiones_UsaConfirmacionDePresencia       =null;
+    this.Sesiones_TiempoConfirmacionDePresencia    =null;
+    this.Sesiones_MuestraPDFFinalSesion            =null;
+    this.Sesiones_PDFFinalSesion                   =null;
+    this.CaminoNode                                =null;
+  }
 }  
 

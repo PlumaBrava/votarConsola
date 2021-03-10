@@ -18,7 +18,7 @@ import { SharedModule } from '@maq-shared/shared.module';
 // import {HttpClient, HttpClientModule}                       from '@angular/common/http';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { ParametrosComponent }             from './components/parametros/parametros.page';
+// import { ParametrosComponent }             from './components/parametros/parametros.page';
 import { ConfigruacionRoutingModule }             from './configuracion-routing.module';
 
 
@@ -27,7 +27,7 @@ import {Injectable, Renderer2} from '@angular/core';
 @NgModule({
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   declarations: [
-    ParametrosComponent, 
+    // ParametrosComponent, 
     
   	],
   imports: [

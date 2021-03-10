@@ -29,11 +29,16 @@ import { PanelSesionComponent }             from './components/panelSesion/panel
 import { ConsolaSesionComponent }           from './components/consolaSesion/consolaSesion.page';
 import { OrdenDelDiaComponent }             from './components/ordenDelDia/ordenDelDia.page';
 import { PartidosComponent }                from './components/partidos/partidos.page';
+import { ParametrosComponent }              from './components/parametros/parametros.page';
 
 
 import { DragulaModule }             from 'ng2-dragula';
 import { NgxChartsModule } from '@swimlane/ngx-charts'
-import { Partidos } from '../models/partidos/partidos.model';
+
+
+// import { ClickModifiersService } from '@maq-servicios/clickModifiers/clickModifiers.service';
+
+// import { EVENT_MANAGER_PLUGINS } from "@angular/platform-browser";
 @NgModule({
   declarations: [
     ConcejalesComponent,
@@ -43,7 +48,8 @@ import { Partidos } from '../models/partidos/partidos.model';
     PanelSesionComponent,
     ConsolaSesionComponent,
     OrdenDelDiaComponent,
-    PartidosComponent
+    PartidosComponent,
+    ParametrosComponent
 
   ],
   imports: [
@@ -60,6 +66,13 @@ import { Partidos } from '../models/partidos/partidos.model';
     ConsolaRoutingModule,
     DragulaModule.forRoot(),
     NgxChartsModule
+  ],
+  providers: [
+    // {
+    //   provide: EVENT_MANAGER_PLUGINS,
+    //   useClass: ClickModifiersService,
+    //   multi: true,
+    // }
   ],
   
 })

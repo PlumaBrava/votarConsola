@@ -16,118 +16,469 @@
     <div class="row tituloRow">
         <div class="col-lg-12 col-12">        
             <span class="tituloTexto">
-                <b>{{'votar.novedades' | translate}}</b>
-            </span>                
+                <b>{{'Consola de Sesión' | translate}}</b>
+            </span> 
+            
+            <div class="float-right tituloTexto" >
+                Sesión {{tipoSesion}} <b> Nro: {{numeroSesion}}</b>
+            </div>
 
+        </div>    
 
-            <button class="btn btn-danger float-right" (click)="stopTimerVotacion()">
-                Timer off
-            </button>
-
-            <button class="btn btn-primary float-right" (click)="startTimerVotacion(15000)">
-                Timer On
-            </button>
-    
-    
-            <button class="btn btn-secondary float-right" (click)="startTimerUsoDeLaPalabra()">
-                Uso de la Palabra ON
-            </button>
-    
-            <button class="btn btn-warning float-right" (click)="stopTimerUsoDeLaPalabra()">
-                Uso de la Palabra OFF
-            </button>
-    
-            <button class="btn btn-info float-right" (click)="mostrarResultadosVotacion()">
-               Resultados
-            </button>
-            <button class="btn btn-info float-right" (click)="apagar()">
-               Apagar
-            </button>
-            <button class="btn btn-info float-right" (click)="limpiar()">
-               Limpiar
-            </button>
-            <button class="btn btn-info float-right" (click)="inicioVoto()">
-                inicioVoto
-            </button>
-            <button class="btn btn-info float-right" (click)="cargaInicial()">
-               Carga Inicial
-            </button>
-    
-    
-        </div>
-
+        
     </div>
         
 
-    <div translate>{{errorMensaje}}</div>
+    <div translate class="text-danger" *ngIf="errorMensaje">Error: {{errorMensaje}}</div>
      
-    <div widget class="card border-1 box-shadow" >
+    <div widget class="card border-1 box-shadow"  >
         <div class="card-header transparent border-0 text-muted">
             <!-- <h5 class="mb-0" translate>moduloRutas.rutas</h5> -->
             <div class="widget-controls"> 
                 <a data-widgster="expand" href="#" class="transition"><i class="fa fa-chevron-down"></i></a>
             </div>        
         </div>
-        <div class="card-body pt-0 widget-body"> 
+        <div class="card-body pt-0 widget-body" > 
 
-            <div class="container" >
+       
                 <!-- Encabezado -->
-                <div class="encabezadoh" ng-hide="MuestraPDFFInal">
-                    <ng-container  >
-                        <div class="encabezadoh">
-                            <img src="./assets/imagenes/cliente/hcd2.png"          *ngIf="CONCEJO=='hcdTrenqueLauquen'">
-                            <img src="./assets/imagenes/cliente/logo_zarate2.png"  *ngIf="CONCEJO=='hcdZarate'">
-                           
-                          </div>
-                         
-                         
-                
-                    </ng-container>
-                </div>  <!-- fin encabezado -->
+                    <!-- <div class="row" >
+                        <div class="encabezadoh" ng-hide="MuestraPDFFInal">
+                            <ng-container  >
+                                <div class="encabezadoh">
+                                    <img src="./assets/imagenes/cliente/hcd2.png"          *ngIf="CONCEJO=='hcdTrenqueLauquen'">
+                                    <img src="./assets/imagenes/cliente/logo_zarate2.png"  *ngIf="CONCEJO=='hcdZarate'">
+                                
+                                </div>
+                                
+                                
+                        
+                            </ng-container>
+                        </div> 
+                    </div>     -->
+                 <!-- fin encabezado -->
 
-                <div class="row">
+                 <div class="row" >
                     
                     <div class="col-5">
-                        Columna Izquirda
-                        <table class="table table-hover table-bordered" >
+                        <!-- Columna Izquierda -->
+                        <div class="alert alert-primary" role="alert" *ngIf="cambioPresidenteIniciado">
+                            {{cambioPresiteInstrucciones}}
+                        </div>
+                      
+                        <table class="table table-hover table-bordered" *ngIf="concejalesSesion">
 
                             <thead>
-                                <tr> 
-                                    <th translate>votar.concejal</th>
-                                    <th translate>Habilidado</th>
-                                    <th translate>PidePalabra</th>
-                                    <th translate>votar.abreviacion</th>
+                                <tr class="pt-3"> 
+                                    <th class="align-middle" style="width: 34%;" translate  title="Concejal"            (click)="setConcejalesOrden('Concejal')">votar.concejal
+                                            <i class="mdi mdi-arrow-down text-primary" *ngIf="ordenConcejales=='Concejal' && ordenConcejalesReverse" ></i>
+                                            <i class="mdi mdi-arrow-up text-primary"   *ngIf="ordenConcejales=='Concejal' && !ordenConcejalesReverse" ></i>
+                                    </th>
+                                    <th class="text-center" style="width: 16%;" translate  title="Presentes"          (click)="setConcejalesOrden('Estado')"> 
+                                            <i class="mdi mdi-account-check"  [ngClass]="hayQuorum ? 'text-success' : 'text-danger'"></i>
+                                            <i [ngClass]="hayQuorum ? 'text-success' : 'text-danger'">{{presentes}}</i>
+                                            
+                                            <i class="mdi mdi-arrow-down text-primary" *ngIf="ordenConcejales=='Estado' && ordenConcejalesReverse" ></i>
+                                            <i class="mdi mdi-arrow-up text-primary"   *ngIf="ordenConcejales=='Estado' && !ordenConcejalesReverse" ></i>
+                                    </th>
+                                    <th class="text-center" style="width: 18%;" translate  title="Pide la Palabra"     (click)="setConcejalesOrden('PidePalabraIndice')">      
+                                            <i class="mdi mdi-human-greeting text-primary"></i>
+                                            <i class="text-primary">{{totalPidePalabra}}</i>
+                                            <i class="mdi mdi-arrow-down text-primary" *ngIf="ordenConcejales=='PidePalabraIndice' && ordenConcejalesReverse" ></i>
+                                            <i class="mdi mdi-arrow-up text-primary"   *ngIf="ordenConcejales=='PidePalabraIndice' && !ordenConcejalesReverse" ></i>
+                                            
+                                    </th>
+                                    <th class="text-center" style="width: 15%;" translate  title="Excusado"            (click)="setConcejalesOrden('Excusado')">               
+                                            <i class="mdi mdi-account-minus text-warning" style="color: colorBancaExcusada;" ></i>
+                                            <i class="text-warning">{{excusados}}</i>
+                                            <i class="mdi mdi-arrow-down text-primary" *ngIf="ordenConcejales=='Excusado' && ordenConcejalesReverse" ></i>
+                                            <i class="mdi mdi-arrow-up text-primary"   *ngIf="ordenConcejales=='Excusado' && !ordenConcejalesReverse" ></i>
+                                    </th>
+                                    <th class="text-center"  style="width: 15%;"translate  title="Confirma Presencia"  (click)="setConcejalesOrden('ConfirmacionPresencia')">  
+                                            <i class="mdi mdi-account-question text-danger"> </i>
+                                            <i class="text-danger">{{totalConfirmacionPresencia}}</i>
+                                            <i class="mdi mdi-arrow-down text-primary" *ngIf="ordenConcejales=='ConfirmacionPresencia' && ordenConcejalesReverse" ></i>
+                                            <i class="mdi mdi-arrow-up text-primary"   *ngIf="ordenConcejales=='ConfirmacionPresencia' && !ordenConcejalesReverse" ></i>
+                                    </th>
+                                    <th class="text-center"  style="width: 2%;" translate  title="Voto"                (click)="setConcejalesOrden('ResultadoVoto')">          
+                                            <i class="mdi mdi-vote text-primary"> </i>
+                                            <i class="mdi mdi-arrow-down text-primary" *ngIf="ordenConcejales=='ResultadoVoto' && ordenConcejalesReverse" ></i>
+                                            <i class="mdi mdi-arrow-up text-primary"   *ngIf="ordenConcejales=='ResultadoVoto' && !ordenConcejalesReverse" ></i>
+                                    </th>
                                 </tr>
                             </thead>
                         
                             <tbody>
 
-                                <ng-container  *ngFor="let concejal of concejalesSesion">
+                                <ng-container  *ngFor="let concejal of concejalesSesion
+                                                      | orderBy :ordenConcejales :ordenConcejalesReverse :'case-insensitive' ">
                                 
-                                    <tr >
-                                        <td class="align-middle" > 
-                                            <span class="align-left">{{concejal?.Concejal}}</span>
+                                    <tr class="p-3 m-3" >
+                                        <td class="align-middle" style="width: 32%; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;"  > 
+                                            <span class="align-left" *ngIf="!cambioPresidenteIniciado" >{{concejal.Concejal}}</span>
+                                            <span class="align-left text-danger" *ngIf="cambioPresidenteIniciado && concejal.NumConcejal==concejalPresidente.NumConcejal " (click)="seleccionNuevoPresidente(concejal)" >{{concejal.Concejal}}</span>
+                                            <span class="align-left text-success" *ngIf="cambioPresidenteIniciado && concejal.NumConcejal!=concejalPresidente.NumConcejal &&  concejal.NumConcejal!=concejalSeleccionadoParaPresidente?.NumConcejal" (click)="seleccionNuevoPresidente(concejal)" >{{concejal.Concejal}}</span>
+                                            <span class="align-left text-success" *ngIf="cambioPresidenteIniciado && concejal.NumConcejal==concejalSeleccionadoParaPresidente?.NumConcejal " (click)="cancelarSeleccionNuevoPresidente()" ><b>{{concejal.Concejal}}</b> <span  class="mdi mdi-account-tie   text-success"></span>           </span>
                                         </td>
-                                        <td class="align-middle" > 
-                                            <i class="fa fa-check text-secondary" *ngIf="concejal?.Habilitado"></i>
+                                        <td class="text-center" style="width: 15%;"> 
+                                            <button type="button" class="btn mx-auto btn-warning btn-sm popoverbutton" (click)="habilitarConcejal(concejal)"  *ngIf="!concejal.Habilitado && !concejal.Funcion">Habilitar</button>
+                                            <button type="button" class="btn mx-auto btn-danger  btn-sm popoverbutton" (click)="apagarConcejal(concejal)"     *ngIf="concejal.Habilitado && !concejal.Funcion">Apagar</button>
+                                            <span  class="mdi mdi-account-check text-success popoverIcon"   title="Logeado"             *ngIf="concejal.Habilitado && concejal.Estado && !concejal.Funcion"></span>
+                                            <span  class="mdi mdi-account-off   text-danger popoverIcon"    title="No ingreso la clave" *ngIf="concejal.Habilitado && !concejal.Estado && !concejal.Funcion"></span>
+                                            <span  class="mdi mdi-account-tie   text-success"               title="Presidente"          *ngIf="concejal.Funcion && concejal.Estado"></span>
+                                            <span  class="mdi mdi-account-tie   text-danger"                title="Presidente"          *ngIf="concejal.Funcion && !concejal.Estado"></span>
+                                            <!-- <i class="mdi mdi-lan-disconnect text-danger"  *ngIf="!concejal.Habilitado"></i> -->
+                                            <span  class="mdi mdi-lan-pending text-secondary popoverIcon"   title="Deshabilitado" *ngIf="!concejal.Habilitado"></span>
+                                        
                                         </td>
-                                        <td class="align-middle" > 
-                                            <span class="align-left">{{concejal?.PidePalabra}}</span>
+                                        <td class="text-center" style="width: 18%;" > 
+                                            <div  class="popoverbutton w-100">
+                                                <button type="button" class="btn mx-auto btn-success btn-sm " *ngIf="concejal.PidePalabra!=2 && concejal.Estado && !concejal.Funcion" (click)="confirmarDarLaPalabraConcejal(concejal)" >Hablar</button>
+                                                <button type="button" class="btn mx-auto btn-danger btn-sm "  *ngIf="concejal.PidePalabra==2" (click)="confrimarFinUsoPalabraConcejal(concejal)">Fin</button>
+                                            </div>
+                                            <div class="popoverIcon w-100">
+                                                <i class="mdi mdi-human-greeting text-danger " title="Pide la Palabra" *ngIf="concejal.PidePalabra==1"></i>
+                                                <i class="mdi mdi-account-voice text-success " *ngIf="concejal.PidePalabra==2" ></i>
+                                                <span  *ngIf="concejal.PidePalabra" > {{concejal.PidePalabraIndice}}</span>
+                                            </div>
                                         </td>
-                                        <td class="align-middle" > 
-                                            <span class="align-left">{{concejal?.abreviacion}}</span>
+                                        <td class="text-center" style="width: 15%;"> 
+                                            <button type="button" class="btn mx-auto btn-warning btn-sm popoverbutton" *ngIf="!concejal.Excusado && concejal.Estado && !concejal.Funcion" (click)="confirmaExcusarConcejal(concejal)">Excusar</button>
+                                            <button type="button" class="btn mx-auto btn-success btn-sm popoverbutton" *ngIf= "concejal.Excusado"(click)="confirmaIncorporarConcejal(concejal)">Incorporar</button>
+                                            <i class="mdi mdi-account-minus text-warning popoverIcon" style="color: colorBancaExcusada;" *ngIf="concejal.Excusado"></i>
+                                        </td>
+                                        <td class="text-center" style="width: 18%;"> 
+                                            <button type="button" class="btn mx-auto btn-danger btn-sm popoverbutton" *ngIf="concejal.Estado && !concejal.Funcion " (click)="confirmarPresenciaConcejal(concejal)">C Presen</button>
+                                            <i class="mdi mdi-account-question text-danger popoverIcon" *ngIf="concejal.ConfirmacionPresencia==true"> </i>
+                                        </td>
+                                        
+                                        <td class="text-center" style="width: 2%; padding-top: 6px;" > 
+                                            
+                                            <i class="mdi mdi-vote text-primary"           *ngIf="concejal.InicioVoto==true" ></i>
+                                            <i class="mdi mdi-thumb-up  text-success"      *ngIf="!concejal.InicioVoto && concejal.ResultadoVoto==1"></i>
+                                            <i class="mdi mdi-thumb-down text-danger"      *ngIf="!concejal.InicioVoto && concejal.ResultadoVoto==0"></i>
+                                            <i class="mdi mdi-thumbs-up-down text-warning" *ngIf="!concejal.InicioVoto && concejal.ResultadoVoto==2"></i>
+                                        
                                         </td>
                                     </tr>
                                 </ng-container>
+                                <tr> </tr>
+                                <tr class="p-3 m-3" >
+                                    <td class="align-middle" > 
+                                        <span class="align-left" >Totales</span>
+                                    </td>
+                                    <td class="text-center" > 
+                                        <span  class="text-secondary"   title="Deshabilitado">{{deshabilitados}}/</span>
+                                        <span  class="text-danger"      title="Habilitado">{{habilitados}}</span>
+                                        <br>
+                                        <span  class="text-success"     title="Logeado" >{{presentes}}/</span>
+                                        <span  class="text-danger "     title="No ingreso la clave">{{ausentes}}</span>
+                                    </td>
+                                    <td class="text-center" > 
+                                        <span   > {{totalPidePalabra}}</span>
+                                      
+                                    </td>
+                                    <td class="text-center" > 
+                                        <span  class="text-danger "     title="Excusados">{{excusados}}</span>
+                                    </td>
+                                    <td class="text-center" > 
+                                        <span  class="text-danger "     title="Excusados">{{totalConfirmacionPresencia}}</span>
+                                    </td>
+                                    
+                                    <td class="text-center" > 
+                                        resultados
+                                    </td>
+                                </tr>
+
                             </tbody>
-                        </table>    
+                        </table> 
+                        
+                        <button class="button popoverIcon">Click Me</button>
                     </div>   
 
                     <div class="col-5">
-                        Columna central
-                    </div>   
-                    <div class="col-">
-                        Columna derecha
+                        Columna central {{tiempoDisplay}}
+                       
+
+                        <table class="table table-hover table-bordered" >
+
+                            <thead>
+                                <tr> 
+                                    <th translate (click)="setOrdenDelDiaOrden('Orden')">
+                                        Orden
+                                        <i class="mdi mdi-arrow-down text-primary" *ngIf="ordenODD=='Orden' && ordenODDReverse" ></i>
+                                        <i class="mdi mdi-arrow-up text-primary"   *ngIf="ordenODD=='Orden' && !ordenODDReverse" ></i>
+                                    </th>
+                                    <th translate  (click)="setOrdenDelDiaOrden('CaratulaDesc')">
+                                        Carátula
+                                        <i class="mdi mdi-arrow-down text-primary" *ngIf="ordenODD=='CaratulaDesc' && ordenODDReverse" ></i>
+                                        <i class="mdi mdi-arrow-up text-primary"   *ngIf="ordenODD=='CaratulaDesc' && !ordenODDReverse" ></i>
+                                    </th>
+                                    <!-- <th translate>SubCarátula</th> -->
+                                    <th translate>Expediente</th>
+                                    <th translate>Rótulo</th>
+                                    <th translate (click)="setOrdenDelDiaOrden('ResultadoVoto')">Voto</th>
+                                
+                                </tr>
+                            </thead>
+                        
+                            <tbody>
+
+                             
+                                <ng-container  *ngFor="let item of capitulosOrdeDiaSesion
+                                              | searchFiltro:'local':'Estado':EstadoItemOrdenDelDia 
+                                              | searchFiltro:'local':'Terminado':TerminadoItemOrdenDelDia 
+                                              | orderBy :ordenODD :ordenODDReverse :'case-insensitive' 
+                                              | paginate: { itemsPerPage: grilla.paginadoCantidad, 
+                                                currentPage : pageOrdenDia,
+                                                totalItems  : ordeDiaSesion.length }; ">
+                                
+                                    <tr (click)="seleccionItem(item)"  *ngIf="item.indiceCapitulo==null"
+                                        [class]="item.Terminado?'itemTerminado':
+                                                 item.Estado?'itemSecleccionado':''"
+                                                 > 
+                                        <td class="align-middle" > 
+                                            <span class="align-left">{{item?.Orden}}</span>
+                                        </td>
+                                                                             
+                                        <td class="align-middle" > 
+                                            <span class="align-left">{{item?.CaratulaDesc}} </span>
+                                        </td>
+
+                                                                               
+                                        <td class="align-middle" > 
+                                            <span class="align-left">{{item?.nro_expediente}}</span>
+                                        </td>
+
+
+                                        <td class="align-middle" > 
+                                            <div [innerHTML]="item?.Rotulo  | safeHtml" > </div>
+                                        </td>
+                                        <td class="text-center align-middle" > 
+                                            <i class    = "mdi mdi-vote text-primary"           *ngIf="item.ResultadoVoto==3" ></i> 
+                                            <i class    = "mdi mdi-thumb-up  text-success"      *ngIf="item.ResultadoVoto==1"></i>
+                                            <i class    = "mdi mdi-thumb-down text-danger"      *ngIf="item.ResultadoVoto==0"></i>
+                                            <i class    = "mdi mdi-thumbs-up-down text-warning" *ngIf="item.ResultadoVoto==2"></i>
+                                        </td>
+                                      
+
+                                    </tr>
+                                        <!-- Sector de Artículos -->
+
+                                        <ng-container  *ngFor="let subIitem of ordeDiaSesion">
+                                            <!-- renglón Artículos -->
+                                            <tr (click)="seleccionCapitulo(item)"  *ngIf="subIitem.indiceExpediente==item.indiceExpediente && subIitem.indiceCapitulo!=null && indicesExpedientesSeleccionados.indexOf(subIitem.indiceExpediente)!=-1"
+                                            [class]="subIitem.Terminado?'itemCapituoTerminado':
+                                            subIitem.Estado?'itemCapituloSecleccionado':'itemCapituloNoSecleccionado'"
+                                                    > 
+                                            <td class="align-middle" > 
+                                                <span class="align-left"></span>
+                                            </td>
+                                                                                
+                                            <td class="align-middle" > 
+                                                <!-- <span class="align-left">{{subIitem?.CaratulaDesc}}</span> -->
+                                                <span class="align-left">{{subIitem?.nro_expediente}}</span>
+                                            </td>
+
+                                           
+                                            
+                                            <td class="align-middle" > 
+                                             
+                                                <span class="align-left">{{subIitem?.Rotulo.substring(8,16)}}</span>
+                                            </td>
+
+
+                                            <td class="align-middle" > 
+                                                <div [innerHTML]="subIitem?.Rotulo  | safeHtml" > </div>
+                                            </td>
+                                            <td class="text-center align-middle" > 
+                                                <i class    = "mdi mdi-vote text-primary"           *ngIf="subIitem.ResultadoVoto==3" ></i> 
+                                                <i class    = "mdi mdi-thumb-up  text-success"      *ngIf="subIitem.ResultadoVoto==1"></i>
+                                                <i class    = "mdi mdi-thumb-down text-danger"      *ngIf="subIitem.ResultadoVoto==0"></i>
+                                                <i class    = "mdi mdi-thumbs-up-down text-warning" *ngIf="subIitem.ResultadoVoto==2"></i>
+                                            </td>
+                                        </tr>
+            
+                                    </ng-container>
+
+
+                                </ng-container>
+                            </tbody>
+                        </table>
+                                    <!-- paginado -->
+                                <div class="row" style="border-top:1px solid #ccc;">
+                                    <div class="col-3" style="padding:10px;">
+                                        <div class="bg-white text-center">
+                                            <select class="form-control selectpicker" 
+                                                    id="grilla.paginadoCantidad"                                         
+                                                    [(ngModel)]="grilla.paginadoCantidad"
+                                                    (change)="onChangeGrilla('paginadoCantidad',grilla.paginadoCantidad)"> 
+                                                <ng-container *ngFor="let opcion of grilla.paginadoDropDown">
+                                                    <option [ngValue]="opcion">Items x Página {{opcion}}</option>
+                                                </ng-container>
+                                            </select>
+                                        </div>    
+                                    </div>    
+                                    <div class="col-9" style="padding:10px;">
+                                        <div class="bg-white text-center">
+
+                                            <!-- Paginado Local -->
+                                            <pagination-controls 
+                                                autoHide="true" 
+                                                previousLabel="{{'componente-paginado.anterior' | translate}}" 
+                                                nextLabel="{{'componente-paginado.siguiente' | translate}}" 
+                                                (pageChange)="pageOrdenDia = $event" 
+                                                maxSize="15"></pagination-controls>
+
+                                        </div>
+                                    </div>                        
+                                </div>
+
+                                <p><ngb-progressbar  [max]="duracionVotacion" type="success" [value]="tiempoTranscurrido">{{tiempoDisplay}} seg</ngb-progressbar></p>
+
+                    </div> <!--   Fin Columa Central -->
+                    <div class="col-2">
+                        Columna derecha {{hayQuorum}} - {{estadoConsola}} 
+                   
+                            <span *ngIf="estadoConsola==ESTADO.ESPERANDO_NOVEDADES">ESPERANDO_NOVEDADES</span>
+                            <span *ngIf="estadoConsola==ESTADO.SINQUORUM">SINQUORUM</span>
+                            <span *ngIf="estadoConsola==ESTADO.CONCUORUM">CONCUORUM</span>
+                            <span *ngIf="estadoConsola==ESTADO.TEXTOS">TEXTOS</span>
+                            <span *ngIf="estadoConsola==ESTADO.VOTANDO">VOTANDO</span>
+                            <span *ngIf="estadoConsola==ESTADO.CALCULANDO_RESULTADOS">CALCULANDO_RESULTADOS</span>
+                            <span *ngIf="estadoConsola==ESTADO.RESULTADOS">RESULTADOS</span>
+                            <span *ngIf="estadoConsola==ESTADO.EMPATE">EMPATE</span>
+                            <span *ngIf="estadoConsola==ESTADO.USO_DE_PALABRA">USO_DE_PALABRA</span>
+                        <h4 class="text-center" 
+                            [ngClass]="hayQuorum ? 'text-success' : 'text-danger'"
+                            title="El quorum se logra con {{nroQuorum}} presentes">
+                            <b>{{textoQuorum}}</b>
+                        </h4>    
+                        <div widget class="card border-0 box-shadow" style="margin-top:10px;">
+                            <div class="card-header transparent border-0 text-muted">
+                                <h5 class="mb-0" translate>Filtros</h5>
+                                <div class="widget-controls"> 
+                                     <a data-widgster="expand" href="#" class="transition"><i class="fa fa-chevron-down"></i></a>
+                                    <a data-widgster="collapse" href="#" class="transition"><i class="fa fa-chevron-up"></i></a>                                     
+                                </div>        
+                            </div>
+
+                            <div class="card-body pt-0 widget-body">
+
+                                <select [(ngModel)]="EstadoItemOrdenDelDia" 
+                                        class="form-control filtroGrilla selectpicker" style="min-width:80px;"
+                                        [ngClass]="true ? 'filtroConValor' : 'filtroSinValor'"
+                                        (change)="onChageFiltoEstadoItemOrdenDelDia(EstadoItemOrdenDelDia)">
+                        
+                                    <option  [ngValue]=null>  {{ 'Estado' | translate }}</option>
+                                        <option  [ngValue]=true>  {{ 'Seleccionado' | translate }}</option>
+                                        <option  [ngValue]=false> {{ 'Pendiente'   | translate }}</option>
+                                </select>
+
+                                <select [(ngModel)]="TerminadoItemOrdenDelDia" 
+                                        class="form-control filtroGrilla selectpicker" style="min-width:80px;"
+                                        [ngClass]="true ? 'filtroConValor' : 'filtroSinValor'"
+                                        (change)="onChageFiltoTerminadotemOrdenDelDia(TerminadoItemOrdenDelDia)">
+                    
+                                        <option  [ngValue]=null>  {{ 'Proceso' | translate }}</option>
+                                        <option  [ngValue]=true>  {{ 'Procesado' | translate }}</option>
+                                        <option  [ngValue]=false> {{ 'No Tratato'   | translate }}</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div widget class="card border-0 box-shadow" style="margin-top:10px;">
+                            <div class="card-header transparent border-0 text-muted">
+                                <h5 class="mb-0" translate>claseTabs.basic</h5>
+                                <div class="widget-controls"> 
+                                     <a data-widgster="expand" href="#" class="transition"><i class="fa fa-chevron-down"></i></a>
+                                    <a data-widgster="collapse" href="#" class="transition"><i class="fa fa-chevron-up"></i></a>                                     
+                                </div>        
+                            </div>
+
+                            <div class="card-body pt-0 widget-body"> 
+                  
+
+                            <h3>Aprobación</h3>
+                    
+                            <div class="form-check" *ngFor="let infoAprobacion of mock_infoAprobacion">
+                                <label class="form-check-label">
+                                    <input  type="radio" 
+                                            class="form-check-input"
+                                            [(ngModel)]="infoAprobacionSelected"
+                                            [value]="infoAprobacion.infoAprobacion" 
+                                            (change)="onInfoAprobacionChange(infoAprobacion)"
+                                            name="infoAprobacion">
+                                    {{infoAprobacion?.tipoAprobacion}}
+                                </label>
+                            </div> 
+
+                            <h3>Agrupación</h3>
+                 
+                            <div class="form-check" *ngFor="let infoAgrupacion of mock_infoAgrupacion">
+                                <label class="form-check-label">
+                                    <input  type="radio" 
+                                            class="form-check-input"
+                                            [(ngModel)]="infoAgrupacionSelected"
+                                            [value]="infoAgrupacion.infoVotacion" 
+                                            (change)="onInfoAgrupacionChange(infoAgrupacion,$event)"
+                                            checked="infoAgrupacion.infoVotacion==infoAgrupacionSelected"
+                                            name="infoAgrupacion">
+                                    {{infoAgrupacion?.tipoAgrupacion}}
+                                </label>
+                            </div> 
+
+                            <h3>Voto</h3>
+                  
+                            <div class="form-check" *ngFor="let infoVoto of mock_infoVoto">
+                                <label class="form-check-label">
+                                    <input  type="radio" 
+                                            class="form-check-input"
+                                            [(ngModel)]="infoVotoSelected"
+                                            [value]="infoVoto.infoVoto" 
+                                            (change)="onInfoVotoChange(infoAgrupacion)"
+                                            name="infoVoto">
+                                    {{infoVoto?.tipoVotacion}}
+                                </label>
+                            </div> 
+
+
+                            
+                        </div>
+                                
+                       
+
+                       
+                        <button class="btn btn-warning float-right" (click)="confirmoInicioVoto()">
+                            <i class="mdi  mdi-vote-outline text-secondary" ></i>
+                            inicioVoto
+                        </button>
+
+                        <button class="btn btn-info float-right" (click)="limpiar()">
+                            <i class="mdi mdi-broom text-secondary" ></i>
+                            Limpiar
+                         </button>
+ 
+                        
+                        <button class="btn btn-info float-right" (click)="apagar()">
+                            <i class="mdi  mdi-power-plug-off text-secondary" ></i>
+                           Apagar
+                        </button>
+                        <!-- <button class="btn btn-danger float-right" (click)="stopTimerVotacion()">
+                            Timer off
+                        </button> -->
+                        
+                        <button class="btn btn-info float-right" (click)="cargaInicial()">
+                            <i class="mdi mdi-autorenew text-secondary" ></i>
+                           Reiniciar
+                        </button>
+
+                        <button class="btn btn-info float-right" (click)="iniciarCambioPresidente()">
+                            <i class="mdi mdi-account-switch text-secondary" ></i>
+                            Cambio Presidente
+                        </button>
+                        
                     </div>   
 
                 </div>   
@@ -136,10 +487,48 @@
      
             
      
-            </div>
+
 
            
         </div> <!-- FIN card-body -->
     </div> <!-- FIN widget -->
 
 </div>
+
+<!-- modal confirmaciòn de resultados -->
+<ng-template #modalConfirmacionResultados let-modal>
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-title"><strong>Resultado de la Votación</strong></h4>
+        <button type="button" style="float: right;
+                font-size: 21px;
+                font-weight: 700;
+                line-height: 1;
+                color: #000;
+                padding: 6px;
+                text-shadow: 0 1px 0 #fff;
+                filter: alpha(opacity=20);
+                opacity: .2;" aria-label="Close" (click)="close()">
+
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <!-- VotacionEstado    : this.estadoConsola,
+        VotosPositivos    : this.votosPositivosIndividual,
+        VotosNegativos    : this.votosNegativosIndividual,
+        votosAbstencion   : this.votosAbstencionIndividual,
+        resultadoVotacion : this.resultadoVotacion -->
+      </div>
+      <div class="modal-body">
+        <p class="text-primary text-center"><strong><span >{{resultadoVotacion}}</span> </strong></p>
+        <br>
+        <p class="text-success text-center"><strong>Votos Positivos: {{votosPositivosIndividual}}</strong></p>
+        <p class="text-danger text-center"><strong>Votos negativos: {{votosNegativosIndividual}}</strong></p>
+        <p class="text-warning text-center"><strong>Abstenciones: {{votosAbstencionIndividual}}</strong></p>
+        
+        <br>
+        <p class=''><strong>Confirma el resultado? </strong></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="modal.close('Ok click')">Ok</button>
+      </div>
+  </ng-template>

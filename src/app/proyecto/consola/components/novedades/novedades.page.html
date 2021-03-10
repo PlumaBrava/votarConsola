@@ -10,16 +10,52 @@
 <!-- *************** LISTADO ************************************ -->
 <div *ngIf="accionForm=='listado' && grilla!==undefined">
 
-    <div class="row tituloRow">
-        <div class="col-lg-12 col-12">        
+    <div class="row tituloRow1">
+        <div class="col-lg-7 col-7">        
             <span class="tituloTexto">
                 <b>{{'votar.novedades' | translate}}</b>
-            </span>                
+            </span>     
+            
+
+
+     
+
         </div>
+        <div class="col-lg-2 col-2 seleccionOrden">        
+            
+            <select [(ngModel)]="tipoOrdenDiaSeleccionado"  
+                    class="form-control filtroGrilla selectpicker float-right" 
+                    [ngClass]="true ? 'filtroConValor' : 'filtroSinValor'"
+                    (change)="onChageTipoOrdenDiaSeleccionado(tipoOrdenDiaSeleccionado)">
+
+                <option  [ngValue]=null>  {{ 'Tipo Sesión' | translate }}</option>
+                <option *ngFor="let tipoOrdenDia of mockTipoOrdenDia" [ngValue]="tipoOrdenDia.id"> {{tipoOrdenDia.tipoOrdenDia | translate}}</option>
+            </select>
+        </div>
+
+        <div class="col-lg-1 col-1 seleccionOrden" >        
+            <input [(ngModel)]="nroSesion"  
+                    
+                   type="text" class="form-control filtroGrilla" style="min-width:60px;"
+            placeholder="{{'Numero Sesión' | translate}}">
+        </div>
+
+
+        <div class="col-lg-2 col-2 seleccionOrden">        
+            
+           
+            
+            <button class="btn btn-primary " (click)="confirmarCerarOrdenDia()">
+                Cerrar Orden Día
+            </button>
+
+        </div>
+
+
     </div>
         
 
-    <div translate>{{errorMensaje}}</div>
+    <div translate>{{mensajeErrorOrdenDelDia}}</div>
      
     <div widget class="card border-0 box-shadow" >
         <div class="card-header transparent border-0 text-muted">
@@ -40,9 +76,9 @@
                             <!--------------- Filtros -------------------->
                             <tr> 
                                 <th *ngIf="tipoPerfilUsuario=='Desarrollador' && grilla.verColumnaKey">
-                                    <input [(ngModel)]="grilla.filtros['NumDispositivo']" *ngIf="grilla.mostrarFiltro('NumDispositivo')"
+                                    <input [(ngModel)]="grilla.filtros['NumOrdenDiaNovedad']" *ngIf="grilla.mostrarFiltro('NumOrdenDiaNovedad')"
                                            type="text" class="form-control filtroGrilla" 
-                                           placeholder="{{'votar.NumDispositivo' | translate}}">
+                                           placeholder="{{'NumOrdenDiaNovedad' | translate}}">
                                 </th>
                                 <th *ngIf="tipoPerfilUsuario=='Desarrollador' && !grilla.verColumnaKey"
                                     colspan="1" style="width:24px; padding-left:0px; padding-right:0px;"></th>
@@ -50,30 +86,44 @@
 
                                         
                                 <th>
-                                    <input [(ngModel)]="grilla.filtros['Dispositivo']"  
-                                           (keyup)="filtrarGrilla('Dispositivo')"                                    
+                                    <input [(ngModel)]="grilla.filtros['OrdenDiaCaratula']"  
+                                           (keyup)="filtrarGrilla('OrdenDiaCaratula')"                                    
                                            type="text" class="form-control filtroGrilla" style="min-width:60px;"
-                                           placeholder="{{'votar.dispositivo' | translate}}">
+                                           placeholder="{{'votar.caratula' | translate}}">
                                 </th>                                     
                                         
                                 <th>
-                                    <input [(ngModel)]="grilla.filtros['Serie']"  
-                                           (keyup)="filtrarGrilla('Serie')"                                    
+                                    <input [(ngModel)]="grilla.filtros['OrdenDiaSubCaratula']"  
+                                           (keyup)="filtrarGrilla('OrdenDiaSubCaratula')"                                    
                                            type="text" class="form-control filtroGrilla" style="min-width:60px;"
-                                           placeholder="{{'votar.Serie' | translate}}">
-                                </th>                                     
+                                           placeholder="{{'votar.subCaratula' | translate}}">
+                                </th> 
+
+                                <th>
+                                    <input [(ngModel)]="grilla.filtros['fecha_ingreso_expediente']"  
+                                           (keyup)="filtrarGrilla('fecha_ingreso_expediente')"                                    
+                                           type="text" class="form-control filtroGrilla" style="min-width:60px;"
+                                           placeholder="{{'votar.fecha_ingreso_expediente' | translate}}">
+                                </th> 
+                                
+                                <th>
+                                    <input [(ngModel)]="grilla.filtros['nro_expediente']"  
+                                           (keyup)="filtrarGrilla('nro_expediente')"                                    
+                                           type="text" class="form-control filtroGrilla" style="min-width:60px;"
+                                           placeholder="{{'votar.nro_expediente' | translate}}">
+                                </th> 
                                         
                                 <th>
-                                    <input [(ngModel)]="grilla.filtros['Imei']"  
-                                           (keyup)="filtrarGrilla('Imei')"                                    
+                                    <input [(ngModel)]="grilla.filtros['Rotulo']"  
+                                           (keyup)="filtrarGrilla('Rotulo')"                                    
                                            type="text" class="form-control filtroGrilla" style="min-width:60px;"
-                                           placeholder="{{'votar.Imei' | translate}}">
+                                           placeholder="{{'votar.rotulo' | translate}}">
                                 </th>                                     
                                 <th>
-                                    <input [(ngModel)]="grilla.filtros['Macaddresses']"  
-                                           (keyup)="filtrarGrilla('Macaddresses')"                                    
+                                    <input [(ngModel)]="grilla.filtros['Novedad']"  
+                                           (keyup)="filtrarGrilla('Novedad')"                                    
                                            type="text" class="form-control filtroGrilla" style="min-width:60px;"
-                                           placeholder="{{'votar.Macaddresses' | translate}}">
+                                           placeholder="{{'votar.novedad' | translate}}">
                                 </th>                                     
 
 
@@ -102,8 +152,8 @@
                             <tr class="titulo-grilla"> 
 
                                 <th *ngIf="tipoPerfilUsuario=='Desarrollador' && grilla.verColumnaKey"                                    
-                                    [class.active]="grilla.orderField === 'key'"
-                                    (click)="onChangeGrilla('order','key')" style="padding-bottom:0px;">
+                                    [class.active]="grilla.orderField === 'NumOrdenDiaNovedad'"
+                                    (click)="onChangeGrilla('order','NumOrdenDiaNovedad')" style="padding-bottom:0px;">
 
                                         <button class="btn btn-link btn-lg"  
                                             style="padding-left:0px; padding-top:0px; margin-right:30px;"
@@ -112,7 +162,7 @@
                                             (click)="grilla.verColumnaKey=!grilla.verColumnaKey"><i class="mdi mdi-unfold-less-vertical mdi-24px text-dark"
                                            aria-hidden="true"></i></button>
 
-                                        {{'votar.NumDispositivo' | translate}}<span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                                        {{'NumOrdenDiaNovedad' | translate}}<span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
                                 </th>
                                 <th *ngIf="tipoPerfilUsuario=='Desarrollador' && !grilla.verColumnaKey"
                                  (click)="grilla.verColumnaKey=!grilla.verColumnaKey" title="{{'grilla.mostrarKey' | translate}}"
@@ -121,22 +171,37 @@
                                     ...
                                 </th>
                                 
-                                <th *ngIf="['Desarrollador','Supervisor','Distribuidor'].indexOf(tipoPerfilUsuario)!=-1"
+                                <th [class.active]="grilla.orderField === 'OrdenDiaCaratula'" [attr.colspan]="1"
+                                    class="text-left"
+                                    (click)="onChangeGrilla('order','OrdenDiaCaratula')"
                                     translate>votar.caratula
                                 </th> 
 
-                                <th [class.active]="grilla.orderField === 'nombre'" [attr.colspan]="1"
+                                <th [class.active]="grilla.orderField === 'OrdenDiaSubCaratula'" [attr.colspan]="1"
                                     class="text-left"
-                                    (click)="onChangeGrilla('order','Serie')"
+                                    (click)="onChangeGrilla('order','OrdenDiaSubCaratula')"
                                     translate>votar.subCaratula<span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                                </th>
+                                
+                                <th [class.active]="grilla.orderField === 'fecha_ingreso_expediente'" [attr.colspan]="1"
+                                    class="text-left"
+                                    (click)="onChangeGrilla('order','fecha_ingreso_expediente')"
+                                    translate>votar.fecha_ingreso_expediente<span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
                                 </th> 
                                 
-                                <th [class.active]="grilla.orderField === 'Email'" class="text-left" colspan="1"
+                                
+                                <th [class.active]="grilla.orderField === 'fecha_ingreso_expediente'" [attr.colspan]="1"
+                                    class="text-left"
+                                    (click)="onChangeGrilla('order','nro_expediente')"
+                                    translate>votar.nro_expediente<span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
+                                </th> 
+                                
+                                <th [class.active]="grilla.orderField === 'Rotulo'" class="text-left" colspan="1"
                                     (click)="onChangeGrilla('order','Rotulo')" translate>votar.rotulo
                                     <span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
                                 </th>                                 
 
-                                <th [class.active]="grilla.orderField === 'Clasificacion'" class="text-center"
+                                <th [class.active]="grilla.orderField === 'Novedad'" class="text-center"
                                     (click)="onChangeGrilla('order','Novedad')" translate>votar.novedad
                                     <span [hidden]="grilla.orderReverse">▼</span><span [hidden]="!grilla.orderReverse">▲</span>
                                 </th>                                 
@@ -150,6 +215,8 @@
                                 
                                 <!-- Importar Archivo -->
                                 <th class="align-middle" style="padding-top:0px; padding-bottom:0px;">
+                                  
+
                                     <button class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px;"
                                         data-toggle="tooltip" 
                                         title="Importar Achivo de Novedades"                                                 
@@ -184,6 +251,7 @@
                                         | searchFiltro:grilla.paginadoTipo:'Rotulo':grilla.filtros['Rotulo']
                                         | searchFiltro:grilla.paginadoTipo:'Novedad':grilla.filtros['Novedad']
                                         | searchFiltro:grilla.paginadoTipo:'Estado':grilla.filtros['Estado']
+                                        | searchFiltro:grilla.paginadoTipo:'fecha_ingreso_expediente':grilla.filtros['fecha_ingreso_expediente']
                                         
                                         
                                         | searchFiltro:grilla.paginadoTipo:'settings.borradoFisico':false:'boolean'   
@@ -199,28 +267,41 @@
 
                                     <td *ngIf="tipoPerfilUsuario=='Desarrollador' && grilla.verColumnaKey"
                                         class="align-middle"> 
-                                        <span class="align-left">{{documento.NumDispositivo}}</span>
+                                        <span class="align-left">{{documento.NumOrdenDiaNovedad}}</span>
                                     </td>
                                     <td *ngIf="tipoPerfilUsuario=='Desarrollador' && !grilla.verColumnaKey"
                                         (click)="grilla.verColumnaKey=!grilla.verColumnaKey"
                                         colspan="1"
                                         style="width:12px; padding-left:0px; padding-right:0px;"></td>
 
-                                    <td class="align-middle" (click)="abrirFormulario(documento)" translate>
+                                    <td class="align-middle"  translate>
                                         {{documento.OrdenDiaCaratula}}
                                     </td>
 
-                                    <td class="align-middle" (click)="abrirFormulario(documento)" translate>
+                                    <td class="align-middle"  translate>
                                         {{documento.OrdenDiaSubCaratula}}</td>  
 
-                                    <td class="align-middle" (click)="abrirFormulario(documento)" translate>
-                                        {{documento.Rotulo}}  </td>                                                                              
+ 
 
-                                    <td class="align-middle" (click)="abrirFormulario(documento)" translate>
-                                        {{documento.Novedad}}  </td>                                                                              
+                                    <td class="align-middle"  translate>
+                                        {{documento.fecha_ingreso_expediente |date }}</td>  
+
+                                    <td class="align-middle"  translate>
+                                        {{documento.nro_expediente }}</td>    
+
+                                    <td class="align-middle"  translate>
+                                        <div [innerHTML]="documento.Rotulo  | safeHtml" > </div>
+                                    </td>                                                                              
+
+                                    <td class="align-middle"  translate>
+                                    
+                                        <div [innerHTML]="documento.Novedad  | safeHtml" 
+                                             style="height:170px; width:400px; font-size:20px; padding-left:10px; padding-top:20px; background:#e9ecef;border:1px solid #ccc;border-radius: 5px; overflow-y:scroll; ">
+                                        </div>
+                                    </td>                                                                              
 
 
-                                    <td class="align-middle text-center" (click)="abrirFormulario(documento)">
+                                    <td class="align-middle text-center" >
                                         <i class="fa fa-check text-secondary" *ngIf="documento.Estado"></i>
                                         <i class="fa fa-circle-o  text-secondary" *ngIf="!documento.Estado"></i>
                                     </td>

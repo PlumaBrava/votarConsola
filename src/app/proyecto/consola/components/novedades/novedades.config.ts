@@ -38,7 +38,7 @@ export class ConfigComponente {
          whereArray            : argumentos['grillaWhereArray'],
          campoKeywords         : false,
          filtroNombre          : 'NumOrdenDiaNovedad',
-         filtrosServer         : ['NumOrdenDiaNovedad', 'NumOrdenDiaCaratula','Fecha','Rotulo','Novedad','Estado'],
+         filtrosServer         : ['OrdenDiaSubCaratula', 'OrdenDiaCaratula','Fecha','Rotulo','Novedad','Estado','fecha_ingreso_expediente','nro_expediente'],
          camposDecimal         : [],
          paginadoCantidad      : 20,
          paginadoAutoHide      : false,
@@ -54,14 +54,6 @@ export class ConfigComponente {
       // Formulario
       this.form = this.fb.group({
 
-         // NumOrdenDiaNovedad    : number; // NumOrdenDiaNovedad	int	Unchecked
-         // NumOrdenDiaCaratula   : number; // NumOrdenDiaCaratula	int	Unchecked
-         // Fecha                 : Date;   // Fecha	datetime	Unchecked
-         // Rotulo                : string; // Rotulo	nvarchar(100)	Unchecked
-         // Novedad               : string; // Novedad	nvarchar(4000)	Unchecked
-         // Estado                : boolean // Estado	bit	Unchecked
-       
-
          NumOrdenDiaNovedad       : null,
          NumOrdenDiaSubCaratula   : null,
          NumOrdenDiaCaratula      : null,
@@ -69,11 +61,10 @@ export class ConfigComponente {
          Rotulo                   : null,
          Novedad                  : null,
          Estado                   : null,
-       
-         // settings       : this.fb.group( this.fn.getSettings() ),      
-
-             
-         
+         fecha_ingreso_expediente : null,
+         archivos_expediente      : null,
+         nro_expediente           : null,
+    
       });
          
    } 

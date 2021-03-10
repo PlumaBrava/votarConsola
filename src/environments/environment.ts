@@ -14,14 +14,15 @@ export const environment = {
       storage           : 'firebase',       // firebase  o externo
   },  
   firebase:  {
-    apiKey              : "AIzaSyAkXFqrScONZ7AASG2hEhsPcHufIMv-R9w",
-    authDomain          : "pktest-ad982.firebaseapp.com",
-    databaseURL         : "https://pktest-ad982.firebaseio.com",
-    projectId           : "pktest-ad982",
-    storageBucket       : "pktest-ad982.appspot.com",
-    messagingSenderId   : "337905291103",
-    appId               : "1:337905291103:web:d9b903a336a8d2016070ea",
-    measurementId       : "G-PVT1D62P8G"
+    
+      apiKey: "AIzaSyDhfYMODqKHZKniFh32d2xVNEw4kqfD2fs",
+      authDomain: "monitoreo-lotes.firebaseapp.com",
+      projectId: "monitoreo-lotes",
+      storageBucket: "monitoreo-lotes.appspot.com",
+      messagingSenderId: "74020957610",
+      appId: "1:74020957610:web:f1aea8e5ed056dabd40fd3",
+      measurementId: "G-8SBNDDMG9E"
+  
   },
   cloudFunction: {
     url: 'https://us-central1-testcpsistemas.cloudfunctions.net/'

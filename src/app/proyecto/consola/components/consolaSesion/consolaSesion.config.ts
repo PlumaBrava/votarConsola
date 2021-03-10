@@ -41,7 +41,7 @@ export class ConfigComponente {
          filtroNombre          : 'NumOrdenDiaNovedad',
          filtrosServer         : ['NumOrdenDiaNovedad', 'NumOrdenDiaCaratula','Fecha','Rotulo','Novedad','Estado'],
          camposDecimal         : [],
-         paginadoCantidad      : 20,
+         paginadoCantidad      : 5,
          paginadoAutoHide      : false,
          verColumnaKey         : false,
       }

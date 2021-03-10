@@ -2,11 +2,13 @@ import { log, logIf, logTable, values } from '@maq-console';
 
 import { Component, OnInit, OnDestroy, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 
+
+
 import { PageGenerica2 }        from '@maq-modules/page-generica/page-generica2.page';
-import { ConfigComponente }     from './ordenDelDia.config';
+import { ConfigComponente }     from './parametros.config';
 
 
-import { OrdenDelDia,OrdenDelDiaInterface }   from '@proyecto/models/ordenDelDia/ordenDelDia.model';
+import { Parametros }   from '@proyecto/models/parametros/parametros.model';
 
 
 import firebase from 'firebase/app';
@@ -20,16 +22,16 @@ declare let jQuery: any;
 declare var H: any;  
 
 @Component({
-  selector: 'app-ordenDelDia',
-  templateUrl: './ordenDelDia.page.html',
+  selector: 'app-parametros',
+  templateUrl: './parametros.page.html',
   styleUrls: [
     '../../../../maqueta/modules/page-generica/page-generica.page.scss',
-    './ordenDelDia.page.scss'
+    './parametros.page.scss'
   ],
   encapsulation: ViewEncapsulation.None
 })
 
-export class OrdenDelDiaComponent extends PageGenerica2<OrdenDelDia<OrdenDelDiaInterface> > implements OnInit, OnDestroy {
+export class ParametrosComponent extends PageGenerica2<Parametros > implements OnInit, OnDestroy {
 
 
 
@@ -198,7 +200,7 @@ export class OrdenDelDiaComponent extends PageGenerica2<OrdenDelDia<OrdenDelDiaI
 
   }  
 
-  
+
 
 
 
@@ -218,50 +220,6 @@ export class OrdenDelDiaComponent extends PageGenerica2<OrdenDelDia<OrdenDelDiaI
       }
   }    
   
-  forzarSolapa(solapa:string, documento:any, accion:string) {
-      console.log("abrirSolapa",solapa, documento, accion);
-      
-      setTimeout (() => {
-        
-        $("#tabFicha").removeClass('active');  
-        $("#tabIntegrantes").removeClass('active');  
-        $("#tabVehiculos").removeClass('active');  
-        $("#tabParadas").removeClass('active');  
-
-        $("#panelFicha").removeClass('active');  
-        $("#panelIntegrantes").removeClass('active');  
-        $("#panelVehiculos").removeClass('active');  
-        $("#panelParadas").removeClass('active');  
-
-        if(solapa=="Ficha") {
-            $("#tabFicha").addClass('active');  
-            $("#panelFicha").addClass('active');  
-        }        
-        if(solapa=="Integrantes") {
-            $("#tabIntegrantes").addClass('active');  
-            $("#panelIntegrantes").addClass('active');  
-            
-            // this.componenteIntegrantesAccionInicial    = 'consultar';
-            // this.componenteIntegrantesDocumentoInicial = documento;            
-        }
-        if(solapa=="Vehiculos") {
-            $("#tabVehiculos").addClass('active');  
-            $("#panelVehiculos").addClass('active');  
-            
-            // this.componenteVehiculosAccionInicial    = 'consultar';
-            // this.componenteVehiculosDocumentoInicial = documento;                      
-        }  
-        if(solapa=="Paradas") {
-            console.log("Activó Solapa Paradas");
-            $("#tabParadas").addClass('active');  
-            $("#panelParadas").addClass('active');  
-            
-            // this.componenteParadasAccionInicial    = 'consultar';
-            // this.componenteParadasDocumentoInicial = documento;
-        }
-          
-      }, 300);
-  }
  
   formatearDocumentoconForm(documento:any, cual):any {
       let controls=this.form.controls;  

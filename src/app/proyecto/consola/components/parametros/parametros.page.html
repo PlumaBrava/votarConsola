@@ -14,7 +14,7 @@
     <div class="row tituloRow">
         <div class="col-lg-12 col-12">        
             <span class="tituloTexto">
-                <b>{{'menu.distribuidores' | translate}}</b>
+                <b>{{'Parámetros' | translate}}</b>
             </span>                
         </div>
     </div>
@@ -27,7 +27,7 @@
         </div>
         <div class="card-body pt-0 widget-body"> 
 
-            <div  class="row" >
+            <div  class="row" *ngIf="listadoPrincipal" >
                 <div class="col-12">
                     <table class="table table-hover" 
                           [ngClass]="!grilla.verFiltrosAdicionales ? 'Grilla1FilaFiltros' : 'Grilla2FilaFiltros'">
@@ -37,9 +37,9 @@
                             <!--------------- Filtros -------------------->
                             <tr> 
                                 <th *ngIf="tipoPerfilUsuario=='Desarrollador' && grilla.verColumnaKey">
-                                    <input [(ngModel)]="grilla.filtros['key']" *ngIf="grilla.mostrarFiltro('key')"
+                                    <input [(ngModel)]="grilla.filtros['NumParametro']" *ngIf="grilla.mostrarFiltro('NumParametro')"
                                            type="text" class="form-control filtroGrilla" 
-                                           placeholder="{{'moduloDesarrolladores.key' | translate}}">
+                                           placeholder="{{'NumParametro' | translate}}">
                                 </th>
                                 <th *ngIf="tipoPerfilUsuario=='Desarrollador' && !grilla.verColumnaKey"
                                     colspan="1" style="width:24px; padding-left:0px; padding-right:0px;"></th>
@@ -139,7 +139,7 @@
 
                             <ng-container *ngFor="let documento of listadoPrincipal 
                                         | orderBy :grilla.orderField :grilla.orderReverse :'case-insensitive'                                        
-                                        | searchFiltro:grilla.paginadoTipo:'key':grilla.filtros['key']
+                                        | searchFiltro:grilla.paginadoTipo:'NumParametro':grilla.filtros['NumParametro']
                                         | searchFiltro:grilla.paginadoTipo:'nombre':grilla.filtros['nombre']
                                         | searchFiltro:grilla.paginadoTipo:'direccion.pais':grilla.filtros['direccion.pais']
                                         | searchFiltro:grilla.paginadoTipo:'telefono.numeroTelefono1':grilla.filtros['telefono.numeroTelefono1']
@@ -151,14 +151,14 @@
                                           let index = index"> 
 
                                  <tr [ngStyle]="grilla.colorFilaSegunEstado(documento.settings)"
-                                     (mouseover)="grilla.keyHoverActivo=documento.key"
+                                     (mouseover)="grilla.keyHoverActivo=documento.NumParametro"
                                      (mouseout)="grilla.keyHoverActivo=null"              
-                                     [ngClass]="grilla.keyHoverActivo==documento.key ? 'trHover' : 'trNotHover'">
+                                     [ngClass]="grilla.keyHoverActivo==documento.NumParametro ? 'trHover' : 'trNotHover'">
 
                                     <td *ngIf="tipoPerfilUsuario=='Desarrollador' && grilla.verColumnaKey"
                                         class="align-middle"
                                         (click)="abrirFormulario(documento)"> 
-                                        <span class="align-left">{{documento.key}}</span>
+                                        <span class="align-left">{{documento.NumParametro}}</span>
                                     </td>
                                     <td *ngIf="tipoPerfilUsuario=='Desarrollador' && !grilla.verColumnaKey"
                                         (click)="grilla.verColumnaKey=!grilla.verColumnaKey"
@@ -166,30 +166,22 @@
                                         style="width:12px; padding-left:0px; padding-right:0px;"></td>
 
                                     <td class="align-middle" (click)="abrirFormulario(documento)">
-                                        <span class="align-middle">{{documento.nombre}}</span>
+                                      
                                     </td>    
 
                                     <td class="align-middle" (click)="abrirFormulario(documento)">
-                                        <!-- logo -->
-                                        <div class="image-wrapper" style="padding-top:0px; margin-top:0px;">
-                                           <img [src]="documento.logoIMG.linkThumb" 
-                                                *ngIf="documento.logoIMG && documento.logoIMG.linkThumb" 
-                                                width="100%" style="width:60px; border:1px solid #ccc;">
-                                            <img src="assets/img/app/no-image.png" width="100%" 
-                                                 *ngIf="!documento.logoIMG"
-                                                style="width:60px; border:1px solid #ccc;">
-                                        </div>
+                                     
+                                     
                                     </td>
 
                                     <td class="align-middle" (click)="abrirFormulario(documento)">
-                                        <span class="align-middle">{{fn.mostrarKN(documento.direccion.paisKN,'nombre')}}</span>                            
+                                      
                                     </td>    
                                     <td class="align-middle" (click)="abrirFormulario(documento)">
-                                        <span class="align-middle text-truncate">
-                                        {{documento.telefono.tipoTelefono1}} {{documento.telefono.numeroTelefono1}}</span>                            
+                                      
                                     </td>    
                                     <td class="align-middle text-center" (click)="abrirFormulario(documento)">
-                                            <i class="fa fa-check text-secondary" *ngIf="documento.settings.isActivo"></i>
+                                            
                                     </td>    
 
                                     <td class="align-middle">
@@ -199,24 +191,7 @@
                                                     (click)="abrirFormulario(documento)"><i class="fa fa-search mr-3 text-primary"></i></button>
 
                                             <!-- borrado lógico -->
-                                            <button *ngIf="permisos.bajasAutorizadas &&
-                                                    documento.settings.documentosAsociados==0 && documento.settings.isBorrado==false" 
-                                                    title="{{'navegabilidad.eliminar' | translate}}"
-                                                    class="btn btn-link btn-lg"  style="padding-left:0px; padding-right:0px;"
-                                                    (click)="deleteDocumento('borradoLogico', documento)"><i class="fa fa-trash mr-3 text-danger"></i></button>
-
-                                            <button *ngIf="permisos.bajasAutorizadas &&
-                                                    documento.settings.documentosAsociados>0 && documento.settings.isBorrado==false" 
-                                                    title="{{fn.titleMensaje('claseValidaciones.documentosAsociados',documento.settings.documentosAsociados)}}"
-                                                    class="btn btn-link btn-lg"  style="padding-left:0px; padding-right:0px;"
-                                                    (click)="fn.alertMensaje('claseValidaciones.documentosAsociados',documento.settings.documentosAsociados)"><i class="fa fa-trash mr-3 text-deshabilitado"></i></button>
-
-                                            <!-- borrado físico -->
-                                            <button *ngIf="permisos.bajasAutorizadas && documento.settings.isBorrado &&
-                                                          ['Desarrollador','Supervisor','Distribuidor'].indexOf(tipoPerfilUsuario)!=-1"
-                                                    title="{{'navegabilidad.eliminarFisicamente' | translate}}"
-                                                    class="btn btn-link btn-lg" style="padding-left:0px; padding-right:0px;"
-                                                    (click)="deleteDocumento('borradoFisico',documento)"><i class="fa fa-remove mr-3 text-danger"></i></button>
+                                      
 
                                         </div>
                                     </td>

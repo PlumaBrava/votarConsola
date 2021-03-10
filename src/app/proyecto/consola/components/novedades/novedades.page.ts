@@ -8,7 +8,11 @@ import { PageGenerica2 }        from '@maq-modules/page-generica/page-generica2.
 import { ConfigComponente }     from './novedades.config';
 
 
-import { Novedades, NovedadesInterface }   from '@proyecto/models/novedades/novedades.model';
+import { Novedades, NovedadesInterface, News }    from '@proyecto/models/novedades/novedades.model';
+import { Parametros }                             from '@proyecto/models/parametros/parametros.model';
+import { OrdenDelDia, OrdenDelDiaInterface }      from '@proyecto/models/ordenDelDia/ordenDelDia.model';
+import { MOCK_TIPO_ORDEN_DIA_Interfase, MOCK_TIPO_ORDEN_DIA_ID, MOCK_TIPO_ORDEN_DIA  }      from '@proyecto/mocks/votos/votos.mocks';
+import { MOCK_RESULTADO_VOTO_ID, MOCK_INFOAGRUPACION_ID,MOCK_INFOAPROBACION_ID,MOCK_INFOVOTO_ID  }      from '@proyecto/mocks/votos/votos.mocks';
 
 
 import { ExcelService }       from '@maq-servicios/excel/excel.service';
@@ -33,6 +37,10 @@ declare var H: any;
 
 export class NovedadesComponent extends PageGenerica2<Novedades<NovedadesInterface> > implements OnInit, OnDestroy {
 
+  parametros                  : Parametros=null;
+  mockTipoOrdenDia            = MOCK_TIPO_ORDEN_DIA;
+  tipoOrdenDiaSeleccionado    : number=null;
+  nroSesion                   : number=null;
 
 
   constructor ( protected changeDetectorRef    : ChangeDetectorRef,
@@ -62,8 +70,11 @@ export class NovedadesComponent extends PageGenerica2<Novedades<NovedadesInterfa
     //     self.appSettings.settings2.panel.showMenu = false;      
     //  }, 500);                   
      
-     // Calculo Ancho de Mapa y Listado
 
+
+
+  this.leerParametros();     
+  
 
      super.ngOnInit()
   
@@ -221,51 +232,6 @@ export class NovedadesComponent extends PageGenerica2<Novedades<NovedadesInterfa
       }
   }    
   
-  forzarSolapa(solapa:string, documento:any, accion:string) {
-      console.log("abrirSolapa",solapa, documento, accion);
-      
-      setTimeout (() => {
-        
-        $("#tabFicha").removeClass('active');  
-        $("#tabIntegrantes").removeClass('active');  
-        $("#tabVehiculos").removeClass('active');  
-        $("#tabParadas").removeClass('active');  
-
-        $("#panelFicha").removeClass('active');  
-        $("#panelIntegrantes").removeClass('active');  
-        $("#panelVehiculos").removeClass('active');  
-        $("#panelParadas").removeClass('active');  
-
-        if(solapa=="Ficha") {
-            $("#tabFicha").addClass('active');  
-            $("#panelFicha").addClass('active');  
-        }        
-        if(solapa=="Integrantes") {
-            $("#tabIntegrantes").addClass('active');  
-            $("#panelIntegrantes").addClass('active');  
-            
-            // this.componenteIntegrantesAccionInicial    = 'consultar';
-            // this.componenteIntegrantesDocumentoInicial = documento;            
-        }
-        if(solapa=="Vehiculos") {
-            $("#tabVehiculos").addClass('active');  
-            $("#panelVehiculos").addClass('active');  
-            
-            // this.componenteVehiculosAccionInicial    = 'consultar';
-            // this.componenteVehiculosDocumentoInicial = documento;                      
-        }  
-        if(solapa=="Paradas") {
-            console.log("Activó Solapa Paradas");
-            $("#tabParadas").addClass('active');  
-            $("#panelParadas").addClass('active');  
-            
-            // this.componenteParadasAccionInicial    = 'consultar';
-            // this.componenteParadasDocumentoInicial = documento;
-        }
-          
-      }, 300);
-  }
- 
   formatearDocumentoconForm(documento:any, cual):any {
       let controls=this.form.controls;  
       
@@ -324,13 +290,16 @@ export class NovedadesComponent extends PageGenerica2<Novedades<NovedadesInterfa
         // console.log(novedades['expedientes'][0].titulo);
         console.log(novedades['orden_del_dia']);
 
-        var mensajeErrorOrdenDelDia = '';
+        let mensajeErrorOrdenDelDia   = '';
 
-        var news = [];  
-        var index = 0;
+        let news                      : News[] = [];
+        let index                     : number = 0;
 
-        var caratula = 0; 
-        var subcaratula = 0;
+        let caratula                  : number = 0;
+        let subcaratula               : number = 0;
+
+        let indiceExpediente          : number=1;     // el primer Expediente tendrá indice 1.
+        let indiceCapitulo            : number=null;
 
         
         
@@ -386,10 +355,15 @@ export class NovedadesComponent extends PageGenerica2<Novedades<NovedadesInterfa
               }
 
 
+              
+
+
 
               novedades['expedientes'].forEach(function (expediente) {
-                var nombreBloque = "";
-                var siglaBloque = "";
+                var nombreBloque        : string= "";
+                var siglaBloque         : string= "";
+                let fecha_ingreso_expediente : string="";
+                let archivos_expediente      : string="";
                 novedades['bloques'].forEach(function (bloque) {
 
                   // console.log("bloque",bloque);
@@ -411,36 +385,69 @@ export class NovedadesComponent extends PageGenerica2<Novedades<NovedadesInterfa
 
                 if (orden.id_expediente == expediente.id_expediente) {
                   // console.log(expediente.titulo);
+                  
+
+                  fecha_ingreso_expediente= expediente['fecha_ingreso']?expediente['fecha_ingreso']:''
+                  archivos_expediente     = expediente['archivos']?JSON.stringify(expediente['archivos']):''
 
                   news[index] = {
-                    'caratula': caratula, 'subcaratula': subcaratula, 'apartado': apartado.nombre, 'rotulo': "General - " + expediente.nro_expediente
-                      + " - " + siglaBloque + " - " + expediente.titulo, 'novedad': expediente.texto
+                    'caratula'                    : caratula,
+                    'subcaratula'                 : subcaratula,
+                    'apartado'                    : apartado.nombre,
+                    'rotulo'                      : "General - " + expediente.nro_expediente + " - " + siglaBloque + " - " + expediente.titulo, 'novedad': expediente.texto,
+                    'fecha_ingreso_expediente'    : fecha_ingreso_expediente,
+                    'archivos_expediente'         : archivos_expediente,
+                    'nro_expediente'              : expediente.nro_expediente,
+                    'indiceExpediente'            : indiceExpediente,
+                    'indiceCapitulo'              : indiceCapitulo,
+
                   };
                   index++;
+         
 
                   if (expediente.capitulos.length > 0) {
+                    indiceCapitulo=0;
                     expediente.capitulos.forEach(function (capitulo, i) {
 
+                 
 
 
                       if (i == 0) {
                         news[index] = {
-                          'caratula': caratula, 'subcaratula': subcaratula, 'apartado': apartado.nombre,
-                          'rotulo': expediente.nro_expediente + " - Art: " + capitulo.nro_capitulo
-                            + " - " + siglaBloque + " - " + expediente.titulo + " :" + capitulo.texto, 'novedad': expediente.titulo + " - " + capitulo.texto
+                          'caratula'                                                : caratula,
+                          'subcaratula'                                             : subcaratula,
+                          'apartado'                                                : apartado.nombre,
+                          'rotulo'                                                  : expediente.nro_expediente + " - Art: " + capitulo.nro_capitulo
+                            + " - " + siglaBloque + " - " + expediente.titulo + "   : " + capitulo.texto,
+                          'novedad'                                                 : expediente.titulo + " - " + capitulo.texto,
+                          'nro_expediente'                                          : expediente.nro_expediente ,
+                          'fecha_ingreso_expediente'                                : fecha_ingreso_expediente,
+                          'archivos_expediente'                                     : archivos_expediente,
+                          'indiceExpediente'                                        : indiceExpediente,
+                          'indiceCapitulo'                                          : indiceCapitulo
+      
                         };
 
 
                       } else {
                         news[index] = {
-                          'caratula': caratula, 'subcaratula': subcaratula, 'apartado': apartado.nombre,
-                          'rotulo': expediente.nro_expediente + " - Art: " + capitulo.nro_capitulo
-                            + " - " + siglaBloque + " :" + capitulo.texto, 'novedad': expediente.titulo + " - " + capitulo.texto
+                          'caratula'                    : caratula,
+                          'subcaratula'                 : subcaratula,
+                          'apartado'                    : apartado.nombre,
+                          'rotulo'                      : expediente.nro_expediente + " - Art: " + capitulo.nro_capitulo
+                            + " - " + siglaBloque + "   : " + capitulo.texto,
+                          'novedad'                     : expediente.titulo + " - " + capitulo.texto,
+                          'fecha_ingreso_expediente'    : fecha_ingreso_expediente,
+                          'archivos_expediente'         : archivos_expediente,
+                          'nro_expediente'              : expediente.nro_expediente,
+                          'indiceExpediente'            : indiceExpediente,
+                          'indiceCapitulo'              : indiceCapitulo,
                         };
                       }
 
 
                       index++;
+                      indiceCapitulo++;
                     });
                   } else {
 
@@ -462,19 +469,31 @@ export class NovedadesComponent extends PageGenerica2<Novedades<NovedadesInterfa
               if (orden.id_expediente == "" && orden.id_apartado == "99") {
                 console.log("Actas expediente /apartado:" + orden.id_expediente + " - " + orden.id_apartado);
                 news[index] = {
-                  'caratula': caratula, 'subcaratula': subcaratula, 'apartado': apartado.nombre,
-                  'rotulo': "Consideración del acta de sesión Nro: " + orden.nro_sesion
-                  , 'novedad': "Consideración del acta de sesión Nro: " + orden.nro_sesion
+                  'caratula': caratula, 
+                  'subcaratula': subcaratula, 
+                  'apartado': apartado.nombre,
+                  'rotulo': "Consideración del acta de sesión Nro: " + orden.nro_sesion,
+                  'novedad': "Consideración del acta de sesión Nro: " + orden.nro_sesion,
+                  'fecha_ingreso_expediente':'',
+                  'archivos_expediente':'[]',
+                  'nro_expediente':'',
+                  'indiceExpediente'            : indiceExpediente,
+                  'indiceCapitulo'              : indiceCapitulo,
+                  
                 };
 
 
 
                 index++;
+                indiceExpediente++;
+                indiceCapitulo=null;
 
               }
             }
           })
           index++;
+          indiceExpediente++;
+          indiceCapitulo=null;
         };
 
 
@@ -490,34 +509,45 @@ export class NovedadesComponent extends PageGenerica2<Novedades<NovedadesInterfa
             console.log('news',news);
             
             let NumOrdenDiaNovedad=1;
-            for (const novedad of news) {
+            let controlDeEscrituras=0;
 
+            for (const nove of news) {
+
+              const novedad:News=nove;
+              
               console.log('novedad',novedad);
               if(!novedad){
                 continue;
               }
                 
               NumOrdenDiaNovedad++;
+              controlDeEscrituras++;
               console.log('novedad.caratula',novedad.caratula);
               console.log('novedad.subcaratula',novedad.subcaratula);
               console.log('novedad.rotulo',novedad.rotulo);
-              let Rotulo:String=novedad.rotulo.length<100?novedad.rotulo:novedad.rotulo.substring(0, 99);
+              let Rotulo:String=novedad.rotulo.length<300?novedad.rotulo:novedad.rotulo.substring(0, 299);
               console.log('novedad.Rotulo .lenght',Rotulo.length);
               console.log('novedad.rotulo .lenght',novedad.rotulo.length);
              
-              let Novedad:String=novedad.novedad.length<4000? novedad.novedad:novedad.novedad.substring(0, 3999);
-              console.log('novedad.novedad lenght',novedad.novedad.lenght);
+              // let Novedad:String=novedad.novedad.length<4000? novedad.novedad:novedad.novedad.substring(0, 3999);
+              let Novedad:String= novedad.novedad;
+              console.log('novedad.novedad lenght',novedad.novedad.length);
               console.log('novedad.Novedad .lenght',Novedad.length);
 
               // setNovedadOrdenDelDia(index+1,novedad.caratula, novedad.subcaratula,novedad.rotulo,novedad.novedad).then(function(datos){
               let documento:NovedadesInterface={
-                NumOrdenDiaNovedad    : NumOrdenDiaNovedad,
-                NumOrdenDiaCaratula   : novedad.caratula,
-                NumOrdenDiaSubCaratula:novedad.subcaratula,
-                Fecha                 : new Date(),   
-                Rotulo                : Rotulo.toString(),
-                Novedad               : Novedad.toString(),
-                Estado                : false 
+                NumOrdenDiaNovedad        : NumOrdenDiaNovedad,
+                NumOrdenDiaCaratula       : novedad.caratula,
+                NumOrdenDiaSubCaratula    : novedad.subcaratula,
+                Fecha                     : new Date(),
+                Rotulo                    : Rotulo.toString(),
+                Novedad                   : Novedad.toString(),
+                fecha_ingreso_expediente  : novedad.fecha_ingreso_expediente,
+                archivos_expediente       : novedad.archivos_expediente,
+                Estado                    : false,
+                nro_expediente            : novedad.nro_expediente,
+                indiceExpediente          : novedad.indiceExpediente,
+                indiceCapitulo            : novedad.indiceCapitulo
 
               }
 
@@ -533,6 +563,12 @@ export class NovedadesComponent extends PageGenerica2<Novedades<NovedadesInterfa
               })
               .then(respuesta=>{     
                 console.log('resupuesta Agregar',respuesta);
+                controlDeEscrituras--;
+                console.log('resupuesta controlDeEscrituras',controlDeEscrituras);
+                if(controlDeEscrituras==0){
+                    this.getSubscripcionPrincipal(); 
+        
+                }
               })
               .catch(error=>{
                 console.log('error error',error);
@@ -585,5 +621,135 @@ export class NovedadesComponent extends PageGenerica2<Novedades<NovedadesInterfa
       });
   }
 
+  confirmarCerarOrdenDia(){
+    if(!this.tipoOrdenDiaSeleccionado){
+      this.alertService.confirm({ 
+        title:   this.translate.instant('Cierre Orden del día'), 
+        message: this.translate.instant('Seleccion un tipo de sesión.') })
+      .then((resultadoOK) => {
+        return;
+ 
+      })
+    } else{
+      this.confirmService.confirm({ 
+        title:   this.translate.instant('Cerrar Orden del Día'), 
+        message: this.translate.instant('Al cerrar el orden del día no podrán incorporarse ítems a tratar. Solo se pueden agregar ítems sobre tablas.' ) })
+      .then((resultadoOK) => {
+        console.log('resultadoOK',resultadoOK);
+        this.informarTipo_NumerSesion();
+      })
+      .catch((cancel) => {
+        console.log('cancel',cancel);
+      })
+    }
+  }
 
-}
+  cerrarOrdenDia(){
+    let url:string='';
+ 
+   url=environment.serviciosExternos.sql.apiURL+'api/ordenDelDia/cargaInicial'; 
+
+    let docInicioOrdenDia:OrdenDelDiaInterface={
+        NumOrdenDia        : null, // SE CARGA EN EL CONTROLLER, ES UN NUMERO SECUENCIAL
+        Fecha              : new Date(),
+        Orden              : null, //SE CARGA EN EL CONTROLLER - DATO EN NOVEDADES
+        SubOrden           : null, //SE CARGA EN EL CONTROLLER - DATO EN NOVEDADES
+        OrdenDiaCaratula   : null, //SE CARGA EN EL CONTROLLER - DATO EN NOVEDADES
+        OrdenDiaSubCaratula: null, //SE CARGA EN EL CONTROLLER - DATO EN NOVEDADES
+        Rotulo             : null, //SE CARGA EN EL CONTROLLER - DATO EN NOVEDADES
+        Item               : null, //SE CARGA EN EL CONTROLLER - DATO EN NOVEDADES
+        nro_expediente     : null, //SE CARGA EN EL CONTROLLER - DATO EN NOVEDADES
+        Estado             : false,
+        ResultadoVoto      : MOCK_RESULTADO_VOTO_ID.SIN_PROCESAR,
+        InfoVoto           : MOCK_INFOVOTO_ID.INICIAL,
+        InfoAprovacion     : MOCK_INFOAPROBACION_ID.INICIAL,
+        InfoVotacion       : MOCK_INFOAGRUPACION_ID.INICIAL,
+        Agrupa             : false,
+        NumAgrupacion      : -1,
+        TipoSesion         : this.tipoOrdenDiaSeleccionado,
+        NumTipoSesion      : this.nroSesion.toString(),
+        Terminado          : false,
+        indiceCapitulo     : null, //SE CARGA EN EL CONTROLLER - DATO EN NOVEDADES
+        indiceExpediente   : null, //SE CARGA EN EL CONTROLLER - DATO EN NOVEDADES
+      }
+    let susc=this.http.post(url,docInicioOrdenDia).subscribe(data=>{
+      console.log(data);
+      susc.unsubscribe();
+    });
+ 
+  }
+  onChageTipoOrdenDiaSeleccionado(tipoOrdenDiaIDSeleccionado:number){
+
+   
+
+    console.log('onChageTipoOrdenDiaSeleccionado',tipoOrdenDiaIDSeleccionado);
+    // this.tipoSesion  = this.Parametros[0].Sesiones_TipoSesion;
+
+    if(tipoOrdenDiaIDSeleccionado==MOCK_TIPO_ORDEN_DIA_ID.ORDINARIA){
+      this.nroSesion= this.parametros[0].Sesiones_Ordinarias+1;
+    } else if(tipoOrdenDiaIDSeleccionado==MOCK_TIPO_ORDEN_DIA_ID.EXTRAORDINARIA){
+      this.nroSesion  = this.parametros[0].Sesiones_Extraordinaria+1;
+    } else if(tipoOrdenDiaIDSeleccionado==MOCK_TIPO_ORDEN_DIA_ID.PRORROGA){
+      this.nroSesion  = this.parametros[0].Sesiones_Prorroga+1;
+    } else if(tipoOrdenDiaIDSeleccionado==MOCK_TIPO_ORDEN_DIA_ID.ESPECIAL){
+      this.nroSesion  = this.parametros[0].Sesiones_Especial+1;
+    }
+    
+
+  }
+
+
+  informarTipo_NumerSesion(){
+    // Nota: el +1 se agregó al mostrar el numero de sesión.
+    let doc= {};
+    
+    // Busco el tipo
+    let tiposSesion:MOCK_TIPO_ORDEN_DIA_Interfase=this.mockTipoOrdenDia.find(tipo=>tipo.id==this.tipoOrdenDiaSeleccionado);
+    doc["Sesiones_TipoSesion"]=tiposSesion.tipoOrdenDia;
+  
+    // Busco el número
+    if(this.tipoOrdenDiaSeleccionado==MOCK_TIPO_ORDEN_DIA_ID.ORDINARIA){
+      doc["Sesiones_Ordinarias"]=this.nroSesion;
+    } else if(this.tipoOrdenDiaSeleccionado==MOCK_TIPO_ORDEN_DIA_ID.EXTRAORDINARIA){
+      doc["Sesiones_Extraordinaria"]=this.nroSesion;
+    } else if(this.tipoOrdenDiaSeleccionado==MOCK_TIPO_ORDEN_DIA_ID.PRORROGA){
+      doc["Sesiones_Prorroga"]=this.nroSesion;
+    } else if(this.tipoOrdenDiaSeleccionado==MOCK_TIPO_ORDEN_DIA_ID.ESPECIAL){
+      doc["Sesiones_Especial"]=this.nroSesion;
+    }
+
+     
+      let url:string='';
+      url=environment.serviciosExternos.sql.apiURL+'api/parametros/1'; 
+      let susParam=this.http.put(url,doc).subscribe(data=>{
+        console.log(data);
+        susParam.unsubscribe();
+        this.cerrarOrdenDia();
+      },error=>{
+        console.log('error',error);
+        console.log('error',error.message);
+        this.errorMensaje='informarAgrupacion panel:  '+error.message;
+      });
+
+     
+    
+  }
+
+  limpiarNovedades(){
+    this.tipoOrdenDiaSeleccionado   = null;
+    this.nroSesion                  = null;
+    this.leerParametros();
+
+  }
+
+  leerParametros(){
+    let urlParametros:string='';
+    urlParametros=environment.serviciosExternos.sql.apiURL+'api/parametros/1';   
+    this.http.get(urlParametros).subscribe((parametros:Parametros)=>{
+      console.log('parametros',parametros)
+      this.parametros=parametros;
+    });
+
+  }
+} 
+

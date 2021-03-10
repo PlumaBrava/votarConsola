@@ -37,6 +37,7 @@ export const routes: Routes = [
   
   //Hace: cambiar login por autorización y mover a este modulo, usuarioNoAutorizado
   { path: 'login', loadChildren: () => import('@maq-autorizacion/autorizacion.module').then(m => m.AutorizacionModule) } ,
+  { path: 'panel', loadChildren: () => import('@proyecto/consola/consola.module').then(m => m.ConsolaModule), data: { breadcrumb: 'breadcrumb.usuarios' } }, 
   { path: '**', component: NotFoundComponent }
   
 ];

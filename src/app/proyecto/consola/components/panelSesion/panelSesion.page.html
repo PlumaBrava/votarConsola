@@ -13,7 +13,7 @@
 <!-- *************** LISTADO ************************************ -->
 <div *ngIf="accionForm=='listado' && grilla!==undefined">
 
-    <div class="row tituloRow">
+    <!-- <div class="row tituloRow">
         <div class="col-lg-12 col-12">        
             <span class="tituloTexto">
                 <b>{{'votar.novedades' | translate}}</b>
@@ -44,7 +44,7 @@
     
         </div>
 
-    </div>
+    </div> -->
         
 
     <div translate>{{errorMensaje}}</div>
@@ -58,203 +58,221 @@
         </div>
         <div class="card-body pt-0 widget-body"> 
 
-            <div class="container" >
-                <!-- Encabezado -->
-                <div class="encabezadoh" ng-hide="MuestraPDFFInal">
-                    <ng-container  >
-                        <div class="encabezadoh">
-                            <img src="./assets/imagenes/cliente/hcd2.png"          *ngIf="CONCEJO=='hcdTrenqueLauquen'">
-                            <img src="./assets/imagenes/cliente/logo_zarate2.png"  *ngIf="CONCEJO=='hcdZarate'">
-                         
-                             <div class="fechayhora">
-                                 <h2><p class="titulosesiones text-center">Sesión </p> </h2>
-                                 <div class="marginQuorumSinExcusados" *ngIf="nroExcusados!=0"></div>
-                                 <h4><p class="titulosesiones text-center">{{sesionTituloPanel}}</p> </h4>
-                                 <!-- <h3><p class="dia text-center">{{dia}}</p> </h3> -->
-                                 <!-- <h3><p >dia2 {{dia |  date:'EEEE d MMMM':'es' }}</p> </h3> -->
-                                 <h3><p class="hora text-center">{{dia |  date:'HH:MM hs':'es' }}</p> </h3>
-                                 <h3><p class="dia text-center">{{dia |  date:'DD/MM/AAAA':'es' }}</p> </h3>
-                            
-                                 <!-- <h3><p class="dia text-center">{{dia | date}}</p> </h3> -->
-                                 <!-- <h3><p class="hora text-center">{{dia | date:'shortTime'}} </p></h3> -->
-                         
-                             </div>
-                             <div class="quorum">
-                                    <!-- [ngclass]="{'tituloQuorum_SinQuorum': textoQuorumClase=='tituloQuorum_SinQuorum', -->
-                                    <!-- 'tituloQuorum_ConQuorum': textoQuorumClase=='tituloQuorum_ConQuorum'}" -->
-                                <h2>
-                                 
-                                    <p class="text-center"   >
-                                        {{textoQuorum}}
-                                    </p> 
-                                </h2>
-                                 <div class="marginQuorumSinExcusados" ng-show="nroExcusados==0"></div>
-                                   <div class="quorumPresente">
-                                 <p class="quorumPresenteTitulo" ng-click="refrescarPagina()" >Presentes:  </p>
-                         
-                                 <p class="quorumPresenteNumero "  > {{nroPresetes}}</p>
-                               </div>
-                         
-                               <div class="quorumAusentes">
-                                 <p class="quorumAusentesTitulo">Ausentes:</p>
-                                 <p class="quorumAusentesNumero">{{nroAusentes}}</p>
-                               </div>
-                         
-                               <div class="quorumExcusados" ng-show="nroExcusados!=0">
-                                 <p class="quorumExcusadosTitulo">Excusados:</p>
-                                 <p class="quorumExcusadosNumero">{{nroExcusados}}</p>
-                               </div>
-                         
-                             </div>
-                           <div class="votarEncabezado">
-                                 <h2><p class="text-center votarTitulo">Votación</p> </h2>
-                                     <div class="marginQuorumSinExcusados" ng-show="nroExcusados!=0"></div>
-                                  <p class="VotarDatos text-Left">{{tratamentoTema}}</p>
-                                 <p class="VotarDatos text-Left">{{tipoVotacion}} </p>
-                                 <p class="VotarDatos text-Left">{{tipoAprobacion}}</p>
-                         
-                             </div>
-                         
-                          </div>
-                         
-                         
-                
-                    </ng-container>
-                </div>  <!-- fin encabezado -->
+      
+            <!-- Encabezado -->
+            <div class="encabezadoh" *ngIf="!MuestraPDFFInal">
+                <ng-container  >
+                    <div class="encabezadoh">
+                        <img src="./assets/imagenes/cliente/hcd2.png"          *ngIf="CONCEJO=='hcdTrenqueLauquen'">
+                        <img src="./assets/imagenes/cliente/logo_zarate2.png"  *ngIf="CONCEJO=='hcdZarate'">
+                        
+                            <div class="fechayhora">
+                                <h2><p class="titulosesiones text-center">Sesión </p> </h2>
+                                <div class="marginQuorumSinExcusados" *ngIf="nroExcusados!=0"></div>
+                                    <h4><p class="titulosesiones text-center">{{sesionTituloPanel}}</p> </h4>
+                                    <!-- <h3><p class="dia text-center">{{dia}}</p> </h3> -->
+                                    <!-- <h3><p >dia2 {{dia |  date:'EEEE d MMMM':'es' }}</p> </h3> -->
+                                    <h3><p class="hora text-center">{{dia |  date:'HH:MM hs':'es' }}</p> </h3>
+                                    <h3><p class="dia text-center">{{dia |  date:'DD/MM/AAAA':'es' }}</p> </h3>
+                        
+                                <!-- <h3><p class="dia text-center">{{dia | date}}</p> </h3> -->
+                                <!-- <h3><p class="hora text-center">{{dia | date:'shortTime'}} </p></h3> -->
+                        
+                            </div>
+                            <div class="quorum">
+                                <!-- [ngclass]="{'tituloQuorum_SinQuorum': textoQuorumClase=='tituloQuorum_SinQuorum', -->
+                                <!-- 'tituloQuorum_ConQuorum': textoQuorumClase=='tituloQuorum_ConQuorum'}" -->
+                            <h2>
+                                
+                                <p class="text-center"   >
+                                    {{textoQuorum}}
+                                </p> 
+                            </h2>
+                                <div class="marginQuorumSinExcusados" ng-show="nroExcusados==0"></div>
+                                <div class="quorumPresente">
+                                <p class="quorumPresenteTitulo" ng-click="refrescarPagina()" >Presentes:  </p>
+                        
+                                <p class="quorumPresenteNumero "  > {{nroPresetes}}</p>
+                            </div>
+                        
+                            <div class="quorumAusentes">
+                                <p class="quorumAusentesTitulo">Ausentes:</p>
+                                <p class="quorumAusentesNumero">{{nroAusentes}}</p>
+                            </div>
+                        
+                            <div class="quorumExcusados" ng-show="nroExcusados!=0">
+                                <p class="quorumExcusadosTitulo">Excusados:</p>
+                                <p class="quorumExcusadosNumero">{{nroExcusados}}</p>
+                            </div>
+                        
+                            </div>
+                        <div class="votarEncabezado">
+                                <h2><p class="text-center votarTitulo">Votación</p> </h2>
+                                    <div class="marginQuorumSinExcusados" ng-show="nroExcusados!=0"></div>
+                                <p class="VotarDatos text-Left">{{tratamentoTema}}</p>
+                                <p class="VotarDatos text-Left">{{tipoVotacion}} </p>
+                                <p class="VotarDatos text-Left">{{tipoAprobacion}}</p>
+                        
+                            </div>
+                        
+                        </div>
+                        
+                        
+            
+                </ng-container>
+            </div>  <!-- fin encabezado -->
 
-                <div class="cuerpoh" ng-hide="MuestraPDFFInal">
-                   
-                    <!-- Inicio Bancas -->
-                    <div class="recuadrobancas">
-                       
-                        <div  class="filabancas" *ngFor="let row of bancas">
-                          
-                            <div    class="Banca {{banca.clase}}" 
-                                    *ngFor="let banca of row">
-                             
-                                <div class='badge badge-secondary badge-pill PidelaPalabra ' 
-                                     *ngIf='banca.PidePalabra'>{{banca.PidePalabraIndice}}
-                                </div>
-                                <p>{{banca.nombreBanca}}</p>
+            <div class="cuerpoh" ng-hide="MuestraPDFFInal">
+                
+                <!-- Inicio Bancas -->
+                <div class="recuadrobancas">
                     
-                                <div class="Partido"><p  >{{banca.partido}}</p> </div>
+                    <div class="filabancas"  *ngFor="let row of bancas">
+                        <div class="Banca {{banca.clase}}"   *ngFor="let banca of row">
+                            <div class='badge badge-secondary badge-pill PidelaPalabra'
+                                *ngIf='banca.PidePalabra==1'>
+                                <div >
+                                    <div class="PPIcono"><i class="mdi mdi-human-greeting "></i></div>
+                                    <div class="indice">{{banca.PidePalabraIndice}}</div>
+                                </div>
                                 
                             </div>
-                      </div>
+                            <div class='badge badge-secondary badge-pill hablando'
+                                *ngIf='banca.PidePalabra==2'>
+                                <i class="mdi mdi-account-voice text-success "></i>
+                            </div>
+                            <p>{{banca.nombreBanca}}</p>
+                            <div class="Partido"><p>{{banca.partido}}</p></div>
+                        </div>
                     </div>
-                    <!-- Fin de Bancas  -->
-                   
-                 
-                   <div class="cuerpoColDerecha">
- 
-                        <!-- Inicio Sesiones -->
-                        <div class="sesiones">
-                            <!-- <div class="tituloSesion" ng-bind-html="renderHtml(titulo)"></div> -->
-                            <div class="tituloSesion" ><h1>{{titulo}}</h1></div>
-                            <div class="mensajeError" *ngIf="error" >Estado:{{estado}} - Error:{{error}}</div>
-                          
-                            <div class="textoSesion" [innerHTML]="texto"  *ngIf="estado==ESTADO_TEXTOS"></div>
-                            
-                        </div>
-                        <!-- Fin Sesiones -->
-                       
-                    
-                        <!-- Inicio EnVotacion -->
-                         {{estado}}
-                        <div class="cajaEnVotacion"  *ngIf="estado==ESTADO_VOTANDO">
-                            <div>
-                            <p class="enVotacionTitulo">Votando {{votosEmitidos}} </p>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                <p class="enVotacionMensaje text-Left">{{tipoVotacion}} </p>
-                                <p class="enVotacionMensaje text-Left">{{tipoAprobacion}}</p>
-                                <p class="enVotacionPaddingInferior "></p>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="relojVotacion" *ngIf='tiempoDisplay>=0'>{{tiempoDisplay}}</div>
-                        
-                                    <div class="card-body widget-body" style="margin-left: 10%;" >
-                                            <ngx-charts-pie-chart 
-                                                [view]              = "viewTimer"
-                                                [scheme]            = "colorSchemeVotacion"
-                                                [results]           = "datosTimerVotacion"
-                                                [gradient]          = "false"
-                                                [legend]            = "false"
-                                                [legendPosition]    = "legendPosition"
-                                                [labels]            = "showLabels"
-                                                [doughnut]          = "true"
-                                                [arcWidth]          = ".2"
-                                                (select)            = "onSelect($event)" >
-                                            </ngx-charts-pie-chart>   
-
-                                            
-                                    
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- FIN EnVotacion -->
-                    
-                        <!-- Inicio Resultados -->
-                        
-                        <div  class="marcoResultado" *ngIf="estado==ESTADO_RESULTADOS || estado==ESTADO_EMPATE">
-                            <div>
-                                <p class="resutadoTitulo">Resultado </p>
-                                <p class="resutadoTitulo">{{resultadoVotacion}}</p>
-                            </div>
-                            <div class="row">
-                                <!-- <div class="col-md-6">
-                                   
-                                    <div class="resutadoVotosPositivos" >
-                                        <p class="resutadoVotosPositivosTitulo">Afirmativos:</p>
-                                        <p class="resutadoVotosPositivosNumero">{{votosPositivos}}</p>
-                                    </div>
-                            
-                                 <div class="resutadoVotosNegativos" >
-                                    <p class="resutadoVotosNegativosTitulo">Negativos:</p>
-                                    <p class="resutadoVotosNegativosNumero">{{votosNegativos}}</p>
-                                 </div>
-                            
-                                <p class="resutadoVotosPaddingInferior "></p> -->
-                            
-                                <!-- </div> -->
-            
-                                <div *ngIf="mostrarGrafico">
-                                    <ngx-charts-advanced-pie-chart
-                                        [view]        = "viewResultado"
-                                        [scheme]      = "colorSchemeResultadosVotacion"
-                                        [legend]      = "true"
-                                        [labels]      = "true"
-                                        [results]     = "datosResultadoVotacion"
-                                        [gradient]    = "gradient"
-                                        (select)      = "onSelect($event)">
-                                    </ngx-charts-advanced-pie-chart>       
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Fin Resultados -->
-
-                        <!-- Inicio Uso de la Palabra -->
-                        <div  class="marcoResultado" *ngIf="estado==ESTADO_USO_DE_PALABRA">
-                            <div>
-                                <p class="resutadoTitulo">{{tituloReloj}}</p>
-                            </div>
-                            <div class="">
-                        
-                                <p class="resutadoTitulo">{{displaytiempoUsoDeLaPalabra }}</p>
-                            
-                            </div>
-                        </div>
-                        <!-- fin Uso de la Palabra -->
-                      
-                      
-                    </div> <!-- Fin cuero derecha-->
-            
                 </div>
-            </div>
+                <!-- Fin de Bancas  -->
+                
+                
+                <div class="cuerpoColDerecha">
 
+                    <!-- Inicio Sesiones -->
+                    <div class="sesiones">
+                        <!-- <div class="tituloSesion" ng-bind-html="renderHtml(titulo)"></div> -->
+                        <div class="tituloSesion" ><h1>{{titulo}}</h1></div>
+                        <div class="mensajeError" *ngIf="error" >Estado:{{estadoPanel}} - Error:{{error}}</div>
+                        
+                        <div id="textosSecion" class="textoSesion" [innerHTML]="texto"  *ngIf="estadoPanel==ESTADO.TEXTOS"></div>
+                        
+                    </div>
+                    <!-- Fin Sesiones -->
+                    
+                
+                    <!-- Inicio EnVotacion -->
+                        {{estadoPanel}}
+                    <div class="cajaEnVotacion"  *ngIf="estadoPanel==ESTADO.VOTANDO">
+                        <div>
+                        <p class="enVotacionTitulo">Votando  </p>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                            <p class="enVotacionMensaje text-Left">{{tipoVotacion}} </p>
+                            <p class="enVotacionMensaje text-Left">{{tipoAprobacion}}</p>
+                            <p class="enVotacionPaddingInferior "></p>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="relojVotacion" *ngIf='tiempoDisplay>=0'>{{tiempoDisplay}}</div>
+                    
+                                <div class="card-body widget-body" style="margin-left: 10%;" >
+                                        <ngx-charts-pie-chart 
+                                            [view]              = "viewTimer"
+                                            [scheme]            = "colorSchemeVotacion"
+                                            [results]           = "datosTimerVotacion"
+                                            [gradient]          = "false"
+                                            [legend]            = "false"
+                                            [legendPosition]    = "legendPosition"
+                                            [labels]            = "showLabels"
+                                            [doughnut]          = "true"
+                                            [arcWidth]          = ".3"
+                                            (select)            = "onSelect($event)" >
+                                        </ngx-charts-pie-chart>   
+
+                                        
+                                
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- FIN EnVotacion -->
+                
+                    <!-- Inicio Resultados -->
+                    
+                    <div  class="marcoResultado" *ngIf="estadoPanel==ESTADO.RESULTADOS || estadoPanel==ESTADO.EMPATE">
+                        <div>
+                            <p class="resutadoTitulo">Resultado </p>
+                            <p class="resutadoTitulo">{{resultadoVotacion}}</p>
+                        </div>
+                        <div class="row">
+                            <!-- <div class="col-md-6">
+                                
+                                <div class="resutadoVotosPositivos" >
+                                    <p class="resutadoVotosPositivosTitulo">Afirmativos:</p>
+                                    <p class="resutadoVotosPositivosNumero">{{votosPositivos}}</p>
+                                </div>
+                        
+                                <div class="resutadoVotosNegativos" >
+                                <p class="resutadoVotosNegativosTitulo">Negativos:</p>
+                                <p class="resutadoVotosNegativosNumero">{{votosNegativos}}</p>
+                                </div>
+                        
+                            <p class="resutadoVotosPaddingInferior "></p> -->
+                        
+                            <!-- </div> -->
+        
+                            <div *ngIf="mostrarGrafico">
+                                <ngx-charts-advanced-pie-chart
+                                    [view]        = "viewResultado"
+                                    [scheme]      = "colorSchemeResultadosVotacion"
+                                    [legend]      = "true"
+                                    [labels]      = "true"
+                                    [results]     = "datosResultadoVotacion"
+                                    [gradient]    = "gradient"
+                                    (select)      = "onSelect($event)">
+                                </ngx-charts-advanced-pie-chart>       
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fin Resultados -->
+
+                    <!-- Inicio Uso de la Palabra -->
+                    <div  class="marcoResultado" *ngIf="estadoPanel==ESTADO.USO_DE_PALABRA">
+                        
+                        <div class="row ">
+                            <p class="resutadoTitulo w-100">{{tituloReloj}}</p>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-1">
+                                
+                                
+                            </div>
+                            
+                            <div class="col-4 w-100">
+                                
+                                <p class="resutadoTitulo">{{nombreConcejalUsandoLaPalabra}}
+                                    <i class="mdi mdi-account-voice text-success" ></i>
+                                </p>
+                                
+                            </div>
+                            <div class="col-7">
+                               
+                                <p class="resutadoTitulo">{{displaytiempoUsoDeLaPalabra }}</p>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <!-- fin Uso de la Palabra -->
+                    
+                    
+                </div> <!-- Fin cuero derecha-->
+        
+            </div>
            
         </div> <!-- FIN card-body -->
     </div> <!-- FIN widget -->

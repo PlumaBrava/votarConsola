@@ -1,7 +1,7 @@
 import { log, logIf, logTable, values } from '@maq-console';
 
 import { FormGroup, FormControl, FormBuilder, Validators, FormsModule } from '@angular/forms';
-import { Concejales,ConcejalesInterface }   from '@proyecto/models/concejales/concejales.model';
+import { OrdenDelDia, OrdenDelDiaInterface }                            from '@proyecto/models/ordenDelDia/ordenDelDia.model';
 
 export class ConfigComponente {
 
@@ -21,10 +21,10 @@ export class ConfigComponente {
                public fn:any) {
 
       // Colección Principal
-      this.nombreColeccion ='concejales';
-      this.campoClave      ='NumConcejal';
-      this.usaSettings     =true;
-      this.t               = new Concejales(); //Construir una clase con todos los campos. 
+      this.nombreColeccion = 'OrdenDelDia';
+      this.campoClave      = 'NumOrdenDia';
+      this.usaSettings     = false;
+      this.t               = new OrdenDelDia(); //Construir una clase con todos los campos. 
       this.mostrarDiferenciaModeloFomulario=true;
 
       this.columnasAdicionalesLogTable = [];
@@ -32,14 +32,14 @@ export class ConfigComponente {
       // Seteo Grilla
       this.grilla = {
          paginadoTipo          : 'local',    // local / servidor
-         orderField            : 'NumConcejal',
+         orderField            : 'NumOrdenDia',
          orderReverse          : false,
-         orderServer           : ['NumConcejal'],
+         orderServer           : ['NumOrdenDia'],
          whereArray            : argumentos['grillaWhereArray'],
          campoKeywords         : false,
-         filtroNombre          : 'NumConcejal',
-         filtrosServer         : ['NumConcejal', 'Concejal','NumPropuesto','Clasificacion','Estado',
-                                  'Abreviacion','BancaFila','BancaColumna','Email'],
+         filtroNombre          : 'NumOrdenDia',
+         filtrosServer         : ['NumOrdenDia', 'Concejal','NumPropuesto','Clasificacion','Estado',
+                                  'Abreviacion','BancaFila','BancaColumna','Email', 'nro_expediente'],
          camposDecimal         : [],
          paginadoCantidad      : 20,
          paginadoAutoHide      : false,
@@ -79,17 +79,25 @@ export class ConfigComponente {
       // Formulario
       this.form = this.fb.group({
 
-
-         NumConcejal    : null,
-         Concejal       : [null, Validators.compose([Validators.required])],
-         NumPropuesto   : [1],
-         Clasificacion  : null,
-         Estado         : null,
-         Abreviacion    : [null, Validators.compose([Validators.required, Validators.maxLength(6)])],
-         BancaFila      : [null, Validators.compose([Validators.required])],
-         BancaColumna   : [null, Validators.compose([Validators.required])],
-         Email          : [null, Validators.compose([Validators.required,Validators.email])],
-         settings       : this.fb.group( this.fn.getSettings() ),      
+         NumOrdenDia        : null,
+         Fecha              : null,
+         Orden              : null,
+         SubOrden           : null,
+         OrdenDiaCaratula   : null,
+         OrdenDiaSubCaratula: null,
+         Rotulo             : null,
+         Item               : null,
+         Estado             : null,
+         ResultadoVoto      : null,
+         InfoVoto           : null,
+         InfoAprovacion     : null,
+         InfoVotacion       : null,
+         Agrupa             : null,
+         NumAgrupacion      : null,
+         TipoSesion         : null,
+         NumTipoSesion      : null,
+         Terminado          : null,
+         nro_expediente     : null,
          
          
       });

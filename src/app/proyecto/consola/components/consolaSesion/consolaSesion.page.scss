@@ -1,0 +1,92 @@
+.table th, .table td {
+    padding: 0.2em;
+}
+.itemTerminado{
+    background-color: rgba(81, 67, 119, 0.548);
+    color:white;
+}
+.itemSecleccionado{
+    background-color: rgba(88, 182, 138, 0.87);
+}
+
+.itemCapituloTerminado{
+    background-color: rgba(106, 96, 134, 0.548);
+    color:white;
+}
+.itemCapituloSecleccionado{
+    background-color: rgba(117, 177, 149, 0.87);
+}
+.itemCapituloNoSecleccionado{
+    background-color: rgba(167, 182, 175, 0.87);
+}
+
+.table-hover tbody  tr.itemSecleccionado:hover td, .table-hover tbody  tr.itemSecleccionado:hover  th {
+    background-color: rgba(72, 145, 111, 0.87);
+}
+.table-hover tbody  tr.itemCapituloSecleccionado:hover td, .table-hover tbody  tr.itemCapituloSecleccionado:hover  th {
+    background-color: rgba(72, 145, 111, 0.87);
+}
+.table-hover tbody  tr.itemCapituloNoSecleccionado:hover td, .table-hover tbody  tr.itemCapituloNoSecleccionado:hover  th {
+    background-color: rgba(72, 145, 111, 0.87);
+}
+// Boton inferior
+
+.button {
+    padding: 15px 25px;
+    font-size: 24px;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    color: #fff;
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 9px #999;
+  
+  }
+  
+  .button:hover{background-color: #3e8e41;}
+  
+  .button:active {
+    background-color: #3e8e41;
+    box-shadow: 0 5px #666;
+    border: none;
+    transform: translateY(4px);
+  }
+
+
+// Intercambio de botones e íconos en la tabla de concejales
+
+
+// .table td:hover { //marca con un color la celda seleccionada  de una tabla.
+//     // background-color: greenyellow!important; 
+// }
+
+.table tr:hover .popoverbutton{
+      display:block;
+    // visibility: visible;
+} 
+
+.table tr td:hover .popoverbutton{
+    display:block;
+  // visibility: visible;
+} 
+
+.popoverbutton {
+    display:none;
+//   visibility: hidden;
+}
+
+
+.table tr:hover .popoverIcon{
+    display:none;
+} 
+
+.table tr td:hover .popoverIcon{
+    display:none;
+} 
+
+.popoverIcon {
+    display:inline-block;
+}
+

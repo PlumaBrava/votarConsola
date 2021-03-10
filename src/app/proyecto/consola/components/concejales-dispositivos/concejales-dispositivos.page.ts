@@ -241,50 +241,7 @@ export class ConcejalesDispositivosComponent extends PageGenerica2<ConcejalesDis
       }
   }    
   
-  forzarSolapa(solapa:string, documento:any, accion:string) {
-      console.log("abrirSolapa",solapa, documento, accion);
-      
-      setTimeout (() => {
-        
-        $("#tabFicha").removeClass('active');  
-        $("#tabIntegrantes").removeClass('active');  
-        $("#tabVehiculos").removeClass('active');  
-        $("#tabParadas").removeClass('active');  
-
-        $("#panelFicha").removeClass('active');  
-        $("#panelIntegrantes").removeClass('active');  
-        $("#panelVehiculos").removeClass('active');  
-        $("#panelParadas").removeClass('active');  
-
-        if(solapa=="Ficha") {
-            $("#tabFicha").addClass('active');  
-            $("#panelFicha").addClass('active');  
-        }        
-        if(solapa=="Integrantes") {
-            $("#tabIntegrantes").addClass('active');  
-            $("#panelIntegrantes").addClass('active');  
-            
-            // this.componenteIntegrantesAccionInicial    = 'consultar';
-            // this.componenteIntegrantesDocumentoInicial = documento;            
-        }
-        if(solapa=="Vehiculos") {
-            $("#tabVehiculos").addClass('active');  
-            $("#panelVehiculos").addClass('active');  
-            
-            // this.componenteVehiculosAccionInicial    = 'consultar';
-            // this.componenteVehiculosDocumentoInicial = documento;                      
-        }  
-        if(solapa=="Paradas") {
-            console.log("Activó Solapa Paradas");
-            $("#tabParadas").addClass('active');  
-            $("#panelParadas").addClass('active');  
-            
-            // this.componenteParadasAccionInicial    = 'consultar';
-            // this.componenteParadasDocumentoInicial = documento;
-        }
-          
-      }, 300);
-  }
+  
  
   formatearDocumentoconForm(documento:any, cual):any {
       let controls=this.form.controls;  
@@ -375,24 +332,24 @@ export class ConcejalesDispositivosComponent extends PageGenerica2<ConcejalesDis
       let d:ConcejalesDispositivosInterface={ 
         NumConcejal:this.concejalSeleccionado.NumConcejal,
         NumDispositivo:this.dispositivoSeleccionado.NumDispositivo,
-        Funcion:false,
+        Funcion:this.esPresidente,
         Clave:this.CLAVE_DEFAULT,
         Macaddresses: this.dispositivoSeleccionado.Macaddresses,
         Presente:false,
       };
       this.grabarDatos(d)
 
-      if(this.esPresidente){
-        let docPresidente:ConcejalesDispositivosInterface={ 
-        NumConcejal:this.concejalSeleccionado.NumConcejal,
-        NumDispositivo:this.dispositivoSeleccionado.NumDispositivo,
-        Funcion:true,
-        Clave:this.CLAVE_DEFAULT,
-        Macaddresses: this.dispositivoSeleccionado.Macaddresses,
-        Presente:false
-        };
-        this.grabarDatos(docPresidente);
-      }
+      // if(this.esPresidente){
+      //   let docPresidente:ConcejalesDispositivosInterface={ 
+      //   NumConcejal:this.concejalSeleccionado.NumConcejal,
+      //   NumDispositivo:this.dispositivoSeleccionado.NumDispositivo,
+      //   Funcion:true,
+      //   Clave:this.CLAVE_DEFAULT,
+      //   Macaddresses: this.dispositivoSeleccionado.Macaddresses,
+      //   Presente:false
+      //   };
+      //   this.grabarDatos(docPresidente);
+      // }
       
     
     }

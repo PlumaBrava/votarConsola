@@ -9,6 +9,7 @@ import { PanelSesionComponent }              from './components/panelSesion/pane
 import { ConsolaSesionComponent }            from './components/consolaSesion/consolaSesion.page';
 import { OrdenDelDiaComponent }              from './components/ordenDelDia/ordenDelDia.page';
 import { PartidosComponent }                 from './components/partidos/partidos.page';
+import { ParametrosComponent }               from './components/parametros/parametros.page';
 
 const routes: Routes = [
   
@@ -17,10 +18,11 @@ const routes: Routes = [
   { path: 'dispositivos',             component: DispositivosComponent, data: { breadcrumb: 'Dispositivos' } },
   { path: 'concejales-dispositivos',  component: ConcejalesDispositivosComponent, data: { breadcrumb: 'Concejales-Dispositivos' } },
   { path: 'novedades',                component: NovedadesComponent,    data: { breadcrumb: 'Novedades' } },
-  { path: 'panelSesion',              component: PanelSesionComponent,  data: { breadcrumb: 'PanelSesion' } },
+  { path: 'panelSesion/:numeroPanel', component: PanelSesionComponent,  data: { breadcrumb: 'PanelSesion' } },
   { path: 'consolaSesion',            component: ConsolaSesionComponent,data: { breadcrumb: 'Consola de Sesion' } },
   { path: 'ordenDelDia',              component: OrdenDelDiaComponent,  data: { breadcrumb: 'Orden del día' } },
   { path: 'partidos',                 component: PartidosComponent,     data: { breadcrumb: 'Partidos' } },
+  { path: 'parametros',               component: ParametrosComponent,   data: { breadcrumb: 'Parametros' } },
 
 ];
 
