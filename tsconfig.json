@@ -3,13 +3,13 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths":{
-      // para facilitar los link a appModule se llaman con @app
+
       "@environments/*":["src/environments/*"],
       "@assets/*":["src/assets/*"],
       "@settings/*":["src/app/*"],
       "@settings-file":["src/app/app.settings"], 
 
-      //Maqueta//
+
       "@maq-autorizacion/*":  ["src/app/maqueta/autorizacion/*"],
       "@maq-mocks/*":         ["src/app/maqueta/mocks/*"],
       "@maq-models/*":        ["src/app/maqueta/models/*"],
@@ -26,7 +26,7 @@
       
       "@maq-shared/*":["src/app/maqueta/shared/*"],
       
-      //Projecto
+
       "@proyecto/*":["src/app/proyecto/*"],
       "@proyecto-models/*":["src/app/proyecto/models/*"],
        
